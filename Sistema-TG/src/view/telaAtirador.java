@@ -1,31 +1,30 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class telaAtirador extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTable table;
 
 	/**
 	 * Launch the application.
 	 */
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,102 +41,73 @@ public class telaAtirador extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	
 	public telaAtirador() {
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 493);
+		setBackground(new Color(255, 255, 255));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 586, 544);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(20, 20, 1000, 493);
-		contentPane.add(tabbedPane);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1920, 1080);
-		tabbedPane.addTab("Cadastrar", null, panel, null);
-
-		JLabel lblCadastrar = new JLabel("CADASTRAR");
-		lblCadastrar.setBounds(743, 12, 429, 76);
-		panel.add(lblCadastrar);
-		lblCadastrar.setFont(new Font("Dialog", Font.BOLD, 60));
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(734, 361, 446, 331);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
-
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblNome.setBounds(72, 95, 58, 15);
-		panel_2.add(lblNome);
-
-		textField = new JTextField();
-		textField.setFont(new Font("Dialog", Font.BOLD, 16));
-		textField.setColumns(10);
-		textField.setBounds(148, 91, 233, 24);
-		panel_2.add(textField);
-
-		JLabel lblId = new JLabel("ID:");
-		lblId.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblId.setBounds(99, 133, 29, 15);
-		panel_2.add(lblId);
-
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Dialog", Font.BOLD, 16));
-		textField_1.setColumns(10);
-		textField_1.setBounds(148, 133, 233, 24);
-		panel_2.add(textField_1);
-
-		JLabel lblCargo = new JLabel("Cargo:");
-		lblCargo.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblCargo.setBounds(72, 174, 58, 15);
-		panel_2.add(lblCargo);
-
-		JRadioButton rdbtnAtirador = new JRadioButton("Atirador");
-		rdbtnAtirador.setFont(new Font("Dialog", Font.BOLD, 16));
-		rdbtnAtirador.setBounds(148, 170, 108, 23);
-		panel_2.add(rdbtnAtirador);
-
-		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
-		rdbtnMonitor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (rdbtnAtirador.isSelected()) {
-					rdbtnAtirador.setSelected(false);
-				}
-			}
-		});
-		rdbtnMonitor.setFont(new Font("Dialog", Font.BOLD, 16));
-		rdbtnMonitor.setBounds(260, 170, 114, 23);
-		panel_2.add(rdbtnMonitor);
-
-		rdbtnAtirador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (rdbtnMonitor.isSelected()) {
-					rdbtnMonitor.setSelected(false);
-				}
-			}
-		});
-
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		btnCadastrar.setFont(new Font("Dialog", Font.BOLD, 16));
-		btnCadastrar.setBounds(167, 221, 130, 34);
-		panel_2.add(btnCadastrar);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
-		tabbedPane.addTab("Gerenciar", null, scrollPane, null);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 10, 10);
-		contentPane.add(panel_1);
+		scrollPane.setBounds(0, 10, 572, 444);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		table.setBackground(new Color(255, 255, 255));
+		table.setFont(new Font("Arial Black", Font.BOLD, 15));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID", "Nome", "Cargo"
+			}
+		));
+		table.getColumnModel().getColumn(1).setPreferredWidth(421);
+		table.getColumnModel().getColumn(2).setPreferredWidth(135);
+		scrollPane.setViewportView(table);
+		
+		JButton btnNewButton = new JButton("Cadastrar ");
+		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(10, 464, 114, 21);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Editar");
+		btnNewButton_1.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnNewButton_1.setBounds(133, 464, 114, 21);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Remover");
+		btnNewButton_2.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnNewButton_2.setBounds(257, 464, 114, 21);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Voltar ao Menu");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaPrincipal principal = new telaPrincipal();
+				principal.setVisible(true);
+			}
+		});
+		btnNewButton_3.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnNewButton_3.setBounds(381, 464, 164, 21);
+		contentPane.add(btnNewButton_3);
+		
+		this.setLocationRelativeTo(null);
 	}
-
 }

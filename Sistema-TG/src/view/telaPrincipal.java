@@ -1,13 +1,15 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JButton;
 
 public class telaPrincipal extends JFrame {
 
@@ -35,6 +37,7 @@ public class telaPrincipal extends JFrame {
 	 */
 	public telaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -43,17 +46,30 @@ public class telaPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA");
-		lblTelaPrincipal.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblTelaPrincipal.setBounds(123, 12, 194, 24);
+		lblTelaPrincipal.setFont(new Font("Arial Black", Font.BOLD, 20));
+		lblTelaPrincipal.setBounds(110, 10, 204, 24);
 		contentPane.add(lblTelaPrincipal);
 		
 		JButton btnRegistroDeAtiradores = new JButton("Atiradores");
-		btnRegistroDeAtiradores.setFont(new Font("Dialog", Font.BOLD, 18));
+		btnRegistroDeAtiradores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaAtirador Atirador = new telaAtirador();
+				Atirador.setVisible(true);
+			}
+		});
+		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.BOLD, 18));
 		btnRegistroDeAtiradores.setBounds(138, 84, 156, 39);
 		contentPane.add(btnRegistroDeAtiradores);
 		
 		JButton btnEscalaDeGuarda = new JButton("Escala");
-		btnEscalaDeGuarda.setFont(new Font("Dialog", Font.BOLD, 20));
+		
+		btnEscalaDeGuarda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.BOLD, 18));
 		btnEscalaDeGuarda.setBounds(138, 147, 156, 34);
 		contentPane.add(btnEscalaDeGuarda);
 		this.setLocationRelativeTo(null);
