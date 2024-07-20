@@ -6,6 +6,16 @@ public class Atirador {
 	private String nome;
 	private String cargo;
 	
+	public Atirador(int iD, String nome, String cargo) {
+		ID = iD;
+		this.nome = nome;
+		this.cargo = cargo;
+	}
+	
+	public Atirador() {
+		
+	}
+	
 	public int getID() {
 		return ID;
 	}
