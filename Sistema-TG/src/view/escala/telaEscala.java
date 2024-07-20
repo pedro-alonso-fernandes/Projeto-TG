@@ -16,7 +16,7 @@ public class telaEscala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTable table_1;
+	private JTable dias_da_semana;
 
 	/**
 	 * Launch the application.
@@ -53,7 +53,7 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(86, 106, 666, 197);
+		scrollPane.setBounds(86, 106, 666, 142);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -63,15 +63,24 @@ public class telaEscala extends JFrame {
 		scrollPane_1.setBounds(86, 88, 666, 23);
 		contentPane.add(scrollPane_1);
 		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
+		dias_da_semana = new JTable();
+		dias_da_semana.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado"
 			}
 		));
-		scrollPane_1.setViewportView(table_1);
+		dias_da_semana.getColumnModel().getColumn(0).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(1).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(2).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(3).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(4).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(5).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(6).setResizable(false);
+		
+		dias_da_semana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
+		scrollPane_1.setViewportView(dias_da_semana);
 		
 		this.setLocationRelativeTo(null);
 	}
