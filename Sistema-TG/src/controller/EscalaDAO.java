@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Escala;
@@ -51,6 +52,7 @@ public class EscalaDAO {
 				+ "id int not null primary key auto_increment," 
 				+ "dia int not null,"
 				+ "mes int not null,"
+				+ "cor varchar(20) not null,"
 				+ "monitorId int not null," 
 				+ "atirador1Id int not null,"
 				+ "atirador2Id int not null," 
@@ -100,7 +102,7 @@ public class EscalaDAO {
 	public static void cadastrarEscala(Escala escala) {
 		selecionarDatabase();
 		
-		String sql = "insert into Escala (dia, mes, monitorId, atirador1Id, atirador2Id, atirador3Id) values (?, ?, ?, ?, ?, ?);";
+		String sql = "insert into Escala (dia, mes, cor, monitorId, atirador1Id, atirador2Id, atirador3Id) values (?, ?, ?, ?, ?, ?, ?);";
 		
 		PreparedStatement ps = null;
 		
@@ -108,14 +110,33 @@ public class EscalaDAO {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(escala.getDia()));
 			ps.setString(2, String.valueOf(escala.getMes()));
-			ps.setString(3, String.valueOf(escala.getMonitorId()));
-			ps.setString(4, String.valueOf(escala.getAtirador1Id()));
-			ps.setString(5, String.valueOf(escala.getAtirador2Id()));
-			ps.setString(6, String.valueOf(escala.getAtirador3Id()));
+			ps.setString(3, escala.getCor());
+			ps.setString(4, String.valueOf(escala.getMonitorId()));
+			ps.setString(5, String.valueOf(escala.getAtirador1Id()));
+			ps.setString(6, String.valueOf(escala.getAtirador2Id()));
+			ps.setString(7, String.valueOf(escala.getAtirador3Id()));
 			ps.execute();
 			
 		} catch (SQLException e) {
 			System.out.println("Erro ao criar nova escala: " + e.getMessage());
+		}
+	}
+	
+	public static ResultSet listarEscala() {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar elementos da tabela Escala: " + e.getMessage());
+			return rs;
 		}
 	}
 }

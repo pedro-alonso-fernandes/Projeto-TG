@@ -5,14 +5,16 @@ public class Escala {
 	private int id;
 	private int dia;
 	private int mes;
+	private String cor;
 	private int monitorId;
 	private int atirador1Id;
 	private int atirador2Id;
 	private int atirador3Id;
 	
-	public Escala(int dia, int mes, int monitorId, int atirador1Id, int atirador2Id, int atirador3Id) {
+	public Escala(int dia, int mes, String cor, int monitorId, int atirador1Id, int atirador2Id, int atirador3Id) {
 		this.dia = dia;
 		this.mes = mes;
+		this.cor = cor;
 		this.monitorId = monitorId;
 		this.atirador1Id = atirador1Id;
 		this.atirador2Id = atirador2Id;
@@ -23,10 +25,10 @@ public class Escala {
 		
 	}
 	
-	public int getID() {
+	public int getId() {
 		return id;
 	}
-	public void setID(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public int getDia() {
@@ -64,6 +66,14 @@ public class Escala {
 	}
 	public void setAtirador3Id(int atirador3Id) {
 		this.atirador3Id = atirador3Id;
+	}
+
+	public String getCor() {
+		return cor;
+	}
+
+	public void setCor(String cor) {
+		this.cor = cor;
 	}
 	
 	
