@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.Escala;
 
@@ -122,22 +123,22 @@ public class EscalaDAO {
 		}
 	}
 	
-	public static ResultSet getEscala(int dia, int mes) {
+	public static ResultSet getEscala(Date data) {
 		selecionarDatabase();
 		
-		String sql = "select * from Escala where dia >= ? and mes >= ?;";
+		String sql = "select * from Escala where data >= ?;";
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.setString(1, String.valueOf(dia));
-			ps.setString(2, String.valueOf(mes));
+			ps.setString(1, formato.format(data));
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
-			System.out.println("Erro ao listar elementos da tabela Escala: " + e.getMessage());
+			System.out.println("Erro ao pegar a Escala: " + e.getMessage());
 			return rs;
 		}
 	}
