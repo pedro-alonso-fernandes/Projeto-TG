@@ -62,9 +62,6 @@ public class telaEscala extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd");
-		int 
-		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(86, 88, 666, 23);
