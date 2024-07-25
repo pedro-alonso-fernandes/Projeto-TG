@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.TextField;
 import java.sql.*;
 
 import model.Atirador;
@@ -34,6 +35,26 @@ public class AtiradorDAO {
 			System.out.println("Erro ao criar tabela Atirador: " + e.getMessage());
 		}
 		
+		sql = "create table if not exists `TG`.`Escala`("
+				+ "id int not null primary key,"
+				+ "dia int not null,"
+				+ "mes int not null,"
+				+ "monitorId int not null,"
+				+ "atirador1Id int not null,"
+				+ "atirador2Id int not null,"
+				+ "atirador3Id int not null,"
+				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id),"
+				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id),"
+				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id),"
+				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id));";
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
+		}
+		
 	}
 	
 	public static void cadastrarAtirador(Atirador atirador) {
@@ -46,10 +67,10 @@ public class AtiradorDAO {
 			ps.execute();
 			
 		} catch (SQLException e) {
-			System.out.println("Erro ao acessar o database TG: " + e.getMessage());;
+			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
 		
-		sql = "insert into Atirador (id, nome, cargo) values (?, ?, ?)";
+		sql = "insert into Atirador (id, nome, cargo, folga) values (?, ?, ?, ?);";
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -80,6 +101,7 @@ public class AtiradorDAO {
 	
 	public static void apagarDatabase() {
 		apagarTabela();
+		// EscalaDAO.apagarTabela();
 		
 		String sql = "drop database if exists TG;";
 		PreparedStatement ps = null;

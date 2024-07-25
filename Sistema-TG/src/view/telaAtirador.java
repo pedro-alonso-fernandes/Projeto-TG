@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
 
 public class telaAtirador extends JFrame {
 
@@ -46,6 +48,7 @@ public class telaAtirador extends JFrame {
 	public telaAtirador() {
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		setBounds(100, 100, 586, 544);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -65,17 +68,20 @@ public class telaAtirador extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID", "Nome", "Cargo"
+				"ID", "Nome", "Cargo", "Folga"
 			}
 		));
-		table.getColumnModel().getColumn(1).setPreferredWidth(421);
-		table.getColumnModel().getColumn(2).setPreferredWidth(135);
+		table.getColumnModel().getColumn(1).setPreferredWidth(345);
+		table.getColumnModel().getColumn(2).setPreferredWidth(141);
 		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
+				CadastroAtirador Cadastro = new CadastroAtirador();
+				Cadastro.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(10, 464, 114, 21);
@@ -85,13 +91,22 @@ public class telaAtirador extends JFrame {
 		btnNewButton_1.setFont(new Font("Arial Black", Font.BOLD, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Editar edt = new Editar();
+				edt.setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton_1.setBounds(133, 464, 114, 21);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Remover");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Remover Rm = new Remover();
+				Rm.setVisible(true);
+			}
+		});
 		btnNewButton_2.setFont(new Font("Arial Black", Font.BOLD, 12));
 		btnNewButton_2.setBounds(257, 464, 114, 21);
 		contentPane.add(btnNewButton_2);
