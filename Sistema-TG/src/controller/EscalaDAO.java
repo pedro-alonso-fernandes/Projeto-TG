@@ -123,7 +123,68 @@ public class EscalaDAO {
 		}
 	}
 	
+	//Pega todas as escalas
+	public static ResultSet getEscalas() {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todas as Escalas: " + e.getMessage());
+			return rs;
+		}
+	}
+	
+	//Pega escala por ID
+	public static ResultSet getEscala(int id) {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala where id = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a Escala pelo id: " + e.getMessage());
+			return rs;
+		}
+	}
+	
+	//Pega escala por Data
 	public static ResultSet getEscala(Date data) {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala where data = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a Escala pela data: " + e.getMessage());
+			return rs;
+		}
+	}
+	
+	//Pega escalas apartir da Data informada
+	public static ResultSet getEscalas(Date data) {
 		selecionarDatabase();
 		
 		String sql = "select * from Escala where data >= ?;";
@@ -135,6 +196,55 @@ public class EscalaDAO {
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a Escala pela data: " + e.getMessage());
+			return rs;
+		}
+	}
+	
+	//Pegar escalas por cor
+	public static ResultSet getEscalas(String cor) {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala where cor = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		if(!cor.equalsIgnoreCase("vermelha") && !cor.equalsIgnoreCase("preta")) {
+			System.out.println("Essa não é uma cor válida!");
+			return rs;
+		}
+		else {
+			
+			try {
+				ps = Conexao.getConexao().prepareStatement(sql);
+				ps.setString(1, cor);
+				rs = ps.executeQuery();
+				return rs;
+			} catch (SQLException e) {
+				System.out.println("Erro ao pegar a Escala por cors: " + e.getMessage());
+				return rs;
+			}
+			
+		}
+		
+	}
+	
+	//Pegar escalas por Monitor
+	public static ResultSet getEscalas(int monitorId) {
+		selecionarDatabase();
+		
+		String sql = "select * from Escala where monitorId >= ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(monitorId));
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
