@@ -74,6 +74,7 @@ public class telaAtirador extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(345);
 		table.getColumnModel().getColumn(2).setPreferredWidth(141);
 		scrollPane.setViewportView(table);
+		table.getTableHeader().setReorderingAllowed(false);
 		
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
