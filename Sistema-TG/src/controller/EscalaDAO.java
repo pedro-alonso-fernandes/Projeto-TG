@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import model.Data;
 import model.Escala;
 
 public class EscalaDAO {
@@ -204,6 +205,54 @@ public class EscalaDAO {
 		}
 	}
 	
+	//Pega a escala da Semana
+		public static ResultSet getEscalaSemana(Date data) {
+			selecionarDatabase();
+			
+			String sql = "select * from Escala where data >= ? and data <= ?;";
+			
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+			
+			int dias = 0;
+			
+			switch (Data.getDiaSemana(data)) {
+			case "DOM":
+				dias = 6;
+				break;
+			case "SEG":
+				dias = 5;
+				break;
+			case "TER":
+				dias = 4;
+				break;
+			case "QUA":
+				dias = 3;
+				break;
+			case "QUI":
+				dias = 2;
+				break;
+			case "SEX":
+				dias = 1;
+				break;
+			case "SAB":
+				dias = 0;
+				break;
+			}
+			
+			try {
+				ps = Conexao.getConexao().prepareStatement(sql);
+				ps.setString(1, formato.format(data));
+				ps.setString(2, formato.format(Data.addDias(data, dias)));
+				rs = ps.executeQuery();
+				return rs;
+			} catch (SQLException e) {
+				System.out.println("Erro ao pegar a Escala da Semana: " + e.getMessage());
+				return rs;
+			}
+		}
+	
 	//Pegar escalas por cor
 	public static ResultSet getEscalas(String cor) {
 		selecionarDatabase();
@@ -274,4 +323,5 @@ public class EscalaDAO {
 				return rs;
 			}
 		}
+		
 }

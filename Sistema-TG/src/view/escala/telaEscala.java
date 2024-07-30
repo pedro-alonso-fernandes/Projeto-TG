@@ -63,6 +63,7 @@ public class telaEscala extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(86, 88, 666, 23);
 		contentPane.add(scrollPane_1);
