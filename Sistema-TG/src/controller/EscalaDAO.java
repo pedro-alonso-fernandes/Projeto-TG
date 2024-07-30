@@ -215,36 +215,12 @@ public class EscalaDAO {
 			ResultSet rs = null;
 			SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
 			
-			int dias = 0;
-			
-			switch (Data.getDiaSemana(data)) {
-			case "DOM":
-				dias = 6;
-				break;
-			case "SEG":
-				dias = 5;
-				break;
-			case "TER":
-				dias = 4;
-				break;
-			case "QUA":
-				dias = 3;
-				break;
-			case "QUI":
-				dias = 2;
-				break;
-			case "SEX":
-				dias = 1;
-				break;
-			case "SAB":
-				dias = 0;
-				break;
-			}
+			data = Data.primeiroDiaSemana(data);
 			
 			try {
 				ps = Conexao.getConexao().prepareStatement(sql);
 				ps.setString(1, formato.format(data));
-				ps.setString(2, formato.format(Data.addDias(data, dias)));
+				ps.setString(2, formato.format(Data.addDias(data, 6)));
 				rs = ps.executeQuery();
 				return rs;
 			} catch (SQLException e) {

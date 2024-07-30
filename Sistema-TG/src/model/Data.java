@@ -45,4 +45,32 @@ public class Data {
 		
 		return data;
 	}
+	
+	public static Date primeiroDiaSemana(Date data) {
+		
+		switch (getDiaSemana(data)) {
+		case "DOM":
+			break;
+		case "SEG":
+			data = Data.addDias(data, -1);
+			break;
+		case "TER":
+			data = Data.addDias(data, -2);
+			break;
+		case "QUA":
+			data = Data.addDias(data, -3);
+			break;
+		case "QUI":
+			data = Data.addDias(data, -4);
+			break;
+		case "SEX":
+			data = Data.addDias(data, -5);
+			break;
+		case "SAB":
+			data = Data.addDias(data, -6);
+			break;	
+		}
+		
+		return data;
+	}
 }
