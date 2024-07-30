@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.TextField;
 import java.sql.*;
 
 import model.Atirador;
@@ -70,7 +69,7 @@ public class AtiradorDAO {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
 		
-		sql = "insert into Atirador (id, nome, cargo, folga) values (?, ?, ?, ?);";
+		sql = "insert into Atirador (id, nome, cargo) values (?, ?, ?);";
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -101,7 +100,7 @@ public class AtiradorDAO {
 	
 	public static void apagarDatabase() {
 		apagarTabela();
-		// EscalaDAO.apagarTabela();
+		EscalaDAO.apagarTabela();
 		
 		String sql = "drop database if exists TG;";
 		PreparedStatement ps = null;

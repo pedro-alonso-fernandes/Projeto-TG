@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -167,21 +169,12 @@ public class CadastroAtirador extends JDialog {
 
 		  btnNewButton.addActionListener(new ActionListener() { 
 			  public void actionPerformed(ActionEvent e) { 
-				  try {
-					
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
-				  
 				  if(textField.getText().equals("") || textField_2.getText().equals("") ||  (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false) || spinner.getValue().equals(-1) ) {
 					  
 					  JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto", "Incompleto", JOptionPane.WARNING_MESSAGE);
 					  
 		 }
-				  else {
-					  AtiradorDAO.cadastrarAtirador(null);
 					  
-				  }
 				  } });
 
 		  this.setLocationRelativeTo(null);
