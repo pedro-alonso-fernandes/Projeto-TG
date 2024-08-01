@@ -19,8 +19,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.Data;
 import controller.EscalaDAO;
-import model.Data;
 
 public class telaEscala extends JFrame {
 
@@ -94,40 +94,311 @@ public class telaEscala extends JFrame {
 		
 		ResultSet rs = EscalaDAO.getEscalaSemana(data);
 		Date dataEscala = null;
-		try {
-			dataEscala = formato.parse("28/07/2024");
-		} catch (ParseException e) {
-			System.out.println("Erro ao salvar data: " + e.getMessage());
-		}
+		int[] monitores = new int[7];
+		int[] atiradores1 = new int[7];
+		int[] atiradores2 = new int[7];
+		int[] atiradores3 = new int[7]; 
 //		try {
-//			rs.next();
-//			dataEscala = rs.getDate("data");
-//		} catch(SQLException e) {
-//			System.out.println("Erro " + e.getMessage());
+//			dataEscala = formato.parse("29/07/2024");
+//		} catch (ParseException e) {
+//			System.out.println("Erro ao salvar data: " + e.getMessage());
 //		}
+		try {
+			int i = 0;
+			while(rs.next()) {
+				if(i == 0) {
+					dataEscala = rs.getDate("data");
+				}
+				monitores[i] = rs.getInt("monitorId");
+				atiradores1[i] = rs.getInt("atirador1Id");
+				atiradores2[i] = rs.getInt("atirador2Id");
+				atiradores3[i] = rs.getInt("atirador3Id");
+				i++;
+			}
+			
+		} catch(SQLException e) {
+			System.out.println("Erro " + e.getMessage());
+		}
 		
+		String[] linha = new String[7];
 		switch (Data.getDiaSemana(dataEscala)) {
 		case "DOM":
-			modelo.addRow(new Object[] { 
-					"" 
-					});
+			
+			for(int i = 0; i < 7; i++) {
+				linha[i] = String.valueOf(monitores[i]);
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				linha[i] = String.valueOf(atiradores1[i]);
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				linha[i] = String.valueOf(atiradores2[i]);
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				linha[i] = String.valueOf(atiradores3[i]);
+			}
+			modelo.addRow(linha);
 			break;
 		case "SEG":
 			
+			for(int i = 0; i < 7; i++) {
+				if(i < 1) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 1]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 1) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 1]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 1) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 1]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 1) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 1]);
+				}
+			}
+			modelo.addRow(linha);
 			break;
 		case "TER":
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 2) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 2]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 2) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 2]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 2) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 2]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 2) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 2]);
+				}
+			}
+			modelo.addRow(linha);
 			
 			break;
 		case "QUA":
 			
+			for(int i = 0; i < 7; i++) {
+				if(i < 3) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 3]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 3) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 3]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 3) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 3]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 3) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 3]);
+				}
+			}
+			modelo.addRow(linha);
+			
 			break;
 		case "QUI":
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 4) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 4]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 4) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 4]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 4) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 4]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 4) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 4]);
+				}
+			}
+			modelo.addRow(linha);
 			
 			break;
 		case "SEX":
 			
+			for(int i = 0; i < 7; i++) {
+				if(i < 5) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 5]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 5) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 5]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 5) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 5]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 5) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 5]);
+				}
+			}
+			modelo.addRow(linha);
+			
 			break;
 		case "SAB":
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 6) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(monitores[i - 6]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 6) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores1[i - 6]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 6) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores2[i - 6]);
+				}
+			}
+			modelo.addRow(linha);
+			
+			for(int i = 0; i < 7; i++) {
+				if(i < 6) {
+					linha[i] = "";
+				}
+				else {
+					linha[i] = String.valueOf(atiradores3[i - 6]);
+				}
+			}
+			modelo.addRow(linha);
 			
 			break;
 		}
