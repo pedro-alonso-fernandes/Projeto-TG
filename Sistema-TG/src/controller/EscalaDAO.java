@@ -178,7 +178,7 @@ public class EscalaDAO {
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar a Escala pela data: " + e.getMessage());
+			System.out.println("Erro ao pegar a Escala pela data(úńica): " + e.getMessage());
 			return rs;
 		}
 	}
@@ -199,10 +199,34 @@ public class EscalaDAO {
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar a Escala pela data: " + e.getMessage());
+			System.out.println("Erro ao pegar a Escala pela data(várias): " + e.getMessage());
 			return rs;
 		}
 	}
+	
+	//Pega a escala da Semana
+		public static ResultSet getEscalaSemana(Date data) {
+			selecionarDatabase();
+			
+			String sql = "select * from Escala where data >= ? and data <= ?;";
+			
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+			
+			data = Data.primeiroDiaSemana(data);
+			
+			try {
+				ps = Conexao.getConexao().prepareStatement(sql);
+				ps.setString(1, formato.format(data));
+				ps.setString(2, formato.format(Data.addDias(data, 6)));
+				rs = ps.executeQuery();
+				return rs;
+			} catch (SQLException e) {
+				System.out.println("Erro ao pegar a Escala da Semana: " + e.getMessage());
+				return rs;
+			}
+		}
 	
 	//Pegar escalas por cor
 	public static ResultSet getEscalas(String cor) {
@@ -225,7 +249,7 @@ public class EscalaDAO {
 				rs = ps.executeQuery();
 				return rs;
 			} catch (SQLException e) {
-				System.out.println("Erro ao pegar a Escala por cors: " + e.getMessage());
+				System.out.println("Erro ao pegar a Escala por cor: " + e.getMessage());
 				return rs;
 			}
 			
@@ -234,10 +258,10 @@ public class EscalaDAO {
 	}
 	
 	//Pegar escalas por Monitor
-	public static ResultSet getEscalas(int monitorId) {
+	public static ResultSet getEscalasMonitor(int monitorId) {
 		selecionarDatabase();
 		
-		String sql = "select * from Escala where monitorId >= ?;";
+		String sql = "select * from Escala where monitorId = ?;";
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -248,8 +272,31 @@ public class EscalaDAO {
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar a Escala: " + e.getMessage());
+			System.out.println("Erro ao pegar a Escala por Monitor: " + e.getMessage());
 			return rs;
 		}
 	}
+	
+	//Pegar escalas por Atirador
+		public static ResultSet getEscalasAtirador(int atiradorId) {
+			selecionarDatabase();
+			
+			String sql = "select * from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ?;";
+			
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			
+			try {
+				ps = Conexao.getConexao().prepareStatement(sql);
+				ps.setString(1, String.valueOf(atiradorId));
+				ps.setString(2, String.valueOf(atiradorId));
+				ps.setString(3, String.valueOf(atiradorId));
+				rs = ps.executeQuery();
+				return rs;
+			} catch (SQLException e) {
+				System.out.println("Erro ao pegar a Escala por Atirador: " + e.getMessage());
+				return rs;
+			}
+		}
+		
 }

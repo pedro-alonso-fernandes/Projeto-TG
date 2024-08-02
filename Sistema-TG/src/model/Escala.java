@@ -1,6 +1,12 @@
 package model;
 
+import java.time.DayOfWeek;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.Date;
+import java.util.Locale;
+
+import javax.sound.sampled.TargetDataLine;
 
 public class Escala {
 
@@ -76,7 +82,5 @@ public class Escala {
 	public void setAtirador3Id(int atirador3Id) {
 		this.atirador3Id = atirador3Id;
 	}
-	
-	
 	
 }
