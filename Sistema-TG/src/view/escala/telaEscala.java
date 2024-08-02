@@ -17,10 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Data;
 import controller.EscalaDAO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
 
 public class telaEscala extends JFrame {
 
@@ -64,10 +71,11 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(86, 106, 666, 142);
+		scrollPane.setBounds(35, 106, 740, 142);
 		contentPane.add(scrollPane);
 
 		semanaAtual = new JTable();
+		semanaAtual.setFont(new Font("Dialog", Font.PLAIN, 12));
 		scrollPane.setViewportView(semanaAtual);
 
 		//Atualizando tabela com a data de hoje
@@ -79,7 +87,18 @@ public class telaEscala extends JFrame {
 				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
 				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
 				formato.format(Data.addDias(data, 6)) 
-				}));
+				}){
+
+	        private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean []{  
+	            false, false, false, false, false, false, false
+	        };  
+	   
+	        @Override  
+	        public boolean isCellEditable(int rowIndex, int columnIndex) {  
+	            return canEdit [columnIndex];  
+	        }
+	});
 		semanaAtual.getColumnModel().getColumn(0).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(1).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(2).setResizable(false);
@@ -87,6 +106,17 @@ public class telaEscala extends JFrame {
 		semanaAtual.getColumnModel().getColumn(4).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(5).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(6).setResizable(false);
+		
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();        
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		semanaAtual.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+		semanaAtual.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
@@ -121,33 +151,57 @@ public class telaEscala extends JFrame {
 		}
 		
 		String[] linha = new String[7];
+		
 		switch (Data.getDiaSemana(dataEscala)) {
 		case "DOM":
 			
 			for(int i = 0; i < 7; i++) {
-				linha[i] = String.valueOf(monitores[i]);
+				if(monitores[i] != 0) {
+					linha[i] = String.valueOf(monitores[i]);
+				}
+				else {
+					linha[i] = "";
+				}
 			}
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				linha[i] = String.valueOf(atiradores1[i]);
+				if(atiradores1[i] != 0) {
+					linha[i] = String.valueOf(atiradores1[i]);
+				}
+				else {
+					linha[i] = "";
+				}
 			}
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				linha[i] = String.valueOf(atiradores2[i]);
+				if(atiradores2[i] != 0) {
+					linha[i] = String.valueOf(atiradores2[i]);
+				}
+				else {
+					linha[i] = "";
+				}
 			}
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				linha[i] = String.valueOf(atiradores3[i]);
+				if(atiradores3[i] != 0) {
+					linha[i] = String.valueOf(atiradores3[i]);
+				}
+				else {
+					linha[i] = "";
+				}
 			}
 			modelo.addRow(linha);
 			break;
-		case "SEG":
 			
+			
+			
+			
+		case "SEG":
 			for(int i = 0; i < 7; i++) {
-				if(i < 1) {
+				if(i < 1 || monitores[i - 1] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -157,7 +211,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 1) {
+				if(i < 1 || atiradores1[i - 1] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -167,7 +221,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 1) {
+				if(i < 1 || atiradores2[i - 1] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -177,7 +231,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 1) {
+				if(i < 1 || atiradores3[i - 1] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -186,10 +240,13 @@ public class telaEscala extends JFrame {
 			}
 			modelo.addRow(linha);
 			break;
-		case "TER":
 			
+			
+			
+			
+		case "TER":
 			for(int i = 0; i < 7; i++) {
-				if(i < 2) {
+				if(i < 2 || monitores[i - 2] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -199,7 +256,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 2) {
+				if(i < 2 || atiradores1[i - 2] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -209,7 +266,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 2) {
+				if(i < 2 || atiradores2[i - 2] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -219,7 +276,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 2) {
+				if(i < 2 || atiradores3[i - 2] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -229,10 +286,12 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			break;
-		case "QUA":
 			
+			
+			
+		case "QUA":
 			for(int i = 0; i < 7; i++) {
-				if(i < 3) {
+				if(i < 3 || monitores[i - 3] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -242,7 +301,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 3) {
+				if(i < 3 || atiradores1[i - 3] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -252,7 +311,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 3) {
+				if(i < 3 || atiradores2[i - 3] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -262,7 +321,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 3) {
+				if(i < 3 || atiradores3[i - 3] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -272,10 +331,13 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			break;
-		case "QUI":
 			
+			
+			
+			
+		case "QUI":
 			for(int i = 0; i < 7; i++) {
-				if(i < 4) {
+				if(i < 4 || monitores[i - 4] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -285,7 +347,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 4) {
+				if(i < 4 || atiradores1[i - 4] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -295,7 +357,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 4) {
+				if(i < 4 || atiradores2[i - 4] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -305,7 +367,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 4) {
+				if(i < 4 || atiradores3[i - 4] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -315,10 +377,13 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			break;
-		case "SEX":
 			
+			
+			
+			
+		case "SEX":
 			for(int i = 0; i < 7; i++) {
-				if(i < 5) {
+				if(i < 5 || monitores[i - 5] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -328,7 +393,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 5) {
+				if(i < 5 || atiradores1[i - 5] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -338,7 +403,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 5) {
+				if(i < 5 || atiradores2[i - 5] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -348,7 +413,7 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			for(int i = 0; i < 7; i++) {
-				if(i < 5) {
+				if(i < 5 || atiradores3[i - 5] == 0) {
 					linha[i] = "";
 				}
 				else {
@@ -358,8 +423,11 @@ public class telaEscala extends JFrame {
 			modelo.addRow(linha);
 			
 			break;
-		case "SAB":
 			
+			
+			
+			
+		case "SAB":
 			for(int i = 0; i < 7; i++) {
 				if(i < 6) {
 					linha[i] = "";
@@ -403,10 +471,11 @@ public class telaEscala extends JFrame {
 			break;
 		}
 		
+		modelo.isCellEditable(1, 1);
 		semanaAtual.setModel(modelo);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(86, 88, 666, 23);
+		scrollPane_1.setBounds(35, 88, 740, 23);
 		contentPane.add(scrollPane_1);
 
 		dias_da_semana = new JTable();
