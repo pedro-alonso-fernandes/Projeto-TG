@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
@@ -81,7 +82,13 @@ public class telaAtirador extends JFrame {
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		
+		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
+        modelo.addRow(new Object[]{
+                "", "", ""
+                });
 		
+        
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
 		btnNewButton.addActionListener(new ActionListener() {

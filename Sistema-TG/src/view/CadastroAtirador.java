@@ -68,12 +68,12 @@ public class CadastroAtirador extends JDialog {
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Atirador");
 		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnNewRadioButton.setBounds(130, 299, 151, 21);
+		rdbtnNewRadioButton.setBounds(130, 267, 151, 21);
 		contentPanel.add(rdbtnNewRadioButton);
 
 		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
 		rdbtnMonitor.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnMonitor.setBounds(283, 299, 123, 21);
+		rdbtnMonitor.setBounds(283, 267, 123, 21);
 		contentPanel.add(rdbtnMonitor);
 
 		rdbtnNewRadioButton.addActionListener(new ActionListener() {
@@ -126,7 +126,7 @@ public class CadastroAtirador extends JDialog {
 
 		JLabel lblNewLabel_1_3_1 = new JLabel("Cargo");
 		lblNewLabel_1_3_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_3_1.setBounds(34, 297, 86, 25);
+		lblNewLabel_1_3_1.setBounds(34, 265, 86, 25);
 		contentPanel.add(lblNewLabel_1_3_1);
 
 		JButton btnNewButton = new JButton("Cadastrar ");
@@ -147,22 +147,10 @@ public class CadastroAtirador extends JDialog {
 		btnVoltarAoMenu.setBounds(283, 359, 178, 40);
 		contentPanel.add(btnVoltarAoMenu);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Folga");
-		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_1.setBounds(34, 249, 86, 32);
-		contentPanel.add(lblNewLabel_1_1);
-
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(-1, -1, 15, 1));
-		spinner.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		spinner.setBounds(130, 243, 62, 44);
-		contentPanel.add(spinner);
-
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField.getText().equals("") || textField_2.getText().equals("")
-						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)
-						|| spinner.getValue().equals(-1)) {
+						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
 
 					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto", "Incompleto",
 							JOptionPane.WARNING_MESSAGE);
@@ -173,7 +161,6 @@ public class CadastroAtirador extends JDialog {
 					Atirador atdr = new Atirador();
 					atdr.setNome(textField.getText());
 					atdr.setID(Integer.parseInt(textField_2.getText()));
-					atdr.setFolga((int) spinner.getValue());
 						
 					if(rdbtnMonitor.isSelected() == true) {
 						atdr.setCargo(rdbtnMonitor.getText());

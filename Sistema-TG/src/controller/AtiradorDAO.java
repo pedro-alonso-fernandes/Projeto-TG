@@ -22,7 +22,7 @@ public class AtiradorDAO {
 		}
 
 		sql = "create table if not exists `TG`.`Atirador`(" + "id int not null primary key,"
-				+ "nome varchar(100) not null," + "cargo varchar(20) not null," + "folga int not null)";
+				+ "nome varchar(100) not null," + "cargo varchar(20) not null)";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -63,14 +63,13 @@ public class AtiradorDAO {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
 
-		sql = "insert into Atirador (id, nome, cargo, folga) values (?, ?, ?, ?);";
+		sql = "insert into Atirador (id, nome, cargo) values (?, ?, ?);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(atirador.getID()));
 			ps.setString(2, atirador.getNome());
 			ps.setString(3, atirador.getCargo());
-			ps.setString(4, String.valueOf(atirador.getFolga()));
 			ps.execute();
 			ps.close();
 
@@ -94,7 +93,7 @@ public class AtiradorDAO {
 		
 		String nome = null;
 		
-		sql = "SELECT * FROM ATIRADOR WHERE ID = ?;";
+		sql = "select * from Atirador where id = ?;";
 		
 		ResultSet rs = null;
 		
@@ -112,6 +111,8 @@ public class AtiradorDAO {
 	}
 	
 	
+	
+	
 	public static void apagarTabela() {
 		String sql = "drop table if exists TG.Atirador;";
 		PreparedStatement ps = null;
@@ -127,8 +128,8 @@ public class AtiradorDAO {
 	}
 
 	public static void apagarDatabase() {
-		apagarTabela();
 		EscalaDAO.apagarTabela();
+		apagarTabela();
 
 		String sql = "drop database if exists TG;";
 		PreparedStatement ps = null;
