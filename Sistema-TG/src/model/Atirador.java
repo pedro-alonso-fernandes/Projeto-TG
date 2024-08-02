@@ -5,17 +5,27 @@ public class Atirador {
 	private int ID;
 	private String nome;
 	private String cargo;
-	
-	public Atirador(int iD, String nome, String cargo) {
+	private int folga;
+		
+	public Atirador(int iD, String nome, String cargo, int folga) {
 		ID = iD;
 		this.nome = nome;
 		this.cargo = cargo;
+		this.folga = folga;
 	}
-	
+
 	public Atirador() {
 		
 	}
 	
+	public int getFolga() {
+		return folga;
+	}
+
+	public void setFolga(int folga) {
+		this.folga = folga;
+	}
+
 	public int getID() {
 		return ID;
 	}

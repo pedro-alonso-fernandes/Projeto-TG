@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AtiradorDAO;
+
 public class telaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,7 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		AtiradorDAO.criarBanco();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);

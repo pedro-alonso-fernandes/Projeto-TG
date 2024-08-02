@@ -9,9 +9,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import controller.AtiradorDAO;
+import controller.Conexao;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -75,6 +80,7 @@ public class telaAtirador extends JFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(141);
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);
+		
 		
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
