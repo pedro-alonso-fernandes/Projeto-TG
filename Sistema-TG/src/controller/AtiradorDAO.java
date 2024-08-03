@@ -7,49 +7,7 @@ import model.Atirador;
 
 public class AtiradorDAO {
 
-	public static void criarBanco() {
 
-		String sql = "create database if not exists TG;";
-
-		PreparedStatement ps = null;
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-			ps.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar o database TG: " + e.getMessage());
-		}
-
-		sql = "create table if not exists `TG`.`Atirador`(" + "id int not null primary key,"
-				+ "nome varchar(100) not null," + "guerra varchar(30) not null," + "cargo varchar(20) not null)";
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-			ps.close();
-
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Atirador: " + e.getMessage());
-		}
-
-		sql = "create table if not exists `TG`.`Escala`(" + "id int not null primary key," 
-				+ "dia int not null,"
-				+ "mes int not null," + "monitorId int not null," + "atirador1Id int not null,"
-				+ "atirador2Id int not null," + "atirador3Id int not null,"
-				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id),"
-				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id),"
-				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id),"
-				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id));";
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
-		}
-
-	}
 
 	public static void cadastrarAtirador(Atirador atirador) {
 		String sql = "use TG;";
@@ -80,7 +38,7 @@ public class AtiradorDAO {
 		}
 	}
 
-	public static String getNomeAtirador(int ID) {
+	public static String getGuerraAtirador(int ID) {
 		String sql = "use TG;";
 
 		PreparedStatement ps = null;
@@ -114,35 +72,32 @@ public class AtiradorDAO {
 	
 	
 	
+	public static ResultSet getAtirador() {
+		String sql = "use TG;";
+
+		PreparedStatement ps = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
+		}
+		
+		 sql = "select * from Atirador;";
+		
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos os atiradores: " + e.getMessage());
+			return rs;
+		}
+	}
 	
-	public static void apagarTabela() {
-		String sql = "drop table if exists TG.Atirador;";
-		PreparedStatement ps = null;
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela Atirador: " + e.getMessage());
-			;
-		}
-
-	}
-
-	public static void apagarDatabase() {
-		EscalaDAO.apagarTabela();
-		apagarTabela();
-
-		String sql = "drop database if exists TG;";
-		PreparedStatement ps = null;
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao apagar database TG: " + e.getMessage());
-			;
-		}
-	}
 
 }
