@@ -183,15 +183,7 @@ public class CadastroAtirador extends JDialog {
 						atdr.setCargo(rdbtnNewRadioButton.getText());
 					}
 					
-					//AtiradorDAO.cadastrarAtirador(atdr);
-					System.out.println(atdr.getID());
-					System.out.println(atdr.getNome());
-					System.out.println(atdr.getGuerra());
-					System.out.println(atdr.getCargo());
-					
-					
-					
-					
+					AtiradorDAO.cadastrarAtirador(atdr);
 					JOptionPane.showMessageDialog(null, "Cadastro Feito");
 
 				}

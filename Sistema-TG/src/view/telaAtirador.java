@@ -17,6 +17,7 @@ import controller.Conexao;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -83,11 +84,22 @@ public class telaAtirador extends JFrame {
 		table.getTableHeader().setReorderingAllowed(false);
 		
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
-        modelo.addRow(new Object[]{
-                "", "", ""
-                });
 		
+		ResultSet rs = AtiradorDAO.getAtirador();
+			
+        try {
+        	while(rs.next()){
+			modelo.addRow(new Object[]{
+			        rs.getInt("id"), rs.getString("nome"), rs.getString("guerra"), rs.getString("cargo")
+			        });
+        	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        table.setModel(modelo);
+        
         
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));

@@ -38,7 +38,6 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
-		AtiradorDAO.criarBanco();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);
