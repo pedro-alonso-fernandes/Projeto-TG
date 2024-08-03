@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.AtiradorDAO;
 import controller.Data;
 import controller.EscalaDAO;
 import java.awt.event.MouseAdapter;
@@ -58,7 +59,7 @@ public class telaEscala extends JFrame {
 	public telaEscala() {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		setBounds(100, 100, 816, 508);
+		setBounds(100, 100, 803, 508);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -71,7 +72,7 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 106, 740, 142);
+		scrollPane.setBounds(35, 106, 740, 86);
 		contentPane.add(scrollPane);
 
 		semanaAtual = new JTable();
@@ -157,7 +158,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(monitores[i] != 0) {
-					linha[i] = String.valueOf(monitores[i]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i]);
 				}
 				else {
 					linha[i] = "";
@@ -167,7 +168,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores1[i] != 0) {
-					linha[i] = String.valueOf(atiradores1[i]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i]);
 				}
 				else {
 					linha[i] = "";
@@ -177,7 +178,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores2[i] != 0) {
-					linha[i] = String.valueOf(atiradores2[i]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i]);
 				}
 				else {
 					linha[i] = "";
@@ -187,7 +188,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores3[i] != 0) {
-					linha[i] = String.valueOf(atiradores3[i]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i]);
 				}
 				else {
 					linha[i] = "";
@@ -205,7 +206,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 1]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -215,7 +216,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 1]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -225,7 +226,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 1]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -235,7 +236,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 1]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -250,7 +251,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 2]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -260,7 +261,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 2]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -270,7 +271,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 2]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -280,7 +281,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 2]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -295,7 +296,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 3]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -305,7 +306,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 3]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -315,7 +316,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 3]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -325,7 +326,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 3]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -341,7 +342,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 4]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -351,7 +352,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 4]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -361,7 +362,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 4]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -371,7 +372,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 4]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -387,7 +388,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 5]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -397,7 +398,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 5]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -407,7 +408,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 5]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -417,7 +418,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 5]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -433,7 +434,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(monitores[i - 6]);
+					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -443,7 +444,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores1[i - 6]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -453,7 +454,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores2[i - 6]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -463,7 +464,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = String.valueOf(atiradores3[i - 6]);
+					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
