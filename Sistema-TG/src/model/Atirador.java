@@ -4,11 +4,13 @@ public class Atirador {
 
 	private int ID;
 	private String nome;
+	private String guerra;
 	private String cargo;
 		
-	public Atirador(int iD, String nome, String cargo) {
+	public Atirador(int iD, String nome, String cargo, String guerra) {
 		ID = iD;
 		this.nome = nome;
+		this.guerra = guerra;
 		this.cargo = cargo;
 	}
 
@@ -33,6 +35,14 @@ public class Atirador {
 	}
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
+	}
+
+	public String getGuerra() {
+		return guerra;
+	}
+
+	public void setGuerra(String guerra) {
+		this.guerra = guerra;
 	}
 	
 }

@@ -22,7 +22,7 @@ public class AtiradorDAO {
 		}
 
 		sql = "create table if not exists `TG`.`Atirador`(" + "id int not null primary key,"
-				+ "nome varchar(100) not null," + "cargo varchar(20) not null)";
+				+ "nome varchar(100) not null," + "guerra varchar(30) not null," + "cargo varchar(20) not null)";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -63,13 +63,14 @@ public class AtiradorDAO {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
 
-		sql = "insert into Atirador (id, nome, cargo) values (?, ?, ?);";
+		sql = "insert into Atirador (id, nome, guerra, cargo) values (?, ?, ?, ?);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(atirador.getID()));
 			ps.setString(2, atirador.getNome());
-			ps.setString(3, atirador.getCargo());
+			ps.setString(3, atirador.getGuerra());
+			ps.setString(4, atirador.getCargo());
 			ps.execute();
 			ps.close();
 
@@ -102,7 +103,7 @@ public class AtiradorDAO {
 			ps.setString(1, String.valueOf(ID));
 			rs = ps.executeQuery();		
 			rs.next();
-			nome = rs.getString("nome");
+			nome = rs.getString("guerra");
 		} catch (SQLException e) {
 			System.out.println("Erro ao buscar Atirador por ID: " + e.getMessage());
 		}

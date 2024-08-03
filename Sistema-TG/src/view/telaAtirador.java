@@ -74,7 +74,7 @@ public class telaAtirador extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID", "Nome", "Cargo", "Folga"
+				"ID", "Nome", "Nome de Guerra" ,"Cargo"
 			}
 		));
 		table.getColumnModel().getColumn(1).setPreferredWidth(345);

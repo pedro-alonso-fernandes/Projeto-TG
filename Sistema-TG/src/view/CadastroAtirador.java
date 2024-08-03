@@ -30,6 +30,7 @@ public class CadastroAtirador extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JTextField textField_2;
+	private JTextField Cguerra;
 
 	/**
 	 * Launch the application.
@@ -68,12 +69,12 @@ public class CadastroAtirador extends JDialog {
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Atirador");
 		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnNewRadioButton.setBounds(130, 267, 151, 21);
+		rdbtnNewRadioButton.setBounds(130, 299, 151, 21);
 		contentPanel.add(rdbtnNewRadioButton);
 
 		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
 		rdbtnMonitor.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnMonitor.setBounds(283, 267, 123, 21);
+		rdbtnMonitor.setBounds(284, 299, 123, 21);
 		contentPanel.add(rdbtnMonitor);
 
 		rdbtnNewRadioButton.addActionListener(new ActionListener() {
@@ -97,7 +98,7 @@ public class CadastroAtirador extends JDialog {
 
 		textField = new JTextField();
 		textField.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		textField.setBounds(130, 139, 278, 25);
+		textField.setBounds(130, 141, 421, 25);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 
@@ -109,7 +110,7 @@ public class CadastroAtirador extends JDialog {
 		textField_2 = new JTextField();
 		textField_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		textField_2.setColumns(10);
-		textField_2.setBounds(130, 192, 278, 25);
+		textField_2.setBounds(130, 191, 421, 25);
 		contentPanel.add(textField_2);
 
 		textField_2.addKeyListener(new KeyAdapter() {
@@ -126,7 +127,7 @@ public class CadastroAtirador extends JDialog {
 
 		JLabel lblNewLabel_1_3_1 = new JLabel("Cargo");
 		lblNewLabel_1_3_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_3_1.setBounds(34, 265, 86, 25);
+		lblNewLabel_1_3_1.setBounds(34, 297, 86, 25);
 		contentPanel.add(lblNewLabel_1_3_1);
 
 		JButton btnNewButton = new JButton("Cadastrar ");
@@ -146,10 +147,21 @@ public class CadastroAtirador extends JDialog {
 		btnVoltarAoMenu.setFont(new Font("Arial Black", Font.BOLD, 15));
 		btnVoltarAoMenu.setBounds(283, 359, 178, 40);
 		contentPanel.add(btnVoltarAoMenu);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Nome de Guerra");
+		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 22));
+		lblNewLabel_1_1.setBounds(34, 243, 219, 21);
+		contentPanel.add(lblNewLabel_1_1);
+		
+		Cguerra = new JTextField();
+		Cguerra.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		Cguerra.setColumns(10);
+		Cguerra.setBounds(273, 245, 278, 25);
+		contentPanel.add(Cguerra);
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (textField.getText().equals("") || textField_2.getText().equals("")
+				if (textField.getText().equals("") || textField_2.getText().equals("") || Cguerra.getText().equals("")
 						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
 
 					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto", "Incompleto",
@@ -161,6 +173,7 @@ public class CadastroAtirador extends JDialog {
 					Atirador atdr = new Atirador();
 					atdr.setNome(textField.getText());
 					atdr.setID(Integer.parseInt(textField_2.getText()));
+					atdr.setGuerra(Cguerra.getText());
 						
 					if(rdbtnMonitor.isSelected() == true) {
 						atdr.setCargo(rdbtnMonitor.getText());
@@ -170,7 +183,14 @@ public class CadastroAtirador extends JDialog {
 						atdr.setCargo(rdbtnNewRadioButton.getText());
 					}
 					
-					AtiradorDAO.cadastrarAtirador(atdr);
+					//AtiradorDAO.cadastrarAtirador(atdr);
+					System.out.println(atdr.getID());
+					System.out.println(atdr.getNome());
+					System.out.println(atdr.getGuerra());
+					System.out.println(atdr.getCargo());
+					
+					
+					
 					
 					JOptionPane.showMessageDialog(null, "Cadastro Feito");
 
