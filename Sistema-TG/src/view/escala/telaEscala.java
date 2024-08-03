@@ -158,7 +158,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(monitores[i] != 0) {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i]);
 				}
 				else {
 					linha[i] = "";
@@ -168,7 +168,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores1[i] != 0) {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i]);
 				}
 				else {
 					linha[i] = "";
@@ -178,7 +178,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores2[i] != 0) {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i]);
 				}
 				else {
 					linha[i] = "";
@@ -188,7 +188,7 @@ public class telaEscala extends JFrame {
 			
 			for(int i = 0; i < 7; i++) {
 				if(atiradores3[i] != 0) {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i]);
 				}
 				else {
 					linha[i] = "";
@@ -206,7 +206,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 1]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -216,7 +216,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 1]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -226,7 +226,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 1]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -236,7 +236,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 1]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 1]);
 				}
 			}
 			modelo.addRow(linha);
@@ -251,7 +251,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 2]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -261,7 +261,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 2]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -271,7 +271,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 2]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -281,7 +281,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 2]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 2]);
 				}
 			}
 			modelo.addRow(linha);
@@ -296,7 +296,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 3]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -306,7 +306,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 3]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -316,7 +316,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 3]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -326,7 +326,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 3]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 3]);
 				}
 			}
 			modelo.addRow(linha);
@@ -342,7 +342,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 4]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -352,7 +352,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 4]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -362,7 +362,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 4]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -372,7 +372,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 4]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 4]);
 				}
 			}
 			modelo.addRow(linha);
@@ -388,7 +388,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 5]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -398,7 +398,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 5]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -408,7 +408,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 5]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -418,7 +418,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 5]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 5]);
 				}
 			}
 			modelo.addRow(linha);
@@ -434,7 +434,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(monitores[i - 6]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -444,7 +444,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores1[i - 6]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -454,7 +454,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores2[i - 6]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
@@ -464,7 +464,7 @@ public class telaEscala extends JFrame {
 					linha[i] = "";
 				}
 				else {
-					linha[i] = AtiradorDAO.getNomeAtirador(atiradores3[i - 6]);
+					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 6]);
 				}
 			}
 			modelo.addRow(linha);
