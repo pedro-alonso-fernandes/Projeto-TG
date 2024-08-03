@@ -33,7 +33,8 @@ public class AtiradorDAO {
 			System.out.println("Erro ao criar tabela Atirador: " + e.getMessage());
 		}
 
-		sql = "create table if not exists `TG`.`Escala`(" + "id int not null primary key," + "dia int not null,"
+		sql = "create table if not exists `TG`.`Escala`(" + "id int not null primary key," 
+				+ "dia int not null,"
 				+ "mes int not null," + "monitorId int not null," + "atirador1Id int not null,"
 				+ "atirador2Id int not null," + "atirador3Id int not null,"
 				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id),"

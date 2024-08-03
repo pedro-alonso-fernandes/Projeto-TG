@@ -10,98 +10,8 @@ import model.Escala;
 
 public class EscalaDAO {
 
-	private static void selecionarDatabase() {
-		String sql = "use TG";
-
-		PreparedStatement ps = null;
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar o database TG: " + e.getMessage());
-		}
-
-	}
-
-	public static void criarBanco() {
-
-		String sql = "create database if not exists TG;";
-
-		PreparedStatement ps = null;
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-			ps.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar o database TG: " + e.getMessage());
-		}
-
-		sql = "create table if not exists `TG`.`Atirador`(" + "id int not null primary key,"
-				+ "nome varchar(100) not null," + "cargo varchar(20) not null);";
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-			ps.close();
-
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Atirador: " + e.getMessage());
-		}
-
-		sql = "create table if not exists `TG`.`Escala`(" 
-				+ "id int not null primary key auto_increment," 
-				+ "data date not null,"
-				+ "cor varchar(20) not null,"
-				+ "monitorId int not null," 
-				+ "atirador1Id int not null,"
-				+ "atirador2Id int not null," 
-				+ "atirador3Id int not null,"
-				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id),"
-				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id),"
-				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id),"
-				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id));";
-
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
-		}
-
-	}
-	
-	public static void apagarTabela() {
-		String sql = "drop table if exists TG.Escala;";
-		PreparedStatement ps = null;
-		
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela Escala: " + e.getMessage());;
-		}
-		
-	}
-	
-	public static void apagarDatabase() {
-		apagarTabela();
-		AtiradorDAO.apagarTabela();
-		
-		String sql = "drop database if exists TG;";
-		PreparedStatement ps = null;
-		
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.execute();
-		} catch (SQLException e) {
-			System.out.println("Erro ao apagar database TG: " + e.getMessage());;
-		}
-	}
-	
 	public static void cadastrarEscala(Escala escala) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "insert into Escala (data, cor, monitorId, atirador1Id, atirador2Id, atirador3Id) values (?, ?, ?, ?, ?, ?);";
 		
@@ -125,7 +35,7 @@ public class EscalaDAO {
 	
 	//Pega todas as escalas
 	public static ResultSet getEscalas() {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala;";
 		
@@ -144,7 +54,7 @@ public class EscalaDAO {
 	
 	//Pega escala por ID
 	public static ResultSet getEscala(int id) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala where id = ?;";
 		
@@ -164,7 +74,7 @@ public class EscalaDAO {
 	
 	//Pega escala por Data
 	public static ResultSet getEscala(Date data) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala where data = ?;";
 		
@@ -185,7 +95,7 @@ public class EscalaDAO {
 	
 	//Pega escalas apartir da Data informada
 	public static ResultSet getEscalas(Date data) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala where data >= ?;";
 		
@@ -206,7 +116,7 @@ public class EscalaDAO {
 	
 	//Pega a escala da Semana
 		public static ResultSet getEscalaSemana(Date data) {
-			selecionarDatabase();
+			BD.selecionarDatabase();
 			
 			String sql = "select * from Escala where data >= ? and data <= ?;";
 			
@@ -230,7 +140,7 @@ public class EscalaDAO {
 	
 	//Pegar escalas por cor
 	public static ResultSet getEscalas(String cor) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala where cor = ?;";
 		
@@ -259,7 +169,7 @@ public class EscalaDAO {
 	
 	//Pegar escalas por Monitor
 	public static ResultSet getEscalasMonitor(int monitorId) {
-		selecionarDatabase();
+		BD.selecionarDatabase();
 		
 		String sql = "select * from Escala where monitorId = ?;";
 		
@@ -279,7 +189,7 @@ public class EscalaDAO {
 	
 	//Pegar escalas por Atirador
 		public static ResultSet getEscalasAtirador(int atiradorId) {
-			selecionarDatabase();
+			BD.selecionarDatabase();
 			
 			String sql = "select * from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ?;";
 			
