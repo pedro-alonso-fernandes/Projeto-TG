@@ -13,6 +13,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -24,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.Data;
 import controller.EscalaDAO;
+import model.Escala;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -34,8 +37,12 @@ public class telaEscala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable semanaAtual;
+	public static JTable semanaAtual;
+	public static JTable proximaSemana;
 	private JTable dias_da_semana;
+	private JTable dias_da_semana_2;
+	public static boolean aviso1 = false;
+	public static boolean aviso2 = false;
 
 	/**
 	 * Launch the application.
@@ -46,6 +53,9 @@ public class telaEscala extends JFrame {
 				try {
 					telaEscala frame = new telaEscala();
 					frame.setVisible(true);
+					if(aviso1 && aviso2) {
+						JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso", JOptionPane.WARNING_MESSAGE);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,20 +80,38 @@ public class telaEscala extends JFrame {
 		lblTabelaEscala.setFont(new Font("Dialog", Font.BOLD, 24));
 		lblTabelaEscala.setBounds(289, 12, 215, 23);
 		contentPane.add(lblTabelaEscala);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(35, 88, 740, 20);
+		contentPane.add(scrollPane_1);
+		
+		dias_da_semana = new JTable();
+		dias_da_semana.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado" }));
+		dias_da_semana.getColumnModel().getColumn(0).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(1).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(2).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(3).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(4).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(5).setResizable(false);
+		dias_da_semana.getColumnModel().getColumn(6).setResizable(false);
+		
+		dias_da_semana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
+		scrollPane_1.setViewportView(dias_da_semana);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 106, 740, 86);
-		contentPane.add(scrollPane);
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(35, 107, 740, 86);
+		contentPane.add(scrollPane_2);
 
 		semanaAtual = new JTable();
 		semanaAtual.setFont(new Font("Dialog", Font.PLAIN, 12));
-		scrollPane.setViewportView(semanaAtual);
+		scrollPane_2.setViewportView(semanaAtual);
 
-		//Atualizando tabela com a data de hoje
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();        
 
+		//Tabela semana atual
 		semanaAtual.setModel(new DefaultTableModel(new Object[][] {}, new String[] { 
 				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
 				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
@@ -108,7 +136,6 @@ public class telaEscala extends JFrame {
 		semanaAtual.getColumnModel().getColumn(5).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(6).setResizable(false);
 		
-		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();        
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		semanaAtual.getColumnModel().getColumn(0).setCellRenderer(centralizado);
@@ -121,377 +148,82 @@ public class telaEscala extends JFrame {
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
-		DefaultTableModel modelo = (DefaultTableModel) semanaAtual.getModel();
+		DefaultTableModel modelo = Escala.getModelSemanaAtual(data);
 		
-		ResultSet rs = EscalaDAO.getEscalaSemana(data);
-		Date dataEscala = null;
-		int[] monitores = new int[7];
-		int[] atiradores1 = new int[7];
-		int[] atiradores2 = new int[7];
-		int[] atiradores3 = new int[7]; 
-//		try {
-//			dataEscala = formato.parse("29/07/2024");
-//		} catch (ParseException e) {
-//			System.out.println("Erro ao salvar data: " + e.getMessage());
-//		}
-		try {
-			int i = 0;
-			while(rs.next()) {
-				if(i == 0) {
-					dataEscala = rs.getDate("data");
-				}
-				monitores[i] = rs.getInt("monitorId");
-				atiradores1[i] = rs.getInt("atirador1Id");
-				atiradores2[i] = rs.getInt("atirador2Id");
-				atiradores3[i] = rs.getInt("atirador3Id");
-				i++;
-			}
-			
-		} catch(SQLException e) {
-			System.out.println("Erro " + e.getMessage());
-		}
-		
-		String[] linha = new String[7];
-		
-		switch (Data.getDiaSemana(dataEscala)) {
-		case "DOM":
-			
-			for(int i = 0; i < 7; i++) {
-				if(monitores[i] != 0) {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i]);
-				}
-				else {
-					linha[i] = "";
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(atiradores1[i] != 0) {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i]);
-				}
-				else {
-					linha[i] = "";
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(atiradores2[i] != 0) {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i]);
-				}
-				else {
-					linha[i] = "";
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(atiradores3[i] != 0) {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i]);
-				}
-				else {
-					linha[i] = "";
-				}
-			}
-			modelo.addRow(linha);
-			break;
-			
-			
-			
-			
-		case "SEG":
-			for(int i = 0; i < 7; i++) {
-				if(i < 1 || monitores[i - 1] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 1]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 1 || atiradores1[i - 1] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 1]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 1 || atiradores2[i - 1] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 1]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 1 || atiradores3[i - 1] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 1]);
-				}
-			}
-			modelo.addRow(linha);
-			break;
-			
-			
-			
-			
-		case "TER":
-			for(int i = 0; i < 7; i++) {
-				if(i < 2 || monitores[i - 2] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 2]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 2 || atiradores1[i - 2] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 2]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 2 || atiradores2[i - 2] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 2]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 2 || atiradores3[i - 2] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 2]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			break;
-			
-			
-			
-		case "QUA":
-			for(int i = 0; i < 7; i++) {
-				if(i < 3 || monitores[i - 3] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 3]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 3 || atiradores1[i - 3] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 3]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 3 || atiradores2[i - 3] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 3]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 3 || atiradores3[i - 3] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 3]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			break;
-			
-			
-			
-			
-		case "QUI":
-			for(int i = 0; i < 7; i++) {
-				if(i < 4 || monitores[i - 4] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 4]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 4 || atiradores1[i - 4] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 4]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 4 || atiradores2[i - 4] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 4]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 4 || atiradores3[i - 4] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 4]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			break;
-			
-			
-			
-			
-		case "SEX":
-			for(int i = 0; i < 7; i++) {
-				if(i < 5 || monitores[i - 5] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 5]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 5 || atiradores1[i - 5] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 5]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 5 || atiradores2[i - 5] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 5]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 5 || atiradores3[i - 5] == 0) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 5]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			break;
-			
-			
-			
-			
-		case "SAB":
-			for(int i = 0; i < 7; i++) {
-				if(i < 6) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 6]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 6) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 6]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 6) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 6]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			for(int i = 0; i < 7; i++) {
-				if(i < 6) {
-					linha[i] = "";
-				}
-				else {
-					linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 6]);
-				}
-			}
-			modelo.addRow(linha);
-			
-			break;
-		}
-		
-		modelo.isCellEditable(1, 1);
 		semanaAtual.setModel(modelo);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(35, 88, 740, 23);
-		contentPane.add(scrollPane_1);
-
-		dias_da_semana = new JTable();
-		dias_da_semana.setModel(new DefaultTableModel(new Object[][] {},
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(35, 233, 740, 20);
+		contentPane.add(scrollPane_3);
+		
+		dias_da_semana_2 = new JTable();
+		dias_da_semana_2.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado" }));
-		dias_da_semana.getColumnModel().getColumn(0).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(1).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(2).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(3).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(4).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(5).setResizable(false);
-		dias_da_semana.getColumnModel().getColumn(6).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(0).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(1).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(2).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(3).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(4).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(5).setResizable(false);
+		dias_da_semana_2.getColumnModel().getColumn(6).setResizable(false);
 
-		dias_da_semana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
-		scrollPane_1.setViewportView(dias_da_semana);
+		dias_da_semana_2.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
+		scrollPane_3.setViewportView(dias_da_semana_2);
+		
+		
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(35, 251, 740, 86);
+		contentPane.add(scrollPane_4);
+		
+		
+		
+		//Tabela próxima semana
+		data = Data.diaProximaSemana(data);
+		
+		proximaSemana = new JTable();
+		proximaSemana.setFont(new Font("Dialog", Font.PLAIN, 12));
+		scrollPane_4.setViewportView(proximaSemana);
+		
+		proximaSemana.setModel(new DefaultTableModel(new Object[][] {}, new String[] { 
+				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
+				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
+				formato.format(Data.addDias(data, 6)) 
+				}){
+
+	        private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean []{  
+	            false, false, false, false, false, false, false
+	        };  
+	   
+	        @Override  
+	        public boolean isCellEditable(int rowIndex, int columnIndex) {  
+	            return canEdit [columnIndex];  
+	        }
+	});
+		proximaSemana.getColumnModel().getColumn(0).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(1).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(2).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(3).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(4).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(5).setResizable(false);
+		proximaSemana.getColumnModel().getColumn(6).setResizable(false);
+		
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		proximaSemana.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+		proximaSemana.getColumnModel().getColumn(6).setCellRenderer(centralizado);
+		
+		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
+		
+		DefaultTableModel modelo2 = Escala.getModelProximaSemana(data);
+		
+		proximaSemana.setModel(modelo2);
 
 		this.setLocationRelativeTo(null);
 	}

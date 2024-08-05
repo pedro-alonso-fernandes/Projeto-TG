@@ -73,4 +73,12 @@ public class Data {
 		
 		return data;
 	}
+	
+	public static Date diaProximaSemana(Date data) {
+		
+		data = primeiroDiaSemana(data);
+		data = addDias(data, 7);
+		
+		return data;
+	}
 }
