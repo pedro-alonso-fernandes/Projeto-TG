@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
+import controller.BD;
 
 public class telaPrincipal extends JFrame {
 
@@ -38,6 +39,7 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		BD.criarBanco();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);

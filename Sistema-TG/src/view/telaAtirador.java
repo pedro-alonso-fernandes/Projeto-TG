@@ -85,7 +85,7 @@ public class telaAtirador extends JFrame {
 		
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 		
-		ResultSet rs = AtiradorDAO.getAtirador();
+		ResultSet rs = AtiradorDAO.getAtiradores();
 			
         try {
         	while(rs.next()){

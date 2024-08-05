@@ -71,8 +71,8 @@ public class AtiradorDAO {
 	}
 	
 	
-	
-	public static ResultSet getAtirador() {
+	// pega geral por Escala
+	public static ResultSet getAtiradores() {
 		String sql = "use TG;";
 
 		PreparedStatement ps = null;
@@ -98,6 +98,27 @@ public class AtiradorDAO {
 			return rs;
 		}
 	}
+	
+	//Pega atirador por ID
+		public static ResultSet getAtirador(int id) {
+			BD.selecionarDatabase();
+			
+			String sql = "select * from Atirador where id = ?;";
+			
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			
+			try {
+				ps = Conexao.getConexao().prepareStatement(sql);
+				ps.setString(1, String.valueOf(id));
+				rs = ps.executeQuery();
+				return rs;
+			} catch (SQLException e) {
+				System.out.println("Erro ao pegar o Atirador pelo id: " + e.getMessage());
+				return rs;
+			}
+		}
+	
 	
 
 }
