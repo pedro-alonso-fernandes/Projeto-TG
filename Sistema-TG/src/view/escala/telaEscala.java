@@ -112,11 +112,12 @@ public class telaEscala extends JFrame {
 		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();        
 
 		//Tabela semana atual
-		semanaAtual.setModel(new DefaultTableModel(new Object[][] {}, new String[] { 
+		String[] colunasAtual = {
 				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
 				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
-				formato.format(Data.addDias(data, 6)) 
-				}){
+				formato.format(Data.addDias(data, 6))
+		};
+		semanaAtual.setModel(new DefaultTableModel(new Object[][] {}, colunasAtual){
 
 	        private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean []{  
@@ -148,7 +149,8 @@ public class telaEscala extends JFrame {
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
-		DefaultTableModel modelo = Escala.getModelSemanaAtual(data);
+		DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
+		
 		
 		semanaAtual.setModel(modelo);
 		
@@ -185,11 +187,13 @@ public class telaEscala extends JFrame {
 		proximaSemana.setFont(new Font("Dialog", Font.PLAIN, 12));
 		scrollPane_4.setViewportView(proximaSemana);
 		
-		proximaSemana.setModel(new DefaultTableModel(new Object[][] {}, new String[] { 
+		String[] colunasProxima = {
 				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
 				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
-				formato.format(Data.addDias(data, 6)) 
-				}){
+				formato.format(Data.addDias(data, 6))
+		};
+		
+		proximaSemana.setModel(new DefaultTableModel(new Object[][] {}, colunasProxima){
 
 	        private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean []{  
@@ -221,7 +225,7 @@ public class telaEscala extends JFrame {
 		
 		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
-		DefaultTableModel modelo2 = Escala.getModelProximaSemana(data);
+		DefaultTableModel modelo2 = Escala.getModelProximaSemana(data, colunasProxima);
 		
 		proximaSemana.setModel(modelo2);
 
