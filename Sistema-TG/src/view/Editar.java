@@ -5,6 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.AtiradorDAO;
+import model.Atirador;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -17,6 +21,8 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Editar extends JDialog {
@@ -24,7 +30,9 @@ public class Editar extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField Campo1;
-	private JTextField textField;
+	private JTextField Campo2;
+	private JTextField Campid1;
+	private JTextField Campo3;
 
 	/**
 	 * Launch the application.
@@ -56,27 +64,27 @@ public class Editar extends JDialog {
 		
 		JLabel lblNewLabel_1 = new JLabel("Nome");
 		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1.setBounds(26, 148, 86, 21);
+		lblNewLabel_1.setBounds(26, 225, 86, 21);
 		contentPanel.add(lblNewLabel_1);
 		
 		Campo1 = new JTextField();
 		Campo1.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		Campo1.setColumns(10);
-		Campo1.setBounds(122, 150, 345, 25);
+		Campo1.setBounds(122, 221, 345, 25);
 		contentPanel.add(Campo1);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBounds(122, 202, 345, 25);
-		contentPanel.add(textField);
+		Campo2 = new JTextField();
+		Campo2.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		Campo2.setColumns(10);
+		Campo2.setBounds(122, 263, 345, 25);
+		contentPanel.add(Campo2);
 		
-		textField.addKeyListener(new KeyAdapter() {
+		Campo2.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				int codigo = e.getKeyChar();
 				
 				if(codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53 && codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8 && codigo != 65535 && codigo != 10) {
-					textField.setText("");
+					Campo2.setText("");
 				}
 			}
 		});
@@ -86,38 +94,27 @@ public class Editar extends JDialog {
 		
 		JLabel ID = new JLabel("ID");
 		ID.setFont(new Font("Arial Black", Font.BOLD, 22));
-		ID.setBounds(26, 202, 86, 21);
+		ID.setBounds(26, 267, 46, 21);
 		contentPanel.add(ID);
-		
-		JLabel lblFolga = new JLabel("Folga");
-		lblFolga.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblFolga.setBounds(26, 260, 86, 32);
-		contentPanel.add(lblFolga);
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(Integer.valueOf(-1), null, null, Integer.valueOf(1)));
-		spinner.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		spinner.setBounds(122, 248, 62, 44);
-		contentPanel.add(spinner);
 		
 		JLabel lblCargo = new JLabel("Cargo");
 		lblCargo.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblCargo.setBounds(26, 322, 86, 25);
+		lblCargo.setBounds(26, 351, 86, 25);
 		contentPanel.add(lblCargo);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Atirador");
 		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnNewRadioButton.setBounds(122, 329, 151, 21);
+		rdbtnNewRadioButton.setBounds(122, 353, 151, 21);
 		contentPanel.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
 		rdbtnMonitor.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnMonitor.setBounds(275, 329, 123, 21);
+		rdbtnMonitor.setBounds(275, 353, 123, 21);
 		contentPanel.add(rdbtnMonitor);
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnEditar.setBounds(65, 380, 178, 40);
+		btnEditar.setBounds(65, 408, 178, 40);
 		contentPanel.add(btnEditar);
 		
 		JButton btnVoltarAoMenu = new JButton("Menu Atirador");
@@ -129,27 +126,146 @@ public class Editar extends JDialog {
 			}
 		});
 		btnVoltarAoMenu.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnVoltarAoMenu.setBounds(310, 380, 178, 40);
+		btnVoltarAoMenu.setBounds(318, 408, 178, 40);
 		contentPanel.add(btnVoltarAoMenu);
+		
+		JLabel lblNewLabel_1_3_2 = new JLabel("ID");
+		lblNewLabel_1_3_2.setFont(new Font("Arial Black", Font.BOLD, 22));
+		lblNewLabel_1_3_2.setBounds(26, 139, 41, 21);
+		contentPanel.add(lblNewLabel_1_3_2);
+		
+		Campid1 = new JTextField();
+		Campid1.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				int codigo = e.getKeyChar();
+				if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
+						&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
+						&& codigo != 65535 && codigo != 10) {
+					Campid1.setText("");
+				}
+
+			}
+		});
+		Campid1.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		Campid1.setColumns(10);
+		Campid1.setBounds(122, 141, 217, 25);
+		contentPanel.add(Campid1);
+		
+		JButton Pesquisar = new JButton("Pesquisar");
+		Pesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (Campid1.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Incompleto",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campid1.getText()));
+						
+					try {
+						if (rs.next() == false) {
+							JOptionPane.showMessageDialog(null, "Esse ID não Existe!", "Incompleto",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							Campo1.setText(rs.getString("nome"));
+							Campo2.setText(String.valueOf(rs.getInt("id")));
+							Campo3.setText(rs.getString("guerra"));
+							
+							if(rs.getString("cargo").equalsIgnoreCase("Atirador")) {
+								rdbtnNewRadioButton.setSelected(true);
+							}
+							else if (rs.getString("cargo").equalsIgnoreCase("Monitor")) {
+								rdbtnMonitor.setSelected(true);
+							}
+							
+						}
+						
+						
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+						
+						
+				}
+				
+			}
+		});
+		Pesquisar.setFont(new Font("Arial Black", Font.BOLD, 10));
+		Pesquisar.setBounds(349, 142, 109, 25);
+		contentPanel.add(Pesquisar);
+		
+		JLabel texto = new JLabel("Pesquise o Atirador ou Monitor pelo ID!");
+		texto.setFont(new Font("Arial Black", Font.BOLD, 18));
+		texto.setBounds(76, 54, 420, 48);
+		contentPanel.add(texto);
+		
+		JLabel lblConfiraOsCampos = new JLabel("Confira os campos e Edite o Atirador ou Monitor");
+		lblConfiraOsCampos.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblConfiraOsCampos.setBounds(86, 97, 395, 21);
+		contentPanel.add(lblConfiraOsCampos);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Informações do Atirador ou Monitor ");
+		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblNewLabel_1_1.setBounds(132, 176, 324, 13);
+		contentPanel.add(lblNewLabel_1_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Pesquisado!");
+		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblNewLabel_2.setBounds(217, 194, 114, 17);
+		contentPanel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_1_1_1 = new JLabel("Nome de Guerra");
+		lblNewLabel_1_1_1.setFont(new Font("Arial Black", Font.BOLD, 22));
+		lblNewLabel_1_1_1.setBounds(26, 312, 219, 21);
+		contentPanel.add(lblNewLabel_1_1_1);
+		
+		Campo3 = new JTextField();
+		Campo3.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		Campo3.setColumns(10);
+		Campo3.setBounds(244, 314, 223, 25);
+		contentPanel.add(Campo3);
 		this.setLocationRelativeTo(null);
 		
 		btnEditar.addActionListener(new ActionListener() { 
 		 public void actionPerformed(ActionEvent e) { 
-			  try {
-				
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 			  
-			  if(Campo1.getText().equals("") || textField.getText().equals("") ||  (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false) || spinner.getValue().equals(-1) ) {
+			 
+			 if(Campo1.getText().equals("") || Campo2.getText().equals("") || Campo3.getText() .equals("") || (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false) ) {
 				  
-				  JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto", "Incompleto", JOptionPane.WARNING_MESSAGE);
+				  JOptionPane.showMessageDialog(null, "Sua Edição Está Incompleta", "Incompleto", JOptionPane.WARNING_MESSAGE);
 				  
 	 }
 			  else {
-				  
-			  }
-			  } });
+				  		Atirador atdr = new Atirador();
+				  		atdr.setNome(Campo1.getText());
+						atdr.setID(Integer.parseInt(Campo2.getText()));
+						atdr.setGuerra(Campo3.getText());
+							
+						if(rdbtnMonitor.isSelected() == true) {
+							atdr.setCargo(rdbtnMonitor.getText());
+						}
+						
+						else if (rdbtnNewRadioButton.isSelected() == true) {
+							atdr.setCargo(rdbtnNewRadioButton.getText());
+						}
+						
+						AtiradorDAO.EditarAtirador(atdr);
+						JOptionPane.showMessageDialog(null, "Edição Feita!");
+					}
+						
+					Campo1.setText("");
+					Campo2.setText("");
+					Campo3.setText("");
+					if(rdbtnMonitor.isSelected() == true) {
+						rdbtnMonitor.setSelected(false);
+					}
+					else if (rdbtnNewRadioButton.isSelected() == true){
+						rdbtnNewRadioButton.setSelected(false);
+					}
+				}
+			});
+
 		
 	}
 }

@@ -1,12 +1,15 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
+import controller.BD;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +36,7 @@ public class Remover extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField Campid;
 	private JTable table;
-
+	private int removerId = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -64,10 +67,6 @@ public class Remover extends JDialog {
 		contentPanel.add(lblNewLabel);
 
 		JButton Remover = new JButton("Remover");
-		Remover.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		Remover.setFont(new Font("Arial Black", Font.BOLD, 15));
 		Remover.setBounds(65, 421, 178, 40);
 		contentPanel.add(Remover);
@@ -85,13 +84,13 @@ public class Remover extends JDialog {
 		contentPanel.add(Menu);
 
 		JLabel texto = new JLabel("Pesquise o Atirador ou Monitor pelo ID!");
-		texto.setFont(new Font("Arial Black", Font.BOLD, 18));
-		texto.setBounds(75, 47, 420, 48);
+		texto.setFont(new Font("Arial Black", Font.BOLD, 19));
+		texto.setBounds(65, 47, 451, 48);
 		contentPanel.add(texto);
 
-		JLabel texto2 = new JLabel("Confira os campos e Remova o Atirador");
-		texto2.setFont(new Font("Arial Black", Font.BOLD, 15));
-		texto2.setBounds(120, 97, 352, 21);
+		JLabel texto2 = new JLabel("Confira os campos e Remova o Atirador ou Monitor");
+		texto2.setFont(new Font("Arial Black", Font.BOLD, 14));
+		texto2.setBounds(75, 94, 420, 21);
 		contentPanel.add(texto2);
 
 		JLabel lblNewLabel_1_3_2 = new JLabel("ID");
@@ -143,7 +142,7 @@ public class Remover extends JDialog {
 							JOptionPane.showMessageDialog(null, "O Atirador não Existe!", "Incompleto",
 									JOptionPane.WARNING_MESSAGE);
 						} else {
-							Campid.setText("");
+							removerId =  Integer.parseInt(Campid.getText());;
 							table.setModel(new DefaultTableModel(new Object[][] {},
 									new String[] { "ID", "Nome", "Guerra", "Cargo" }));
 
@@ -180,6 +179,26 @@ public class Remover extends JDialog {
 		table.getColumnModel().getColumn(3).setPreferredWidth(126);
 		scrollPane.setViewportView(table);
 
+		Remover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+			
+					if(removerId == 0) {
+						JOptionPane.showMessageDialog(null, "O Nenhum Atirador para ser Removido!", "Incompleto",
+								JOptionPane.ERROR_MESSAGE);
+
+					}
+						else {
+							AtiradorDAO.RemoverAtirador(removerId);
+							modelo = (DefaultTableModel) table.getModel();
+							modelo.removeRow(0);
+							table.setModel(modelo);
+							Campid.setText("");
+						}
+					
+			}
+		});
 		this.setLocationRelativeTo(null);
 	}
 }

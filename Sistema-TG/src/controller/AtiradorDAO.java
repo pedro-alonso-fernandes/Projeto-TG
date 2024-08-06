@@ -7,8 +7,6 @@ import model.Atirador;
 
 public class AtiradorDAO {
 
-
-
 	public static void cadastrarAtirador(Atirador atirador) {
 		String sql = "use TG;";
 
@@ -50,27 +48,26 @@ public class AtiradorDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
-		
+
 		String nome = null;
-		
+
 		sql = "select * from Atirador where id = ?;";
-		
+
 		ResultSet rs = null;
-		
+
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(ID));
-			rs = ps.executeQuery();		
+			rs = ps.executeQuery();
 			rs.next();
 			nome = rs.getString("guerra");
 		} catch (SQLException e) {
 			System.out.println("Erro ao buscar Atirador por ID: " + e.getMessage());
 		}
-		
+
 		return nome;
 	}
-	
-	
+
 	// pega geral por Escala
 	public static ResultSet getAtiradores() {
 		String sql = "use TG;";
@@ -84,11 +81,11 @@ public class AtiradorDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
-		
-		 sql = "select * from Atirador;";
-		
+
+		sql = "select * from Atirador;";
+
 		ResultSet rs = null;
-		
+
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -98,27 +95,68 @@ public class AtiradorDAO {
 			return rs;
 		}
 	}
-	
-	//Pega atirador por ID
-		public static ResultSet getAtirador(int id) {
-			BD.selecionarDatabase();
+
+	// Pega atirador por ID
+	public static ResultSet getAtirador(int id) {
+		BD.selecionarDatabase();
+
+		String sql = "select * from Atirador where id = ?;";
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar o Atirador pelo id: " + e.getMessage());
+			return rs;
+		}
+	}
+
+	// Apagar atirador selecionado
+	public static void RemoverAtirador(int id) {
+		BD.selecionarDatabase();
+		
+		String sql = "delete from Atirador where id = ?;";
+		
+		PreparedStatement ps = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			ps.execute();
+
 			
-			String sql = "select * from Atirador where id = ?;";
-			
-			PreparedStatement ps = null;
-			ResultSet rs = null;
-			
-			try {
-				ps = Conexao.getConexao().prepareStatement(sql);
-				ps.setString(1, String.valueOf(id));
-				rs = ps.executeQuery();
-				return rs;
-			} catch (SQLException e) {
-				System.out.println("Erro ao pegar o Atirador pelo id: " + e.getMessage());
-				return rs;
-			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	
-	
+	}
+	// Editar atirador selecionado
+	public static void EditarAtirador(Atirador atirador) {
+		BD.selecionarDatabase();
+		
+		String sql = "update Atirador set id = ?, nome = ?, guerra = ?, cargo = ? where id = ?;";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(atirador.getID()));
+			ps.setString(2, atirador.getNome());
+			ps.setString(3, atirador.getGuerra());
+			ps.setString(4, atirador.getCargo());
+			ps.setString(5, String.valueOf(atirador.getID()));
+			ps.execute();
+			ps.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }

@@ -158,6 +158,16 @@ public class CadastroAtirador extends JDialog {
 		Cguerra.setColumns(10);
 		Cguerra.setBounds(273, 245, 278, 25);
 		contentPanel.add(Cguerra);
+		
+		JLabel lblPreenchaAsInformaes = new JLabel("Preencha as informações ");
+		lblPreenchaAsInformaes.setFont(new Font("Arial Black", Font.BOLD, 19));
+		lblPreenchaAsInformaes.setBounds(142, 45, 296, 48);
+		contentPanel.add(lblPreenchaAsInformaes);
+		
+		JLabel lblConfiraOsCampos = new JLabel("Confira os campos e Cadastre o Atirador ou Monitor");
+		lblConfiraOsCampos.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblConfiraOsCampos.setBounds(83, 89, 427, 21);
+		contentPanel.add(lblConfiraOsCampos);
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
