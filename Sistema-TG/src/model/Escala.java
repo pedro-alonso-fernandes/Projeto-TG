@@ -115,11 +115,7 @@ public class Escala {
 		int[] atiradores2 = new int[7];
 		int[] atiradores3 = new int[7]; 
 		Date[] datas = new Date[7];
-//		try {
-//			dataEscala = formato.parse("29/07/2024");
-//		} catch (ParseException e) {
-//			System.out.println("Erro ao salvar data: " + e.getMessage());
-//		}
+
 		try {
 			int i = 0;
 			while(rs.next()) {
