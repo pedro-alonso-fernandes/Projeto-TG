@@ -26,7 +26,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
@@ -37,6 +39,7 @@ public class Remover extends JDialog {
 	private JTextField Campid;
 	private JTable table;
 	private int removerId = 0;
+
 	/**
 	 * Launch the application.
 	 */
@@ -135,6 +138,7 @@ public class Remover extends JDialog {
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
 					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campid.getText()));
+					String id = "0";
 
 					try {
 						if (rs.next() == false) {
@@ -142,17 +146,40 @@ public class Remover extends JDialog {
 							JOptionPane.showMessageDialog(null, "O Atirador não Existe!", "Incompleto",
 									JOptionPane.WARNING_MESSAGE);
 						} else {
-							removerId =  Integer.parseInt(Campid.getText());;
+							removerId = Integer.parseInt(Campid.getText());
+							;
 							table.setModel(new DefaultTableModel(new Object[][] {},
-									new String[] { "ID", "Nome", "Guerra", "Cargo" }));
+									new String[] { "ID", "Nome", "Nome de Guerra", "Cargo" }));
 
 							table.getColumnModel().getColumn(1).setPreferredWidth(330);
-							table.getColumnModel().getColumn(2).setPreferredWidth(104);
-							table.getColumnModel().getColumn(3).setPreferredWidth(126);
+							table.getColumnModel().getColumn(2).setPreferredWidth(124);
+							table.getColumnModel().getColumn(3).setPreferredWidth(106);
+							table.getTableHeader().setReorderingAllowed(false);
+							table.setEnabled(false);
+
 							modelo = (DefaultTableModel) table.getModel();
-							modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("nome"), rs.getString("guerra"),
-									rs.getString("cargo") });
-							table.setModel(modelo);
+
+							DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+							centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+
+							table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+							table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+							table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+							table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+							table.getTableHeader().setReorderingAllowed(false);
+							table.setEnabled(false);
+							table.getTableHeader().setReorderingAllowed(false);
+							table.getColumnModel().getColumn(0).setResizable(false);
+							table.getColumnModel().getColumn(1).setResizable(false);
+							table.getColumnModel().getColumn(2).setResizable(false);
+							table.getColumnModel().getColumn(3).setResizable(false);
+							if (rs.getInt("id") < 10) {
+								modelo.addRow(new Object[] { id = "0" + rs.getInt("id"), rs.getString("nome"),
+										rs.getString("guerra"), rs.getString("cargo") });
+							} else {
+								modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("nome"),
+										rs.getString("guerra"), rs.getString("cargo") });
+							}
 						}
 					} catch (SQLException ex) {
 						// TODO Auto-generated catch block
@@ -172,31 +199,38 @@ public class Remover extends JDialog {
 		contentPanel.add(scrollPane);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nome", "Guerra", "Cargo" }));
-
+		table.setModel(
+				new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nome", "Nome de Guerra", "Cargo" }));
 		table.getColumnModel().getColumn(1).setPreferredWidth(330);
-		table.getColumnModel().getColumn(2).setPreferredWidth(104);
-		table.getColumnModel().getColumn(3).setPreferredWidth(126);
+		table.getColumnModel().getColumn(2).setPreferredWidth(124);
+		table.getColumnModel().getColumn(3).setPreferredWidth(106);
 		scrollPane.setViewportView(table);
+		table.setEnabled(false);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
 
 		Remover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-			
-					if(removerId == 0) {
-						JOptionPane.showMessageDialog(null, "O Nenhum Atirador para ser Removido!", "Incompleto",
-								JOptionPane.ERROR_MESSAGE);
 
-					}
-						else {
-							AtiradorDAO.RemoverAtirador(removerId);
-							modelo = (DefaultTableModel) table.getModel();
-							modelo.removeRow(0);
-							table.setModel(modelo);
-							Campid.setText("");
-						}
-					
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+
+				if (removerId == 0) {
+					JOptionPane.showMessageDialog(null, "Nenhum Atirador para ser Removido!", "Incompleto",
+							JOptionPane.ERROR_MESSAGE);
+
+				} else {
+					AtiradorDAO.RemoverAtirador(removerId);
+					modelo = (DefaultTableModel) table.getModel();
+					modelo.removeRow(0);
+					table.setModel(modelo);
+					Campid.setText("");
+					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Incompleto",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
 			}
 		});
 		this.setLocationRelativeTo(null);

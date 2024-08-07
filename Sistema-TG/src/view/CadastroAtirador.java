@@ -195,16 +195,16 @@ public class CadastroAtirador extends JDialog {
 					
 					AtiradorDAO.cadastrarAtirador(atdr);
 					JOptionPane.showMessageDialog(null, "Cadastro Feito");
-				}
 					
-				textField.setText("");
-				textField_2.setText("");
-				Cguerra.setText("");
-				if(rdbtnMonitor.isSelected() == true) {
-					rdbtnMonitor.setSelected(false);
-				}
-				else if (rdbtnNewRadioButton.isSelected() == true){
-					rdbtnNewRadioButton.setSelected(false);
+					textField.setText("");
+					textField_2.setText("");
+					Cguerra.setText("");
+					if(rdbtnMonitor.isSelected() == true) {
+						rdbtnMonitor.setSelected(false);
+					}
+					else if (rdbtnNewRadioButton.isSelected() == true){
+						rdbtnNewRadioButton.setSelected(false);
+					}
 				}
 				
 

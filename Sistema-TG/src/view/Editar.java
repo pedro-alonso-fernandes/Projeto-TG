@@ -112,6 +112,26 @@ public class Editar extends JDialog {
 		rdbtnMonitor.setBounds(275, 353, 123, 21);
 		contentPanel.add(rdbtnMonitor);
 		
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (rdbtnMonitor.isSelected()) {
+					rdbtnMonitor.setSelected(false);
+				}
+			}
+		});
+
+		rdbtnMonitor.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				if (rdbtnNewRadioButton.isSelected()) {
+					rdbtnNewRadioButton.setSelected(false);
+				}
+
+			}
+		});
+		
+		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setFont(new Font("Arial Black", Font.BOLD, 15));
 		btnEditar.setBounds(65, 408, 178, 40);
@@ -168,14 +188,21 @@ public class Editar extends JDialog {
 						}
 						else {
 							Campo1.setText(rs.getString("nome"));
-							Campo2.setText(String.valueOf(rs.getInt("id")));
+							if (rs.getInt("id") < 10) {
+								Campo2.setText("0" + String.valueOf(rs.getInt("id")));
+							} else {
+								Campo2.setText(String.valueOf(rs.getInt("id")));
+							}
+							
 							Campo3.setText(rs.getString("guerra"));
 							
 							if(rs.getString("cargo").equalsIgnoreCase("Atirador")) {
 								rdbtnNewRadioButton.setSelected(true);
+								rdbtnMonitor.setSelected(false);
 							}
 							else if (rs.getString("cargo").equalsIgnoreCase("Monitor")) {
 								rdbtnMonitor.setSelected(true);
+								rdbtnNewRadioButton.setSelected(false);
 							}
 							
 						}
@@ -250,9 +277,10 @@ public class Editar extends JDialog {
 							atdr.setCargo(rdbtnNewRadioButton.getText());
 						}
 						
-						AtiradorDAO.EditarAtirador(atdr);
-						JOptionPane.showMessageDialog(null, "Edição Feita!");
-					}
+						AtiradorDAO.EditarAtirador(atdr , Integer.parseInt(Campid1.getText()));
+						JOptionPane.showMessageDialog(null, "Edição Feita!" , "Completa" , JOptionPane.INFORMATION_MESSAGE);
+						Campid1.setText("");
+			  }
 						
 					Campo1.setText("");
 					Campo2.setText("");

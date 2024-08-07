@@ -136,7 +136,7 @@ public class AtiradorDAO {
 	
 	}
 	// Editar atirador selecionado
-	public static void EditarAtirador(Atirador atirador) {
+	public static void EditarAtirador(Atirador atirador , int id) {
 		BD.selecionarDatabase();
 		
 		String sql = "update Atirador set id = ?, nome = ?, guerra = ?, cargo = ? where id = ?;";
@@ -149,7 +149,7 @@ public class AtiradorDAO {
 			ps.setString(2, atirador.getNome());
 			ps.setString(3, atirador.getGuerra());
 			ps.setString(4, atirador.getCargo());
-			ps.setString(5, String.valueOf(atirador.getID()));
+			ps.setString(5, String.valueOf(id));
 			ps.execute();
 			ps.close();
 			
