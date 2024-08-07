@@ -1,5 +1,8 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -7,6 +10,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.sound.sampled.TargetDataLine;
+import javax.swing.table.DefaultTableModel;
+
+import controller.AtiradorDAO;
+import controller.Data;
+import controller.EscalaDAO;
+import view.escala.telaEscala;
 
 public class Escala {
 
@@ -81,6 +90,883 @@ public class Escala {
 
 	public void setAtirador3Id(int atirador3Id) {
 		this.atirador3Id = atirador3Id;
+	}
+	
+	public static DefaultTableModel getModelSemanaAtual(Date data, String[] colunas) {
+		DefaultTableModel modelo = (DefaultTableModel) telaEscala.semanaAtual.getModel();
+		modelo = getModel(data, modelo, "semanaAtual", colunas);
+		return modelo;
+	}
+	
+	public static DefaultTableModel getModelProximaSemana(Date data, String[] colunas) {
+		DefaultTableModel modelo = (DefaultTableModel) telaEscala.proximaSemana.getModel();
+		modelo = getModel(data, modelo, "proximaSemana", colunas);
+		return modelo;
+	}
+	
+	private static DefaultTableModel getModel (Date data, DefaultTableModel modelo, String tabela, String[] colunas) {
+		
+		ResultSet rs = EscalaDAO.getEscalaSemana(data);
+		
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		
+		int[] monitores = new int[7];
+		int[] atiradores1 = new int[7];
+		int[] atiradores2 = new int[7];
+		int[] atiradores3 = new int[7]; 
+		Date[] datas = new Date[7];
+
+		try {
+			int i = 0;
+			while(rs.next()) {
+				
+				datas[i] = rs.getDate("data");
+				monitores[i] = rs.getInt("monitorId");
+				atiradores1[i] = rs.getInt("atirador1Id");
+				atiradores2[i] = rs.getInt("atirador2Id");
+				atiradores3[i] = rs.getInt("atirador3Id");
+				i++;
+			}
+			
+		} catch(SQLException e) {
+			System.out.println("Erro " + e.getMessage());
+		}
+		
+		
+		
+		
+		if(datas[0] != null) {
+			String[] linha = new String[7];
+			int correcao = 0;
+			int j = 0;
+			
+			switch (Data.getDiaSemana(datas[0])) {
+			case "DOM":
+				//Monitores
+				for(int i = 0; i < 7; i++) {
+					if(monitores[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 1
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(atiradores1[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 2
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(atiradores2[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 3
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(atiradores3[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				break;
+				
+				
+				
+				
+			case "SEG":
+				//Monitores
+				for(int i = 0; i < 7; i++) {
+					if(i < 1) {
+						linha[i] = "";
+						continue;
+					}
+					else if(monitores[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 1
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 1) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores1[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 2
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 1) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores2[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 3
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 1) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores3[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				break;
+				
+				
+				
+				
+			case "TER":
+				//Monitores
+				for(int i = 0; i < 7; i++) {
+					if(i < 2) {
+						linha[i] = "";
+						continue;
+					}
+					else if(monitores[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 1
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 2) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores1[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 2
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 2) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores2[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 3
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 2) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores3[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				break;
+				
+				
+				
+			case "QUA":
+				//Monitores
+				for(int i = 0; i < 7; i++) {
+					if(i < 3) {
+						linha[i] = "";
+						continue;
+					}
+					else if(monitores[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 1
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 3) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores1[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 2
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 3) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores2[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 3
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 3) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores3[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				break;
+				
+				
+				
+				
+			case "QUI":
+				//Monitores
+				for(int i = 0; i < 7; i++) {
+					if(i < 4) {
+						linha[i] = "";
+						continue;
+					}
+					else if(monitores[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 1
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 4) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores1[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 2
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 4) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores2[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				//Atiradores 3
+				correcao = 0;
+				j = 0;
+				for(int i = 0; i < 7; i++) {
+					if(i < 4) {
+						linha[i] = "";
+						continue;
+					}
+					else if(atiradores3[j] == 0) {
+						linha[i] = "";
+						j++;
+						continue;
+					}
+					else if(!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
+						linha[i] = "";
+						continue;
+					}
+					else if(correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					}
+					else if(correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					}
+					else {
+						linha[i] = "";
+					}
+				}
+				modelo.addRow(linha);
+				
+				break;
+				
+				
+				
+				
+			case "SEX":
+				for(int i = 0; i < 7; i++) {
+					if(i < 5 || monitores[i - 5] == 0) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 5]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 5 || atiradores1[i - 5] == 0) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 5]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 5 || atiradores2[i - 5] == 0) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 5]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 5 || atiradores3[i - 5] == 0) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 5]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				break;
+				
+				
+				
+				
+			case "SAB":
+				for(int i = 0; i < 7; i++) {
+					if(i < 6) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 6]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 6) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 6]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 6) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 6]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				for(int i = 0; i < 7; i++) {
+					if(i < 6) {
+						linha[i] = "";
+					}
+					else {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 6]);
+					}
+				}
+				modelo.addRow(linha);
+				
+				break;
+			}
+		}
+		else {
+			String[] linha = {"", "", "", "", "", "", ""};
+			modelo.addRow(linha);
+			modelo.addRow(linha);
+			modelo.addRow(linha);
+			modelo.addRow(linha);
+			if(tabela.equals("semanaAtual")) {
+				telaEscala.aviso1 = true;
+			}
+			else if(tabela.equals("proximaSemana")) {
+				telaEscala.aviso2 = true;
+			}
+		}
+		
+		return modelo;
 	}
 	
 }
