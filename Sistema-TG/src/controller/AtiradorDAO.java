@@ -68,7 +68,7 @@ public class AtiradorDAO {
 		return nome;
 	}
 
-	// pega geral por Escala
+	// pega geral para a Escala
 	public static ResultSet getAtiradores() {
 		String sql = "use TG;";
 
@@ -193,6 +193,24 @@ public class AtiradorDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao cadastrar qtdGuarda: " + e.getMessage());
 		}
+	}
+	
+	public static int getIdUltimoAtirador() {
+		int id = 0;
+		ResultSet rs = null;
+		String sql = "select id from Atirador order by id desc limit 1;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			id = rs.getInt("id");
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar id do ultimo atirador: " + e.getMessage());
+		}
+		
+		return id;
 	}
 
 }
