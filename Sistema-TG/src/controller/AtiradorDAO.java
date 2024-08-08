@@ -32,7 +32,7 @@ public class AtiradorDAO {
 			ps.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Erro ao cadastrar Atirador: " + e.getMessage());
 		}
 	}
 
@@ -157,6 +157,42 @@ public class AtiradorDAO {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	//Método para preencher a tabela da tela folga
+	public static ResultSet getAtiradoresEscala(int id) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Atirador where id >= ? and id < ?;";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			ps.setString(2, String.valueOf(id + 5));
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar Atiradores para Tabela Folga: " + e.getMessage());
+		}
+		
+		return rs;
+	}
+	
+	public static void cadastrarQtdGuarda(int id, int qtd) {
+		BD.selecionarDatabase();
+		
+		String sql = "update Atirador set qtdGuarda = ? where id = ?;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(qtd));
+			ps.setString(2, String.valueOf(id));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao cadastrar qtdGuarda: " + e.getMessage());
+		}
 	}
 
 }

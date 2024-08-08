@@ -82,7 +82,7 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(35, 88, 740, 20);
+		scrollPane_1.setBounds(35, 103, 740, 20);
 		contentPane.add(scrollPane_1);
 		
 		dias_da_semana = new JTable();
@@ -100,7 +100,7 @@ public class telaEscala extends JFrame {
 		scrollPane_1.setViewportView(dias_da_semana);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(35, 107, 740, 86);
+		scrollPane_2.setBounds(35, 122, 740, 86);
 		contentPane.add(scrollPane_2);
 
 		semanaAtual = new JTable();
@@ -155,7 +155,7 @@ public class telaEscala extends JFrame {
 		semanaAtual.setModel(modelo);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(35, 233, 740, 20);
+		scrollPane_3.setBounds(35, 274, 740, 20);
 		contentPane.add(scrollPane_3);
 		
 		dias_da_semana_2 = new JTable();
@@ -175,7 +175,7 @@ public class telaEscala extends JFrame {
 		
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setBounds(35, 251, 740, 86);
+		scrollPane_4.setBounds(35, 292, 740, 86);
 		contentPane.add(scrollPane_4);
 		
 		
@@ -228,6 +228,16 @@ public class telaEscala extends JFrame {
 		DefaultTableModel modelo2 = Escala.getModelProximaSemana(data, colunasProxima);
 		
 		proximaSemana.setModel(modelo2);
+		
+		JLabel lblSemanaAtual = new JLabel("Semana Atual");
+		lblSemanaAtual.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblSemanaAtual.setBounds(337, 76, 119, 15);
+		contentPane.add(lblSemanaAtual);
+		
+		JLabel lblPrxmaSemana = new JLabel("Próxima Semana");
+		lblPrxmaSemana.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblPrxmaSemana.setBounds(323, 247, 141, 15);
+		contentPane.add(lblPrxmaSemana);
 
 		this.setLocationRelativeTo(null);
 	}

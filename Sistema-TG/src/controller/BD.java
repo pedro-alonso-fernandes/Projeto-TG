@@ -23,7 +23,8 @@ public class BD {
 				+ "id int not null primary key,"
 				+ "nome varchar(100) not null," 
 				+ "guerra varchar(30) not null,"
-				+ "cargo varchar(20) not null);";
+				+ "cargo varchar(20) not null,"
+				+ "qtdGuarda int null);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
