@@ -7,7 +7,7 @@ public class Conexao {
 	private static String DriveMySQL = "com.mysql.cj.jdbc.Driver";
 	private static String URLBD = "jdbc:mysql://localhost:3306";
 	private static String usuario = "root";
-	private static String senha = "root";
+	private static String senha = "pedro123";
 	private static Connection conexao;
 	
 	public static Connection getConexao() {

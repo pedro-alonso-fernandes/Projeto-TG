@@ -63,7 +63,7 @@ public class telaFolga extends JFrame {
 		contentPane.add(lblTelaFolga);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 76, 557, 102);
+		scrollPane.setBounds(12, 76, 557, 262);
 		contentPane.add(scrollPane);
 		
 		JLabel lblCodigo = new JLabel("");
@@ -135,17 +135,18 @@ public class telaFolga extends JFrame {
 		
 		JButton btnProximo = new JButton(">");
 		btnProximo.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnProximo.setBounds(519, 188, 50, 25);
+		btnProximo.setBounds(519, 372, 50, 25);
 		contentPane.add(btnProximo);
+		
 		
 		//Anterior
 		JButton btnAnterior = new JButton("<");
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer id = (Integer) table.getModel().getValueAt(0, 0) - 5;
-				ResultSet rs = AtiradorDAO.getAtiradoresEscala(id);
+				int ultimaLinha = table.getModel().getRowCount() - 1;
+				Integer id = (Integer) table.getModel().getValueAt(0, 0) - 15;
+				ResultSet rs = AtiradorDAO.getAtiradoresFolga(id, 15);
 				int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
-				int resultado = 0;
 				
 				try {
 					limparTabela();
@@ -160,9 +161,10 @@ public class telaFolga extends JFrame {
 					table.setModel(modelo);
 					contador--;
 					
-					resultado = (contador + 1) * 5;
+					ultimaLinha = table.getModel().getRowCount() - 1;
+					id = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
 					
-					if(resultado < idUltimoAtirador) {
+					if(id < idUltimoAtirador) {
 						btnProximo.setVisible(true);
 						if(contador == 0) {
 							btnAnterior.setVisible(false);
@@ -175,12 +177,15 @@ public class telaFolga extends JFrame {
 			}
 		});
 		btnAnterior.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnAnterior.setBounds(12, 187, 50, 25);
+		btnAnterior.setBounds(12, 372, 50, 25);
 		btnAnterior.setVisible(false);
 		contentPane.add(btnAnterior);
 		
+		
+		
+		
 		// Popular tabela inicial
-		ResultSet rs = AtiradorDAO.getAtiradoresEscala(1);
+		ResultSet rs = AtiradorDAO.getAtiradoresFolga(1, 15);
 		try {
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
@@ -192,13 +197,16 @@ public class telaFolga extends JFrame {
 			System.out.println("Erro ao preecher tabela folga: " + e.getMessage());
 		}
 		
+		
+		
+		
 		//Próximo
 		btnProximo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer id = (Integer) table.getModel().getValueAt(4, 0) + 1;
-				ResultSet rs = AtiradorDAO.getAtiradoresEscala(id);
+				int ultimaLinha = table.getModel().getRowCount() - 1;
+				Integer id = (Integer) table.getModel().getValueAt(ultimaLinha, 0) + 1;
+				ResultSet rs = AtiradorDAO.getAtiradoresFolga(id, 15);
 				int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
-				int resultado = 0;
 				
 				try {
 					limparTabela();
@@ -213,11 +221,13 @@ public class telaFolga extends JFrame {
 					
 					table.setModel(modelo);
 					contador++;
-					resultado = (contador + 1) * 5;
+					
+					ultimaLinha = table.getModel().getRowCount() - 1;
+					id = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
 					
 					if(contador > 0) {
 						btnAnterior.setVisible(true);
-						if(resultado == idUltimoAtirador) {
+						if(id >= idUltimoAtirador) { 
 							btnProximo.setVisible(false);
 						}
 					}
