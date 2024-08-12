@@ -49,7 +49,8 @@ public class telaFolga extends JFrame {
 	 * Create the frame.
 	 */
 	public telaFolga() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		setBounds(100, 100, 586, 544);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,17 +101,9 @@ public class telaFolga extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta"
+				"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda"
 			}
-		) {
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		));
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(27);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -121,12 +114,14 @@ public class telaFolga extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(107);
 		table.getColumnModel().getColumn(4).setResizable(false);
 		table.getColumnModel().getColumn(4).setPreferredWidth(83);
+		table.getColumnModel().getColumn(5).setResizable(false);
+		table.getColumnModel().getColumn(5).setPreferredWidth(82);
 		table.getTableHeader().setReorderingAllowed(false);
 		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
        
@@ -135,7 +130,7 @@ public class telaFolga extends JFrame {
 		
 		JButton btnProximo = new JButton(">");
 		btnProximo.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnProximo.setBounds(519, 372, 50, 25);
+		btnProximo.setBounds(519, 350, 50, 25);
 		contentPane.add(btnProximo);
 		
 		
@@ -154,7 +149,7 @@ public class telaFolga extends JFrame {
 					
 					while (rs.next()) {
 						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", ""
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
 				                });
 					}
 					
@@ -177,9 +172,14 @@ public class telaFolga extends JFrame {
 			}
 		});
 		btnAnterior.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnAnterior.setBounds(12, 372, 50, 25);
+		btnAnterior.setBounds(12, 350, 50, 25);
 		btnAnterior.setVisible(false);
 		contentPane.add(btnAnterior);
+		
+		JButton btnNewButton = new JButton("Gerar Escala");
+		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnNewButton.setBounds(222, 474, 138, 34);
+		contentPane.add(btnNewButton);
 		
 		
 		
@@ -190,7 +190,7 @@ public class telaFolga extends JFrame {
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[]{
-		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", ""
+		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
 		                });
 			}
 		} catch (SQLException e) {
@@ -214,7 +214,7 @@ public class telaFolga extends JFrame {
 					
 					while (rs.next()) {
 						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", ""
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
 				                });
 					}
 					
@@ -246,17 +246,9 @@ public class telaFolga extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta"
+					"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda"
 				}
-			) {
-				private static final long serialVersionUID = 1L;
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, true, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
+			));
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(27);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -267,12 +259,14 @@ public class telaFolga extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(107);
 		table.getColumnModel().getColumn(4).setResizable(false);
 		table.getColumnModel().getColumn(4).setPreferredWidth(83);
+		table.getColumnModel().getColumn(5).setResizable(false);
+		table.getColumnModel().getColumn(5).setPreferredWidth(82);
 		table.getTableHeader().setReorderingAllowed(false);
 		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
 	}
