@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,10 @@ public class telaFolga extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private int contador = 0;
+	private int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
+	private int[] folgaVermelha = new int[idUltimoAtirador];
+	private int[] folgaPreta = new int[idUltimoAtirador];
+	private int[] qtdGuarda = new int[idUltimoAtirador];
 
 	/**
 	 * Launch the application.
@@ -124,6 +129,7 @@ public class telaFolga extends JFrame {
 		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+        table.getColumnModel().getColumn(5).setCellRenderer(centralizado);
        
 
 		scrollPane.setViewportView(table);
@@ -134,52 +140,16 @@ public class telaFolga extends JFrame {
 		contentPane.add(btnProximo);
 		
 		
-		//Anterior
 		JButton btnAnterior = new JButton("<");
-		btnAnterior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int ultimaLinha = table.getModel().getRowCount() - 1;
-				Integer id = (Integer) table.getModel().getValueAt(0, 0) - 15;
-				ResultSet rs = AtiradorDAO.getAtiradoresFolga(id, 15);
-				int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
-				
-				try {
-					limparTabela();
-					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-					
-					while (rs.next()) {
-						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
-				                });
-					}
-					
-					table.setModel(modelo);
-					contador--;
-					
-					ultimaLinha = table.getModel().getRowCount() - 1;
-					id = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
-					
-					if(id < idUltimoAtirador) {
-						btnProximo.setVisible(true);
-						if(contador == 0) {
-							btnAnterior.setVisible(false);
-						}
-					}
-					
-				} catch (SQLException ex) {
-					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
-				}
-			}
-		});
 		btnAnterior.setFont(new Font("Dialog", Font.BOLD, 13));
 		btnAnterior.setBounds(12, 350, 50, 25);
 		btnAnterior.setVisible(false);
 		contentPane.add(btnAnterior);
 		
-		JButton btnNewButton = new JButton("Gerar Escala");
-		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnNewButton.setBounds(222, 474, 138, 34);
-		contentPane.add(btnNewButton);
+		JButton btnEscala = new JButton("Gerar Escala");
+		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnEscala.setBounds(222, 474, 138, 34);
+		contentPane.add(btnEscala);
 		
 		
 		
@@ -190,7 +160,7 @@ public class telaFolga extends JFrame {
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[]{
-		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
+		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
 		                });
 			}
 		} catch (SQLException e) {
@@ -200,21 +170,39 @@ public class telaFolga extends JFrame {
 		
 		
 		
+		
 		//Próximo
 		btnProximo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ultimaLinha = table.getModel().getRowCount() - 1;
-				Integer id = (Integer) table.getModel().getValueAt(ultimaLinha, 0) + 1;
-				ResultSet rs = AtiradorDAO.getAtiradoresFolga(id, 15);
-				int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
+				Integer idProximo = (Integer) table.getModel().getValueAt(ultimaLinha, 0) + 1;
+				ResultSet rs = AtiradorDAO.getAtiradoresFolga(idProximo, 15);
+				int idUltimo = idProximo - 1;
 				
 				try {
+					
+					ultimaLinha++;
+					int j = 0;
+					for(int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
+						String celula = (String) table.getModel().getValueAt(j, 3);
+						folgaVermelha[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 4);
+						folgaPreta[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 5);
+						qtdGuarda[i] = Integer.parseInt(celula);
+						
+						j++;
+					}
+					ultimaLinha--;
+					
 					limparTabela();
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					
 					while (rs.next()) {
 						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "", "", ""
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
 				                });
 					}
 					
@@ -223,23 +211,106 @@ public class telaFolga extends JFrame {
 					contador++;
 					
 					ultimaLinha = table.getModel().getRowCount() - 1;
-					id = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
+					idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
 					
 					if(contador > 0) {
 						btnAnterior.setVisible(true);
-						if(id >= idUltimoAtirador) { 
+						if(idUltimo >= idUltimoAtirador) { 
 							btnProximo.setVisible(false);
 						}
 					}
 					
 				} catch (SQLException ex) {
 					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
+				} catch (NumberFormatException ey) {
+					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
+					System.out.println("Erro ao pegar valores da tabela: " + ey.getMessage());
 				}
+			}
+		});
+		
+		
+		
+		
+		//Anterior
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int ultimaLinha = table.getModel().getRowCount() - 1;
+				Integer idAnterior = (Integer) table.getModel().getValueAt(0, 0) - 15;
+				ResultSet rs = AtiradorDAO.getAtiradoresFolga(idAnterior, 15);
+				int idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
+				
+				try {
+					
+					ultimaLinha++;
+					int j = 0;
+					for(int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
+						String celula = (String) table.getModel().getValueAt(j, 3);
+						folgaVermelha[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 4);
+						folgaPreta[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 5);
+						qtdGuarda[i] = Integer.parseInt(celula);
+						
+						j++;
+					}
+					ultimaLinha--;
+					
+					limparTabela();
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					
+					while (rs.next()) {
+						modelo.addRow(new Object[]{
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
+				                });
+					}
+					
+					table.setModel(modelo);
+					contador--;
+					
+					ultimaLinha = table.getModel().getRowCount() - 1;
+					idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
+					
+					if(idUltimo < idUltimoAtirador) {
+						btnProximo.setVisible(true);
+						if(contador == 0) {
+							btnAnterior.setVisible(false);
+						}
+					}
+					
+				} catch (SQLException ex) {
+					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
+				} catch (NumberFormatException ey) {
+					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
+					System.out.println("Erro ao pegar valores da tabela: " + ey.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		btnEscala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					
+					
+					
+				}catch(ClassCastException ex) {
+					JOptionPane.showMessageDialog(null, "O valor informado não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
+				}
+				
 			}
 		});
 		
 		this.setLocationRelativeTo(null);	
 	}
+	
+	
+	
+	
 	
 	private void limparTabela() {
 		table.setModel(new DefaultTableModel(
@@ -269,5 +340,6 @@ public class telaFolga extends JFrame {
 		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+        table.getColumnModel().getColumn(5).setCellRenderer(centralizado);
 	}
 }

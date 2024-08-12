@@ -197,6 +197,8 @@ public class AtiradorDAO {
 	
 	
 	public static int getIdUltimoAtirador() {
+		BD.selecionarDatabase();
+		
 		int id = 0;
 		ResultSet rs = null;
 		String sql = "select id from Atirador order by id desc limit 1;";
