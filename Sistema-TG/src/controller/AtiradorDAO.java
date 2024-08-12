@@ -160,7 +160,7 @@ public class AtiradorDAO {
 	}
 	
 	//Método para preencher a tabela da tela folga
-	public static ResultSet getAtiradoresEscala(int id) {
+	public static ResultSet getAtiradoresFolga(int id, int contador) {
 		BD.selecionarDatabase();
 		
 		String sql = "select * from Atirador where id >= ? and id < ?;";
@@ -170,7 +170,7 @@ public class AtiradorDAO {
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(id));
-			ps.setString(2, String.valueOf(id + 5));
+			ps.setString(2, String.valueOf(id + contador));
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
 			System.out.println("Erro ao pegar Atiradores para Tabela Folga: " + e.getMessage());
