@@ -20,7 +20,7 @@ public class AtiradorDAO {
 			System.out.println("Erro ao acessar o database TG: " + e.getMessage());
 		}
 
-		sql = "insert into Atirador (id, nome, guerra, cargo) values (?, ?, ?, ?);";
+		sql = "insert into Atirador (id, nome, guerra, cargo, qtdGuarda) values (?, ?, ?, ?, 0);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -194,6 +194,7 @@ public class AtiradorDAO {
 			System.out.println("Erro ao cadastrar qtdGuarda: " + e.getMessage());
 		}
 	}
+	
 	
 	public static int getIdUltimoAtirador() {
 		int id = 0;

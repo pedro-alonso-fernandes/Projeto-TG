@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
+import controller.BD;
 import controller.Conexao;
 import controller.GerarPdf;
 
@@ -81,9 +82,9 @@ public class telaAtirador extends JFrame {
 				"ID", "Nome", "Nome de Guerra", "Cargo"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(58);
-		table.getColumnModel().getColumn(1).setPreferredWidth(311);
-		table.getColumnModel().getColumn(2).setPreferredWidth(160);
+		table.getColumnModel().getColumn(0).setPreferredWidth(48);
+		table.getColumnModel().getColumn(1).setPreferredWidth(411);
+		table.getColumnModel().getColumn(2).setPreferredWidth(130);
 		table.getColumnModel().getColumn(3).setPreferredWidth(105);
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);

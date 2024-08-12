@@ -43,7 +43,7 @@ public class  GerarPdf {
 			String Data1 = "Data: ";
 			Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 16, BaseColor.BLACK);
 			Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14, BaseColor.BLACK);
-			Image imagem = Image.getInstance("file:///C:/Users/gabri/Desktop/Projeto-TG/Sistema-TG/src/model/images/Ex.png");
+			Image imagem = Image.getInstance("src/model/images/Ex.png");
 			Paragraph paragrafo1 = new Paragraph("Todos os Atiradores do Tiro de Guerra - 01-013", font);
 			imagem.scalePercent(75);
 			paragrafo1.add(imagem);
@@ -60,7 +60,8 @@ public class  GerarPdf {
 			document.add(new Paragraph("     "));
 			// TABELA Atiradores
 
-			PdfPTable tabela = new PdfPTable(5);
+			float[] colsWidth = {0.5f, 3.5f, 1f, 1f, 1f}; 
+			 PdfPTable tabela = new PdfPTable(colsWidth);
 			Paragraph paraid = new Paragraph("ID" , font2);
 			PdfPCell coll1 = new PdfPCell(paraid);
 			tabela.addCell(coll1).setHorizontalAlignment(1);
@@ -70,7 +71,7 @@ public class  GerarPdf {
 			tabela.addCell(coll3).setHorizontalAlignment(1);
 			PdfPCell coll4 = new PdfPCell(new Paragraph("Cargo" , font2));
 			tabela.addCell(coll4).setHorizontalAlignment(1);
-			PdfPCell coll5 = new PdfPCell(new Paragraph("QTD-Guardas" , font2));
+			PdfPCell coll5 = new PdfPCell(new Paragraph("Qtd Guardas" , font2));
 			tabela.addCell(coll5).setHorizontalAlignment(1);
 			
 			
@@ -83,25 +84,25 @@ public class  GerarPdf {
 					if (rs.getInt("id") < 10) {
 						PdfPCell colid = new PdfPCell(new Paragraph(String.valueOf(id + rs.getInt("id"))));
 						tabela.addCell(colid).setHorizontalAlignment(1);
-						PdfPCell colnome = new PdfPCell(new Paragraph(new Paragraph (rs.getString("nome"))));
+						PdfPCell colnome = new PdfPCell(new Paragraph (rs.getString("nome")));
 						tabela.addCell(colnome).setHorizontalAlignment(1);
-						PdfPCell colguerra = new PdfPCell(new Paragraph(new Paragraph (rs.getString("guerra"))));
+						PdfPCell colguerra = new PdfPCell(new Paragraph (rs.getString("guerra")));
 						tabela.addCell(colguerra).setHorizontalAlignment(1);
-						PdfPCell colcargo = new PdfPCell(new Paragraph(new Paragraph (rs.getString("cargo"))));
+						PdfPCell colcargo = new PdfPCell(new Paragraph (rs.getString("cargo")));
 						tabela.addCell(colcargo).setHorizontalAlignment(1);
-						PdfPCell colqtd = new PdfPCell(new Paragraph(new Paragraph (qtd)));
+						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("qtdGuarda"))));
 						tabela.addCell(colqtd).setHorizontalAlignment(1);
 					}
 					else {
 						PdfPCell colid = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("id"))));
 						tabela.addCell(colid).setHorizontalAlignment(1);
-						PdfPCell colnome = new PdfPCell(new Paragraph(new Paragraph (rs.getString("nome"))));
+						PdfPCell colnome = new PdfPCell(new Paragraph (rs.getString("nome")));
 						tabela.addCell(colnome).setHorizontalAlignment(1);
-						PdfPCell colguerra = new PdfPCell(new Paragraph(new Paragraph (rs.getString("guerra"))));
+						PdfPCell colguerra = new PdfPCell(new Paragraph (rs.getString("guerra")));
 						tabela.addCell(colguerra).setHorizontalAlignment(1);
-						PdfPCell colcargo = new PdfPCell(new Paragraph(new Paragraph (rs.getString("cargo"))));
+						PdfPCell colcargo = new PdfPCell(new Paragraph (rs.getString("cargo")));
 						tabela.addCell(colcargo).setHorizontalAlignment(1);
-						PdfPCell colqtd = new PdfPCell(new Paragraph(new Paragraph (qtd)));
+						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("qtdGuarda"))));
 						tabela.addCell(colqtd).setHorizontalAlignment(1);
 					}
 					

@@ -6,12 +6,14 @@ public class Atirador {
 	private String nome;
 	private String guerra;
 	private String cargo;
+	private int qtdGuarda;
 		
-	public Atirador(int iD, String nome, String cargo, String guerra) {
+	public Atirador(int iD, String nome, String cargo, String guerra , int qtdGuarda) {
 		ID = iD;
 		this.nome = nome;
 		this.guerra = guerra;
 		this.cargo = cargo;
+		this.qtdGuarda = qtdGuarda;
 	}
 
 	public Atirador() {
@@ -43,6 +45,14 @@ public class Atirador {
 
 	public void setGuerra(String guerra) {
 		this.guerra = guerra;
+	}
+
+	public int getQtdGuarda() {
+		return qtdGuarda;
+	}
+
+	public void setQtdGuarda(int qtdGuarda) {
+		this.qtdGuarda = qtdGuarda;
 	}
 	
 }
