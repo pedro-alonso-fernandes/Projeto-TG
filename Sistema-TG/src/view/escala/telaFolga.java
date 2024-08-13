@@ -43,6 +43,8 @@ public class telaFolga extends JFrame {
 				try {
 					telaFolga frame = new telaFolga();
 					frame.setVisible(true);
+				} catch (ClassCastException ex) {
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -157,12 +159,17 @@ public class telaFolga extends JFrame {
 		// Popular tabela inicial
 		ResultSet rs = AtiradorDAO.getAtiradoresFolga(1, 15);
 		try {
+			int i = 0;
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[]{
-		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
+		                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "" + folgaVermelha[i],
+		                "" + folgaPreta[i], "" + qtdGuarda[i]
 		                });
+				i++;
 			}
+			
+				
 		} catch (SQLException e) {
 			System.out.println("Erro ao preecher tabela folga: " + e.getMessage());
 		}
@@ -200,10 +207,13 @@ public class telaFolga extends JFrame {
 					limparTabela();
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					
+					int i = idProximo - 1;
 					while (rs.next()) {
 						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "" + folgaVermelha[i],
+				                "" + folgaPreta[i], "" + qtdGuarda[i]
 				                });
+						i++;
 					}
 					
 					
@@ -224,7 +234,6 @@ public class telaFolga extends JFrame {
 					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
 				} catch (NumberFormatException ey) {
 					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
-					System.out.println("Erro ao pegar valores da tabela: " + ey.getMessage());
 				}
 			}
 		});
@@ -261,10 +270,13 @@ public class telaFolga extends JFrame {
 					limparTabela();
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					
+					int i = idAnterior - 1;
 					while (rs.next()) {
 						modelo.addRow(new Object[]{
-				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "1", "1", "1"
+				                rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"), "" + folgaVermelha[i],
+				                "" + folgaPreta[i], "" + qtdGuarda[i]
 				                });
+						i++;
 					}
 					
 					table.setModel(modelo);
@@ -284,22 +296,75 @@ public class telaFolga extends JFrame {
 					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
 				} catch (NumberFormatException ey) {
 					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
-					System.out.println("Erro ao pegar valores da tabela: " + ey.getMessage());
 				}
 			}
 		});
 		
 		
 		
+		
+		
+		
 		btnEscala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					int ultimaLinha = table.getModel().getRowCount() - 1;
+					int idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
 					
+					ultimaLinha++;
+					int j = 0;
+					for(int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
+						String celula = (String) table.getModel().getValueAt(j, 3);
+						folgaVermelha[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 4);
+						folgaPreta[i] = Integer.parseInt(celula);
+						
+						celula = (String) table.getModel().getValueAt(j, 5);
+						qtdGuarda[i] = Integer.parseInt(celula);
+						
+						j++;
+					}
 					
+					// Fazer método getQtdMonitores e usar ele para pegar o indice do monitor que estiver mais "folgado"
 					
+					j = 0;
+					int maior = Integer.MIN_VALUE;
+					int[] indicesAtirador = new int[0];
+					int contador = 0;
+					for(int i = 10; i < folgaVermelha.length; i++) {
+						
+						if(folgaVermelha[i] > maior) {
+							maior = folgaVermelha[i];
+							
+							for(int l = i; l < folgaVermelha.length; l++) {
+								if(folgaVermelha[l] > maior) {
+									contador = 0;
+									break;
+								}
+								else if(folgaVermelha[l] == maior) {
+									contador++;
+								}
+							}
+							
+							if(contador == 0) {
+								continue;
+							}
+							
+							indicesAtirador = new int[contador];
+							indicesAtirador[0] = i;
+							
+						}
+						else if(folgaVermelha[i] == maior && indicesAtirador.length > 0) {
+							j++;
+							indicesAtirador[j] = i;
+						}
+						
+					}
+					System.out.println(indicesAtirador.length);
 					
-				}catch(ClassCastException ex) {
-					JOptionPane.showMessageDialog(null, "O valor informado não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
+				}catch (NumberFormatException ey) {
+					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
 				}
 				
 			}

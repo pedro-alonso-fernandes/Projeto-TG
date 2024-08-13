@@ -131,7 +131,7 @@ public class AtiradorDAO {
 
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Erro ao remover Atirador: " + e.getMessage());
 		}
 	
 	}
@@ -154,7 +154,7 @@ public class AtiradorDAO {
 			ps.close();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Erro ao editar Atirador: " + e.getMessage());
 		}
 		
 	}
@@ -215,5 +215,11 @@ public class AtiradorDAO {
 		
 		return id;
 	}
-
+	
+	public static int getQtdMonitores() {
+		
+		// Fazer um método que retorne quanto monitores tem no banco de dados
+		
+	}
+	
 }
