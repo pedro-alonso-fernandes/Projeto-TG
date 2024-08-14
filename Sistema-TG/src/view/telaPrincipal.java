@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
 import controller.BD;
+import java.awt.Toolkit;
 
 public class telaPrincipal extends JFrame {
 
@@ -39,6 +40,7 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		BD.criarBanco();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -51,7 +53,7 @@ public class telaPrincipal extends JFrame {
 		
 		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA");
 		lblTelaPrincipal.setFont(new Font("Arial Black", Font.BOLD, 20));
-		lblTelaPrincipal.setBounds(110, 10, 204, 24);
+		lblTelaPrincipal.setBounds(118, 10, 204, 24);
 		contentPane.add(lblTelaPrincipal);
 		
 		JButton btnRegistroDeAtiradores = new JButton("Atiradores");
@@ -62,7 +64,7 @@ public class telaPrincipal extends JFrame {
 				Atirador.setVisible(true);
 			}
 		});
-		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.BOLD, 18));
+		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		btnRegistroDeAtiradores.setBounds(138, 84, 156, 39);
 		contentPane.add(btnRegistroDeAtiradores);
 		
@@ -73,7 +75,7 @@ public class telaPrincipal extends JFrame {
 			}
 		});
 		
-		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.BOLD, 18));
+		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		btnEscalaDeGuarda.setBounds(138, 147, 156, 34);
 		contentPane.add(btnEscalaDeGuarda);
 		this.setLocationRelativeTo(null);

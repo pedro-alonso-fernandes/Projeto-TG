@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import java.awt.Toolkit;
 
 public class Remover extends JDialog {
 
@@ -57,6 +58,7 @@ public class Remover extends JDialog {
 	 * Create the dialog.
 	 */
 	public Remover() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Remover.class.getResource("/model/images/soldado (2).png")));
 		setBounds(100, 100, 586, 544);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
