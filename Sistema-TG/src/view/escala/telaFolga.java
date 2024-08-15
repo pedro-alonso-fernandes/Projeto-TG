@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +20,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
+import model.Escala;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -110,7 +113,18 @@ public class telaFolga extends JFrame {
 			new String[] {
 				"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda"
 			}
-		));
+		){
+
+	        private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean []{  
+	            false, false, false, true, true, true
+	        };  
+	   
+	        @Override  
+	        public boolean isCellEditable(int rowIndex, int columnIndex) {  
+	            return canEdit [columnIndex];  
+	        }
+		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(27);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -326,42 +340,20 @@ public class telaFolga extends JFrame {
 						j++;
 					}
 					
-					// Fazer método getQtdMonitores e usar ele para pegar o indice do monitor que estiver mais "folgado"
+					int maiorVermelha = Escala.getMaiorValorArray(folgaVermelha);
+					int maiorPreta = Escala.getMaiorValorArray(folgaPreta);
 					
-					j = 0;
-					int maior = Integer.MIN_VALUE;
-					int[] indicesAtirador = new int[0];
-					int contador = 0;
-					for(int i = 10; i < folgaVermelha.length; i++) {
-						
-						if(folgaVermelha[i] > maior) {
-							maior = folgaVermelha[i];
-							
-							for(int l = i; l < folgaVermelha.length; l++) {
-								if(folgaVermelha[l] > maior) {
-									contador = 0;
-									break;
-								}
-								else if(folgaVermelha[l] == maior) {
-									contador++;
-								}
-							}
-							
-							if(contador == 0) {
-								continue;
-							}
-							
-							indicesAtirador = new int[contador];
-							indicesAtirador[0] = i;
-							
-						}
-						else if(folgaVermelha[i] == maior && indicesAtirador.length > 0) {
-							j++;
-							indicesAtirador[j] = i;
-						}
-						
+					if(maiorVermelha > 30 || maiorPreta > 30) {
+						JOptionPane.showMessageDialog(null, "Um dos valores informados é muito grande para ser uma folga!" , "Erro!" , JOptionPane.WARNING_MESSAGE);
 					}
-					System.out.println(indicesAtirador.length);
+					else {
+						
+						int[] indiceFolgaVermelha = Escala.getIndicesFolga(folgaVermelha);
+						
+						System.out.println(Arrays.toString(indiceFolgaVermelha));
+					}
+					
+					
 					
 				}catch (NumberFormatException ey) {
 					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número" , "Erro!" , JOptionPane.WARNING_MESSAGE);
@@ -384,7 +376,18 @@ public class telaFolga extends JFrame {
 				new String[] {
 					"ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda"
 				}
-			));
+			){
+
+	        private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean []{  
+	            false, false, false, true, true, true
+	        };  
+	   
+	        @Override  
+	        public boolean isCellEditable(int rowIndex, int columnIndex) {  
+	            return canEdit [columnIndex];  
+	        }
+		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(27);
 		table.getColumnModel().getColumn(1).setResizable(false);

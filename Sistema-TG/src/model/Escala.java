@@ -969,4 +969,104 @@ public class Escala {
 		return modelo;
 	}
 	
+	public static int[] getIndicesFolga(int[] folgas) {
+		int[] indices = new int[4];
+		
+		// Pega o indice do monitor mais folgado
+		int maior = Integer.MIN_VALUE;
+		int qtdMonitores = AtiradorDAO.getQtdMonitores();
+		int indiceMonitor = -1;
+		for(int i = 0; i < qtdMonitores; i++) {
+			
+			if(folgas[i] > maior) {
+				maior = folgas[i];
+				indiceMonitor = i;
+			}
+			
+		}
+		
+		// Pega os indices do 3 atiradores mais folgados
+		int j = 0;
+		maior = Integer.MIN_VALUE;
+		int[] indicesAtirador = new int[0];
+		for(int i = 10; i < folgas.length; i++) {
+			
+			if(folgas[i] > maior) {
+				maior = folgas[i];
+				
+				indicesAtirador = new int[3];
+				indicesAtirador[0] = i;
+				j = 0;
+				
+			}
+			else if(folgas[i] == maior && indicesAtirador.length > 0) {
+				j++;
+				indicesAtirador[j] = i;
+			}
+			
+		}
+		
+		// Armazena o indice do monitor e dos atiradores em 1 array só
+		j = 0;
+		for(int i = 0; i < indices.length; i++) {
+			
+			if(i == 0) {
+				indices[i] = indiceMonitor;
+			}
+			else {
+				indices[i] = indicesAtirador[j];
+				j++;
+			}
+			
+		}
+		
+		// Preencher array indices caso não tenha preenchido por completo
+		j = 1;
+		while(indices[3] == 0) {
+			int index = 0;
+			
+			if(indices[2] == 0) {
+				index = 2; 
+			}
+			else {
+				index = 3;
+			}
+			
+			int contador = 0;
+			for(int i = 10; i < folgas.length; i++) {
+				
+				if(folgas[i] == maior - j && contador == 0) {
+					maior = folgas[i];
+					contador++;
+					indices[index] = i;
+				}
+				else if(folgas[i] == maior && contador > 0 && indices[3] == 0) {
+					indices[index + 1] = i;
+				}
+				
+				
+			}
+			
+			if(indices[index] == 0) {
+				j++;
+			}
+		}
+		
+		return indices;
+	}
+	
+	public static int getMaiorValorArray(int[] array) {
+		int maior = Integer.MIN_VALUE;
+		for(int elemento: array) {
+			
+			if(elemento > maior) {
+				maior = elemento;
+				
+			}
+			
+		}
+		
+		return maior;
+	}
+	
 }

@@ -217,9 +217,26 @@ public class AtiradorDAO {
 	}
 	
 	public static int getQtdMonitores() {
+		BD.selecionarDatabase();
 		
-		// Fazer um método que retorne quanto monitores tem no banco de dados
+		int qtd = 0;
 		
+		String sql = "select count(*) from Atirador where cargo = \"Monitor\";";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			qtd = rs.getInt("count(*)");
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar quantidade de monitores: " + e.getMessage());
+		}
+		
+		
+		return qtd;
 	}
 	
 }
