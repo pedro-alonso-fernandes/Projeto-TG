@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Editar extends JDialog {
 
@@ -51,6 +52,7 @@ public class Editar extends JDialog {
 	 * Create the dialog.
 	 */
 	public Editar() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Editar.class.getResource("/model/images/soldado (2).png")));
 		setBounds(100, 100, 586, 544);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -175,7 +177,7 @@ public class Editar extends JDialog {
 		Pesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Campid1.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Incompleto",
+					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Atenção!!",
 							JOptionPane.WARNING_MESSAGE);
 				}
 				else {
@@ -183,7 +185,7 @@ public class Editar extends JDialog {
 						
 					try {
 						if (rs.next() == false) {
-							JOptionPane.showMessageDialog(null, "Esse ID não Existe!", "Incompleto",
+							JOptionPane.showMessageDialog(null, "Esse ID não Existe!", "Erro!!",
 									JOptionPane.ERROR_MESSAGE);
 						}
 						else {
@@ -260,7 +262,7 @@ public class Editar extends JDialog {
 			 
 			 if(Campo1.getText().equals("") || Campo2.getText().equals("") || Campo3.getText() .equals("") || (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false) ) {
 				  
-				  JOptionPane.showMessageDialog(null, "Sua Edição Está Incompleta", "Incompleto", JOptionPane.WARNING_MESSAGE);
+				  JOptionPane.showMessageDialog(null, "Sua Edição Está Incompleta", "Atenção!!", JOptionPane.WARNING_MESSAGE);
 				  
 	 }
 			  else {
@@ -278,7 +280,7 @@ public class Editar extends JDialog {
 						}
 						
 						AtiradorDAO.EditarAtirador(atdr , Integer.parseInt(Campid1.getText()));
-						JOptionPane.showMessageDialog(null, "Edição Feita!" , "Completa" , JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Edição Feita!" , "Completa!!" , JOptionPane.INFORMATION_MESSAGE);
 						Campid1.setText("");
 			  }
 						

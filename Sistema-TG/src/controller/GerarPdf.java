@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.text.StyleConstants.ColorConstants;
 
 import org.w3c.dom.html.HTMLFieldSetElement;
@@ -43,7 +44,7 @@ public class  GerarPdf {
 			String Data1 = "Data: ";
 			Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 16, BaseColor.BLACK);
 			Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14, BaseColor.BLACK);
-			Image imagem = Image.getInstance("src/model/images/Ex.png");
+			Image imagem = Image.getInstance(GerarPdf.class.getResource("/model/images/Ex.png"));
 			Paragraph paragrafo1 = new Paragraph("Todos os Atiradores do Tiro de Guerra - 01-013", font);
 			imagem.scalePercent(75);
 			paragrafo1.add(imagem);
@@ -60,7 +61,7 @@ public class  GerarPdf {
 			document.add(new Paragraph("     "));
 			// TABELA Atiradores
 
-			float[] colsWidth = {0.5f, 3.5f, 1f, 1f, 1f}; 
+			float[] colsWidth = {0.5f, 3.5f, 1.3f, 1f, 1f}; 
 			 PdfPTable tabela = new PdfPTable(colsWidth);
 			Paragraph paraid = new Paragraph("ID" , font2);
 			PdfPCell coll1 = new PdfPCell(paraid);

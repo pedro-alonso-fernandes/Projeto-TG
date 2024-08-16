@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
+import java.awt.Toolkit;
 
 public class telaAtirador extends JFrame {
 
@@ -56,6 +57,7 @@ public class telaAtirador extends JFrame {
 	 */
 
 	public telaAtirador() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaAtirador.class.getResource("/model/images/exercito.png")));
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -89,7 +91,6 @@ public class telaAtirador extends JFrame {
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setEnabled(false);
-		
 		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -174,7 +175,7 @@ public class telaAtirador extends JFrame {
 				
 			}
 		});
-		PDF.setToolTipText("GerarpdfAtdr");
+		PDF.setToolTipText("Gerar Pdf");
 		PDF.setIcon(new ImageIcon(telaAtirador.class.getResource("/model/images/business (1).png")));
 		PDF.setBounds(508, 446, 40, 40);
 		contentPane.add(PDF);
