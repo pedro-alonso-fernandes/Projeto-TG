@@ -849,7 +849,7 @@ public class Escala {
 	
 	
 	
-	public static int[] getIndicesFolga(int[] folgas, List indicesMonitores) {
+	public static int[] getIndicesFolga(int[] folgas) {
 		int[] indices = new int[4];
 
 		// Pega o indice do monitor mais folgado
@@ -868,7 +868,6 @@ public class Escala {
 		}
 
 		// Pega os indices do 3 atiradores mais folgados
-		int l = 0;
 		maior = Integer.MIN_VALUE;
 		int[] indicesAtirador = new int[0];
 
@@ -899,55 +898,55 @@ public class Escala {
 		}
 
 		// Preencher array indicesAtirador caso não tenha preenchido por completo
-//		if (indicesAtirador[2] == 0 && indicesAtirador[0] > 0) {
-//			
-//			while(indicesAtirador[2] == 0) {
-//				int index = 0;
-//				int menor = Integer.MIN_VALUE;
-//				
-//				if(indicesAtirador[1] == 0) {
-//					index = 1;
-//				}
-//				else {
-//					index = 2;
-//				}
-//				
-//				for(int i = qtdMonitores; i < folgas.length; i++) {
-//					
-//					if(folgas[i] < maior && menor < 0) {
-//						menor = folgas[i];
-//						indicesAtirador[index] = i;
-//					}
-//					else if(folgas[i] < maior && folgas[i] > menor) {
-//						indicesAtirador[index] = i;
-//					}
-//					else if(folgas[i] == menor) {
-//						
-//						if(index == 2 && indicesAtirador[index - 1] != i) {
-//							indicesAtirador[index] = i;
-//						}
-//						else if(index == 1) {
-//							indicesAtirador[index] = i;
-//						}
-//						
-//					}
-//					
-//				}
-//				
-//			}
-			// Testar codigo recem feito
+		if (indicesAtirador[2] == 0 && indicesAtirador[0] > 0) {
+			
+			while(indicesAtirador[2] == 0) {
+				int index = 0;
+				int menor = Integer.MIN_VALUE;
+				
+				if(indicesAtirador[1] == 0) {
+					index = 1;
+				}
+				else {
+					index = 2;
+				}
+				
+				for(int i = qtdMonitores; i < folgas.length; i++) {
+					
+					if(folgas[i] < maior && menor < 0) {
+						menor = folgas[i];
+						indicesAtirador[index] = i;
+					}
+					else if(folgas[i] < maior && folgas[i] > menor) {
+						menor = folgas[i];
+						indicesAtirador[index] = i;
+					}
+					else if(folgas[i] == menor) {
+						
+						if(index == 2 && indicesAtirador[index - 1] != i) {
+							indicesAtirador[index] = i;
+						}
+						else if(index == 1) {
+							indicesAtirador[index] = i;
+						}
+						
+					}
+					
+				}
+				
+			}
 
-//		}
+		}
 
 		// Armazena o indice do monitor e dos atiradores em 1 array só
-		l = 0;
+		int j = 0;
 		for (int i = 0; i < indices.length; i++) {
 
 			if (i == 0) { 
 				indices[i] = indiceMonitor;
 			} else {
-				indices[i] = indicesAtirador[l];
-				l++;
+				indices[i] = indicesAtirador[j];
+				j++;
 			}
 
 		}

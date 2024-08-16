@@ -35,7 +35,6 @@ public class telaFolga extends JFrame {
 	private int[] folgaVermelha = new int[idUltimoAtirador];
 	private int[] folgaPreta = new int[idUltimoAtirador];
 	private int[] qtdGuarda = new int[idUltimoAtirador];
-	private List<Integer> indicesMonitores = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -72,7 +71,7 @@ public class telaFolga extends JFrame {
 		contentPane.add(lblTelaFolga);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 76, 557, 262);
+		scrollPane.setBounds(15, 76, 557, 340);
 		contentPane.add(scrollPane);
 
 		JLabel lblCodigo = new JLabel("");
@@ -139,34 +138,19 @@ public class telaFolga extends JFrame {
 
 		scrollPane.setViewportView(table);
 
-		JButton btnProximo = new JButton(">");
-		btnProximo.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnProximo.setBounds(519, 350, 50, 25);
-		contentPane.add(btnProximo);
-
-		JButton btnAnterior = new JButton("<");
-		btnAnterior.setFont(new Font("Dialog", Font.BOLD, 13));
-		btnAnterior.setBounds(12, 350, 50, 25);
-		btnAnterior.setVisible(false);
-		contentPane.add(btnAnterior);
-
 		JButton btnEscala = new JButton("Gerar Escala");
 		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnEscala.setBounds(222, 474, 138, 34);
 		contentPane.add(btnEscala);
 
 		// Popular tabela inicial
-		ResultSet rs = AtiradorDAO.getAtiradoresFolga(1, 15);
+		ResultSet rs = AtiradorDAO.getAtiradoresByMonitores();
 		try {
 			int i = 0;
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
 						"" + folgaVermelha[i], "" + folgaPreta[i], "" + qtdGuarda[i] });
-				
-				if(rs.getString("cargo").equals("Monitor")) {
-					indicesMonitores.add(i);
-				}
 				
 				i++;
 			}
@@ -178,136 +162,6 @@ public class telaFolga extends JFrame {
 		
 		
 
-		// Próximo
-		btnProximo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int ultimaLinha = table.getModel().getRowCount() - 1;
-				Integer idProximo = (Integer) table.getModel().getValueAt(ultimaLinha, 0) + 1;
-				ResultSet rs = AtiradorDAO.getAtiradoresFolga(idProximo, 15);
-				int idUltimo = idProximo - 1;
-
-				try {
-
-					ultimaLinha++;
-					int j = 0;
-					for (int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
-						String celula = (String) table.getModel().getValueAt(j, 3);
-						folgaVermelha[i] = Integer.parseInt(celula);
-
-						celula = (String) table.getModel().getValueAt(j, 4);
-						folgaPreta[i] = Integer.parseInt(celula);
-
-						celula = (String) table.getModel().getValueAt(j, 5);
-						qtdGuarda[i] = Integer.parseInt(celula);
-
-						j++;
-					}
-					ultimaLinha--;
-
-					limparTabela();
-					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
-					int i = idProximo - 1;
-					while (rs.next()) {
-						modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-								"" + folgaVermelha[i], "" + folgaPreta[i], "" + qtdGuarda[i] });
-						
-						if(rs.getString("cargo").equals("Monitor")) {
-							indicesMonitores.add(i);
-						}
-						
-						i++;
-					}
-
-					table.setModel(modelo);
-					contador++;
-
-					ultimaLinha = table.getModel().getRowCount() - 1;
-					idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
-
-					if (contador > 0) {
-						btnAnterior.setVisible(true);
-						if (idUltimo >= idUltimoAtirador) {
-							btnProximo.setVisible(false);
-						}
-					}
-
-				} catch (SQLException ex) {
-					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
-				} catch (NumberFormatException ey) {
-					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número", "Erro!",
-							JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-
-		
-		
-		
-		
-		// Anterior
-		btnAnterior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int ultimaLinha = table.getModel().getRowCount() - 1;
-				Integer idAnterior = (Integer) table.getModel().getValueAt(0, 0) - 15;
-				ResultSet rs = AtiradorDAO.getAtiradoresFolga(idAnterior, 15);
-				int idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
-
-				try {
-
-					ultimaLinha++;
-					int j = 0;
-					for (int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
-						String celula = (String) table.getModel().getValueAt(j, 3);
-						folgaVermelha[i] = Integer.parseInt(celula);
-
-						celula = (String) table.getModel().getValueAt(j, 4);
-						folgaPreta[i] = Integer.parseInt(celula);
-
-						celula = (String) table.getModel().getValueAt(j, 5);
-						qtdGuarda[i] = Integer.parseInt(celula);
-
-						j++;
-					}
-					ultimaLinha--;
-
-					limparTabela();
-					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-
-					int i = idAnterior - 1;
-					while (rs.next()) {
-						modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-								"" + folgaVermelha[i], "" + folgaPreta[i], "" + qtdGuarda[i] });
-						
-						if(rs.getString("cargo").equals("Monitor")) {
-							indicesMonitores.add(i);
-						}
-						
-						i++;
-					}
-
-					table.setModel(modelo);
-					contador--;
-
-					ultimaLinha = table.getModel().getRowCount() - 1;
-					idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
-
-					if (idUltimo < idUltimoAtirador) {
-						btnProximo.setVisible(true);
-						if (contador == 0) {
-							btnAnterior.setVisible(false);
-						}
-					}
-
-				} catch (SQLException ex) {
-					System.out.println("Erro ao preecher tabela folga: " + ex.getMessage());
-				} catch (NumberFormatException ey) {
-					JOptionPane.showMessageDialog(null, "Um dos valores informados não é um número", "Erro!",
-							JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-
 		btnEscala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -316,7 +170,7 @@ public class telaFolga extends JFrame {
 
 					ultimaLinha++;
 					int j = 0;
-					for (int i = idUltimo - ultimaLinha; i < idUltimo; i++) {
+					for (int i = 0; i < idUltimo; i++) {
 						String celula = (String) table.getModel().getValueAt(j, 3);
 						folgaVermelha[i] = Integer.parseInt(celula);
 
@@ -332,20 +186,18 @@ public class telaFolga extends JFrame {
 					int maiorVermelha = Escala.getMaiorValorArray(folgaVermelha, 0);
 					int maiorPreta = Escala.getMaiorValorArray(folgaPreta, 0);
 
-					if (maiorVermelha > 30 || maiorPreta > 30) {
+					if (maiorVermelha > 300 || maiorPreta > 300) {
 						JOptionPane.showMessageDialog(null,
 								"Um dos valores informados é muito grande para ser uma folga!", "Erro!",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						
-						for(int i = 0; i < indicesMonitores.size(); i++) {
-							System.out.println(indicesMonitores.get(i));
-						}
+						
 						
 
-						//int[] indiceFolgaVermelha = Escala.getIndicesFolga(folgaVermelha, indicesMonitores);
+						int[] indiceFolgaVermelha = Escala.getIndicesFolga(folgaVermelha);
 
-						//System.out.println(Arrays.toString(indiceFolgaVermelha));
+						System.out.println(Arrays.toString(indiceFolgaVermelha));
 					}
 
 				} catch (NumberFormatException ey) {

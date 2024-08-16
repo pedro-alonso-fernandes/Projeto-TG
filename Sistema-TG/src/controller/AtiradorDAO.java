@@ -95,6 +95,23 @@ public class AtiradorDAO {
 			return rs;
 		}
 	}
+	
+	public static ResultSet getAtiradoresByMonitores() {
+		BD.selecionarDatabase();
+
+		String sql = "select * from Atirador order by cargo desc, id;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos os atiradores: " + e.getMessage());
+			return rs;
+		}
+	}
 
 	// Pega atirador por ID
 	public static ResultSet getAtirador(int id) {
@@ -159,25 +176,7 @@ public class AtiradorDAO {
 		
 	}
 	
-	//Método para preencher a tabela da tela folga
-	public static ResultSet getAtiradoresFolga(int id, int contador) {
-		BD.selecionarDatabase();
-		
-		String sql = "select * from Atirador where id >= ? and id < ?;";
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		
-		try {
-			ps = Conexao.getConexao().prepareStatement(sql);
-			ps.setString(1, String.valueOf(id));
-			ps.setString(2, String.valueOf(id + contador));
-			rs = ps.executeQuery();
-		} catch (SQLException e) {
-			System.out.println("Erro ao pegar Atiradores para Tabela Folga: " + e.getMessage());
-		}
-		
-		return rs;
-	}
+	
 	
 	public static void cadastrarQtdGuarda(int id, int qtd) {
 		BD.selecionarDatabase();
