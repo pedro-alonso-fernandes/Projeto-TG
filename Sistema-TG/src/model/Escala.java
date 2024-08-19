@@ -849,7 +849,7 @@ public class Escala {
 	
 	
 	
-	public static int[] getIndicesFolga(int[] folgas) {
+	public static int[] getIdFolga(int[] folgas) {
 		int[] indices = new int[4];
 
 		// Pega o indice do monitor mais folgado
@@ -898,54 +898,52 @@ public class Escala {
 		}
 
 		// Preencher array indicesAtirador caso não tenha preenchido por completo
-		if (indicesAtirador[2] == 0 && indicesAtirador[0] > 0) {
 			
-			while(indicesAtirador[2] == 0) {
-				int index = 0;
-				int menor = Integer.MIN_VALUE;
+		int index = 0;
+		while(indicesAtirador[2] == 0) {
+			int menor = Integer.MIN_VALUE;
+			
+			if(indicesAtirador[1] == 0) {
+				index = 1;
+			}
+			else {
+				index = 2;
+			}
+			
+			for(int i = qtdMonitores; i < folgas.length; i++) {
 				
-				if(indicesAtirador[1] == 0) {
-					index = 1;
+				if(folgas[i] < maior && menor < 0) {
+					menor = folgas[i];
+					indicesAtirador[index] = i;
 				}
-				else {
-					index = 2;
+				else if(folgas[i] < maior && folgas[i] > menor && indicesAtirador[1] != i) {
+					menor = folgas[i];
+					indicesAtirador[index] = i;
 				}
-				
-				for(int i = qtdMonitores; i < folgas.length; i++) {
+				else if(folgas[i] == menor) {
 					
-					if(folgas[i] < maior && menor < 0) {
-						menor = folgas[i];
+					if(index == 2 && indicesAtirador[index - 1] != i) {
 						indicesAtirador[index] = i;
 					}
-					else if(folgas[i] < maior && folgas[i] > menor) {
-						menor = folgas[i];
+					else if(index == 1) {
 						indicesAtirador[index] = i;
-					}
-					else if(folgas[i] == menor) {
-						
-						if(index == 2 && indicesAtirador[index - 1] != i) {
-							indicesAtirador[index] = i;
-						}
-						else if(index == 1) {
-							indicesAtirador[index] = i;
-						}
-						
 					}
 					
 				}
 				
 			}
-
+			
 		}
+
 
 		// Armazena o indice do monitor e dos atiradores em 1 array só
 		int j = 0;
 		for (int i = 0; i < indices.length; i++) {
 
 			if (i == 0) { 
-				indices[i] = indiceMonitor;
+				indices[i] = indiceMonitor + 1;
 			} else {
-				indices[i] = indicesAtirador[j];
+				indices[i] = indicesAtirador[j] + 1;
 				j++;
 			}
 

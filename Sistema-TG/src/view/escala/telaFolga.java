@@ -193,11 +193,10 @@ public class telaFolga extends JFrame {
 					} else {
 						
 						
-						
 
-						int[] indiceFolgaVermelha = Escala.getIndicesFolga(folgaVermelha);
+						int[] idFolgaVermelha = Escala.getIdFolga(folgaVermelha);
 
-						System.out.println(Arrays.toString(indiceFolgaVermelha));
+						System.out.println(Arrays.toString(idFolgaVermelha));
 					}
 
 				} catch (NumberFormatException ey) {
@@ -211,39 +210,39 @@ public class telaFolga extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
-	private void limparTabela() {
-		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda" }) {
-
-			private static final long serialVersionUID = 1L;
-			boolean[] canEdit = new boolean[] { false, false, false, true, true, true };
-
-			@Override
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return canEdit[columnIndex];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(27);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(131);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(73);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(3).setPreferredWidth(107);
-		table.getColumnModel().getColumn(4).setResizable(false);
-		table.getColumnModel().getColumn(4).setPreferredWidth(83);
-		table.getColumnModel().getColumn(5).setResizable(false);
-		table.getColumnModel().getColumn(5).setPreferredWidth(82);
-		table.getTableHeader().setReorderingAllowed(false);
-		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
-		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-		table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-		table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-		table.getColumnModel().getColumn(5).setCellRenderer(centralizado);
-	}
+//	private void limparTabela() {
+//		table.setModel(new DefaultTableModel(new Object[][] {},
+//				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda" }) {
+//
+//			private static final long serialVersionUID = 1L;
+//			boolean[] canEdit = new boolean[] { false, false, false, true, true, true };
+//
+//			@Override
+//			public boolean isCellEditable(int rowIndex, int columnIndex) {
+//				return canEdit[columnIndex];
+//			}
+//		});
+//		table.getColumnModel().getColumn(0).setResizable(false);
+//		table.getColumnModel().getColumn(0).setPreferredWidth(27);
+//		table.getColumnModel().getColumn(1).setResizable(false);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(131);
+//		table.getColumnModel().getColumn(2).setResizable(false);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(73);
+//		table.getColumnModel().getColumn(3).setResizable(false);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(107);
+//		table.getColumnModel().getColumn(4).setResizable(false);
+//		table.getColumnModel().getColumn(4).setPreferredWidth(83);
+//		table.getColumnModel().getColumn(5).setResizable(false);
+//		table.getColumnModel().getColumn(5).setPreferredWidth(82);
+//		table.getTableHeader().setReorderingAllowed(false);
+//		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+//		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+//		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+//		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+//		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+//		table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+//		table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+//		table.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+//	}
 
 }
