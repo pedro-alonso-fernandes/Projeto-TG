@@ -54,6 +54,18 @@ public class BD {
 		} catch (SQLException e) {
 			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
 		}
+		
+		sql = "create table if not exists `TG`.`Feriados`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "nome varchar(50) not null,"
+				+ "data date not null);";
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela Feriados: " + e.getMessage());
+		}
 
 	}
 	
@@ -97,7 +109,21 @@ public class BD {
 		
 	}
 	
+	public static void apagarTabelaFeriados() {
+		String sql = "drop table if exists TG.Feriados;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar tabela Feriadoss: " + e.getMessage());;
+		}
+		
+	}
+	
 	public static void apagarDatabase() {
+		apagarTabelaFeriados();
 		apagarTabelaEscala();
 		apagarTabelaAtirador();
 		

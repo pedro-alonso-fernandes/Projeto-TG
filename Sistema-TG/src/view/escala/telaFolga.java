@@ -186,7 +186,7 @@ public class telaFolga extends JFrame {
 					int maiorVermelha = Escala.getMaiorValorArray(folgaVermelha, 0);
 					int maiorPreta = Escala.getMaiorValorArray(folgaPreta, 0);
 
-					if (maiorVermelha > 300 || maiorPreta > 300) {
+					if (maiorVermelha > 99 || maiorPreta > 99) {
 						JOptionPane.showMessageDialog(null,
 								"Um dos valores informados é muito grande para ser uma folga!", "Erro!",
 								JOptionPane.WARNING_MESSAGE);
@@ -195,8 +195,12 @@ public class telaFolga extends JFrame {
 						
 
 						int[] idFolgaVermelha = Escala.getIdFolga(folgaVermelha);
+						int[] idFolgaPreta = Escala.getIdFolga(folgaPreta);
 
 						System.out.println(Arrays.toString(idFolgaVermelha));
+						
+						
+						
 					}
 
 				} catch (NumberFormatException ey) {
