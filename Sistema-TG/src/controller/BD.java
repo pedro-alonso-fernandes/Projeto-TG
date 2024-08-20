@@ -58,7 +58,8 @@ public class BD {
 		sql = "create table if not exists `TG`.`Feriados`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "nome varchar(50) not null,"
-				+ "data date not null);";
+				+ "data date not null,"
+				+ "tipo varchar(15) not null);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);

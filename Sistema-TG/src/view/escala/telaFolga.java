@@ -30,7 +30,6 @@ public class telaFolga extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private int contador = 0;
 	private int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
 	private int[] folgaVermelha = new int[idUltimoAtirador];
 	private int[] folgaPreta = new int[idUltimoAtirador];
@@ -79,29 +78,6 @@ public class telaFolga extends JFrame {
 		contentPane.add(lblCodigo);
 
 		table = new JTable();
-//				table.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyReleased(KeyEvent e) {
-//						int codigo = e.getKeyChar();
-//						String linha = "";
-		//
-//						if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
-//								&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
-//								&& codigo != 65535 && codigo != 10 && codigo != 32 && codigo != 9) {
-//							int row = table.getSelectedRow();
-//							int coluna = table.getSelectedColumn();
-//							table.getModel().setValueAt("", row, coluna);
-		//
-//						} else {
-		//
-//							int row = table.getSelectedRow();
-//							int coluna = table.getSelectedColumn();
-//							linha = (String) table.getValueAt(row, coluna);
-//						}
-		//
-//						lblCodigo.setText("" + linha);
-//					}
-//				});
 		table.setFont(new Font("Dialog", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda" }) {

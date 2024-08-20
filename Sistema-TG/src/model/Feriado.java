@@ -7,10 +7,12 @@ public class Feriado {
 	private int id;
 	private String nome;
 	private Date data;
+	private String tipo;
 	
-	public Feriado(String nome, Date data) {
+	public Feriado(String nome, Date data, String tipo) {
 		this.nome = nome;
 		this.data = data;
+		this.tipo = tipo;
 	}
 	
 	public Feriado() {
@@ -39,6 +41,14 @@ public class Feriado {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	
