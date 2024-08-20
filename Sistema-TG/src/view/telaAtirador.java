@@ -171,8 +171,7 @@ public class telaAtirador extends JFrame {
 		JButton PDF = new JButton("");
 		PDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GerarPdf pdf = new GerarPdf();
-				
+				new GerarPdf();
 			}
 		});
 		PDF.setToolTipText("Gerar Pdf");

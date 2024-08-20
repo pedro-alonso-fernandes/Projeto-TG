@@ -145,8 +145,8 @@ public class Remover extends JDialog {
 					try {
 						if (rs.next() == false) {
 							Campid.setText("");
-							JOptionPane.showMessageDialog(null, "O Atirador não Existe!", "Incompleto",
-									JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "O Atirador não Existe!", "Erro!!",
+									JOptionPane.ERROR_MESSAGE);
 						} else {
 							removerId = Integer.parseInt(Campid.getText());
 							;
@@ -220,7 +220,7 @@ public class Remover extends JDialog {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
 				if (removerId == 0) {
-					JOptionPane.showMessageDialog(null, "Nenhum Atirador para ser Removido!", "Incompleto",
+					JOptionPane.showMessageDialog(null, "Nenhum Atirador para ser Removido!", "Erro!!",
 							JOptionPane.ERROR_MESSAGE);
 
 				} else {
@@ -229,7 +229,7 @@ public class Remover extends JDialog {
 					modelo.removeRow(0);
 					table.setModel(modelo);
 					Campid.setText("");
-					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Incompleto",
+					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Realizado!!",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
