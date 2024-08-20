@@ -6,9 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
+import model.Array;
 import model.Escala;
 
 public class telaFolga extends JFrame {
@@ -80,7 +79,7 @@ public class telaFolga extends JFrame {
 		table = new JTable();
 		table.setFont(new Font("Dialog", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda" }) {
+				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Preta", "Folga Vermelha", "Qtd Guarda" }) {
 
 			private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean[] { false, false, false, true, true, true };
@@ -97,9 +96,9 @@ public class telaFolga extends JFrame {
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(73);
 		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(3).setPreferredWidth(107);
+		table.getColumnModel().getColumn(3).setPreferredWidth(83);
 		table.getColumnModel().getColumn(4).setResizable(false);
-		table.getColumnModel().getColumn(4).setPreferredWidth(83);
+		table.getColumnModel().getColumn(4).setPreferredWidth(107);
 		table.getColumnModel().getColumn(5).setResizable(false);
 		table.getColumnModel().getColumn(5).setPreferredWidth(82);
 		table.getTableHeader().setReorderingAllowed(false);
@@ -126,7 +125,7 @@ public class telaFolga extends JFrame {
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-						"" + folgaVermelha[i], "" + folgaPreta[i], "" + qtdGuarda[i] });
+						"" + folgaPreta[i], "" + folgaVermelha[i], "" + qtdGuarda[i] });
 				
 				i++;
 			}
@@ -148,10 +147,10 @@ public class telaFolga extends JFrame {
 					int j = 0;
 					for (int i = 0; i < idUltimo; i++) {
 						String celula = (String) table.getModel().getValueAt(j, 3);
-						folgaVermelha[i] = Integer.parseInt(celula);
+						folgaPreta[i] = Integer.parseInt(celula);
 
 						celula = (String) table.getModel().getValueAt(j, 4);
-						folgaPreta[i] = Integer.parseInt(celula);
+						folgaVermelha[i] = Integer.parseInt(celula);
 
 						celula = (String) table.getModel().getValueAt(j, 5);
 						qtdGuarda[i] = Integer.parseInt(celula);
@@ -159,24 +158,22 @@ public class telaFolga extends JFrame {
 						j++;
 					}
 
-					int maiorVermelha = Escala.getMaiorValorArray(folgaVermelha, 0);
-					int maiorPreta = Escala.getMaiorValorArray(folgaPreta, 0);
+					int maiorPreta = Array.getMaiorValorArray(folgaPreta, 0);
+					int maiorVermelha = Array.getMaiorValorArray(folgaVermelha, 0);
 
-					if (maiorVermelha > 99 || maiorPreta > 99) {
+					if (maiorPreta > 99 || maiorVermelha > 99) {
 						JOptionPane.showMessageDialog(null,
 								"Um dos valores informados é muito grande para ser uma folga!", "Erro!",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						
 						
-
-						int[] idFolgaVermelha = Escala.getIdFolga(folgaVermelha);
-						int[] idFolgaPreta = Escala.getIdFolga(folgaPreta);
-
-						System.out.println(Arrays.toString(idFolgaVermelha));
+						Escala.gerarEscala(folgaPreta, folgaVermelha);
 						
+						dispose();
 						
-						
+						telaEscala tela = new telaEscala();
+						tela.setVisible(true);
 					}
 
 				} catch (NumberFormatException ey) {
@@ -189,40 +186,4 @@ public class telaFolga extends JFrame {
 
 		this.setLocationRelativeTo(null);
 	}
-
-//	private void limparTabela() {
-//		table.setModel(new DefaultTableModel(new Object[][] {},
-//				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Vermelha", "Folga Preta", "Qtd Guarda" }) {
-//
-//			private static final long serialVersionUID = 1L;
-//			boolean[] canEdit = new boolean[] { false, false, false, true, true, true };
-//
-//			@Override
-//			public boolean isCellEditable(int rowIndex, int columnIndex) {
-//				return canEdit[columnIndex];
-//			}
-//		});
-//		table.getColumnModel().getColumn(0).setResizable(false);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(27);
-//		table.getColumnModel().getColumn(1).setResizable(false);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(131);
-//		table.getColumnModel().getColumn(2).setResizable(false);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(73);
-//		table.getColumnModel().getColumn(3).setResizable(false);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(107);
-//		table.getColumnModel().getColumn(4).setResizable(false);
-//		table.getColumnModel().getColumn(4).setPreferredWidth(83);
-//		table.getColumnModel().getColumn(5).setResizable(false);
-//		table.getColumnModel().getColumn(5).setPreferredWidth(82);
-//		table.getTableHeader().setReorderingAllowed(false);
-//		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-//		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
-//		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-//		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-//		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-//		table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-//		table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-//		table.getColumnModel().getColumn(5).setCellRenderer(centralizado);
-//	}
-
 }

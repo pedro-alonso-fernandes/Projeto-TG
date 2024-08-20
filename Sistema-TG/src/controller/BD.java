@@ -55,7 +55,7 @@ public class BD {
 			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
 		}
 		
-		sql = "create table if not exists `TG`.`Feriados`(" 
+		sql = "create table if not exists `TG`.`Feriado`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "nome varchar(50) not null,"
 				+ "data date not null,"

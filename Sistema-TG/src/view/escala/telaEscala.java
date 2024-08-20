@@ -23,8 +23,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
-import controller.Data;
 import controller.EscalaDAO;
+import model.Data;
 import model.Escala;
 
 import java.awt.event.MouseAdapter;

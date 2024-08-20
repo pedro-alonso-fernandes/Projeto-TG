@@ -15,6 +15,13 @@ public class Feriado {
 		this.tipo = tipo;
 	}
 	
+	public Feriado(int id, String nome, Date data, String tipo) {
+		this.id = id;
+		this.nome = nome;
+		this.data = data;
+		this.tipo = tipo;
+	}
+	
 	public Feriado() {
 		
 	}
