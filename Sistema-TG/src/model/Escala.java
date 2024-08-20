@@ -3,14 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import javax.sound.sampled.TargetDataLine;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
@@ -966,5 +960,7 @@ public class Escala {
 
 		return maior;
 	}
+	
+	
 
 }
