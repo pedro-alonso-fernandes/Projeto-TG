@@ -189,25 +189,47 @@ public class EscalaDAO {
 	}
 	
 	//Pegar escalas por Atirador
-		public static ResultSet getEscalasAtirador(int atiradorId) {
-			BD.selecionarDatabase();
-			
-			String sql = "select * from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ?;";
-			
-			PreparedStatement ps = null;
-			ResultSet rs = null;
-			
-			try {
-				ps = Conexao.getConexao().prepareStatement(sql);
-				ps.setString(1, String.valueOf(atiradorId));
-				ps.setString(2, String.valueOf(atiradorId));
-				ps.setString(3, String.valueOf(atiradorId));
-				rs = ps.executeQuery();
-				return rs;
-			} catch (SQLException e) {
-				System.out.println("Erro ao pegar a Escala por Atirador: " + e.getMessage());
-				return rs;
-			}
+	public static ResultSet getEscalasAtirador(int atiradorId) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(atiradorId));
+			ps.setString(2, String.valueOf(atiradorId));
+			ps.setString(3, String.valueOf(atiradorId));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a Escala por Atirador: " + e.getMessage());
+			return rs;
 		}
+	}
+	
+	//Pega escala por Data
+	public static ResultSet getEscalaDataCor(Date data, String cor) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Escala where data = ? and cor = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			ps.setString(2, cor);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a Escala pela data e pela cor: " + e.getMessage());
+			return rs;
+		}
+	}
 		
 }

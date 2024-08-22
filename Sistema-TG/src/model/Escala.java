@@ -951,7 +951,7 @@ public class Escala {
 	
 	public static void gerarEscala(int[] folgaPreta, int[] folgaVermelha) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		Date data = null;
+		Date data = new Date();
 		
 		try {
 			data = formato.parse("18/08/2024");
@@ -975,7 +975,6 @@ public class Escala {
 		}
 		
 		Escala escala = null;
-		
 		
 		switch (Data.getDiaSemana(data)) {
 		case "DOM":
@@ -1218,6 +1217,8 @@ public class Escala {
 		
 		
 		
+		
+		// Próximas escalas
 		for(int j = 0; j < contador; j++) {
 			feriado = false;
 			rs = FeriadoDAO.getFeriados();
@@ -1235,23 +1236,25 @@ public class Escala {
 			escala = null;
 			
 			
+			
+			
 			switch (Data.getDiaSemana(data)) {
 			case "DOM":
 				
-				int[] idFolgaVermelha = getIdFolga(folgaVermelha);
-				escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-				EscalaDAO.cadastrarEscala(escala);
+				int[] idFolgaVermelha = verificarGuarda(folgaVermelha, data);
 				int[] indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
 				
-				for(int i = 0; i < folgaVermelha.length; i++) {
+				escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
+				EscalaDAO.cadastrarEscala(escala);
+				
+				for(int i = 0; i < folgaPreta.length; i++) {
 					if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-						folgaVermelha[i]++;
+						folgaPreta[i]++;
 					}
 					else {
-						folgaVermelha[i] = 0;
+						folgaPreta[i] = 0;
 					}
 				}
-				
 				
 				break;
 			case "SEG":
@@ -1467,6 +1470,104 @@ public class Escala {
 			data = Data.addDias(data, 1);
 		}
 		
+	}
+	
+	
+	
+	
+	private static int[] verificarGuarda(int[] folga, Date data) {
+		int[] idFolga = getIdFolga(folga);
+		
+		// Verifica se os atiradores pegaram guarda no dia anterior
+		int[] simulacaoFolga = folga;
+		int[] indicesFolga = Array.getIndicePorId(idFolga);
+		
+		for(int i = 0; i < simulacaoFolga.length; i++) {
+			if(i != indicesFolga[0] && i != indicesFolga[1] && i != indicesFolga[2] && i != indicesFolga[3]) {
+				simulacaoFolga[i]++;
+			}
+			else {
+				simulacaoFolga[i] = 0;
+			}
+		}
+		
+		ResultSet rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -1));
+		int[] idFolgaAnterior = new int[4];
+		
+		
+		try {
+			rsAnterior.next();
+			idFolgaAnterior[0] = rsAnterior.getInt("monitorId");
+			idFolgaAnterior[1] = rsAnterior.getInt("atirador1Id");
+			idFolgaAnterior[2] = rsAnterior.getInt("atirador2Id");
+			idFolgaAnterior[3] = rsAnterior.getInt("atirador3Id");
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar Escala anterior: " + e.getMessage());
+		}
+		
+		int[] idFolgaProximo = getIdFolga(simulacaoFolga);
+		
+		int l = 1;
+		for(int i = 0; i < idFolga.length; i++) {
+			if(idFolga[i] == idFolgaAnterior[i] && i == 0) {
+				idFolga[i] = idFolgaProximo[i];
+			}
+			else if(idFolga[i] == idFolgaAnterior[i] && i > 0) {
+				idFolga[i] = idFolgaProximo[l];
+				l++;
+			}
+		}
+		
+		
+		
+		
+		
+		// Verifica se os atiradores pegaram guarda anteontem
+		simulacaoFolga = folga;
+		indicesFolga = Array.getIndicePorId(idFolga);
+		
+		for(int i = 0; i < simulacaoFolga.length; i++) {
+			if(i != indicesFolga[0] && i != indicesFolga[1] && i != indicesFolga[2] && i != indicesFolga[3]) {
+				simulacaoFolga[i]++;
+			}
+			else {
+				simulacaoFolga[i] = 0;
+			}
+		}
+		
+		
+		rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -2));
+		idFolgaAnterior = new int[4];
+		
+		
+		try {
+			rsAnterior.next();
+			idFolgaAnterior[0] = rsAnterior.getInt("monitorId");
+			idFolgaAnterior[1] = rsAnterior.getInt("atirador1Id");
+			idFolgaAnterior[2] = rsAnterior.getInt("atirador2Id");
+			idFolgaAnterior[3] = rsAnterior.getInt("atirador3Id");
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar Escala anterior: " + e.getMessage());
+		}
+		
+		idFolgaProximo = getIdFolga(simulacaoFolga);
+		
+		l = 1;
+		for(int i = 0; i < idFolga.length; i++) {
+			if(idFolga[i] == idFolgaAnterior[i] && i == 0) {
+				idFolga[i] = idFolgaProximo[i];
+			}
+			else if(idFolga[i] == idFolgaAnterior[i] && i > 0) {
+				idFolga[i] = idFolgaProximo[l];
+				l++;
+			}
+		}
+		
+		return idFolga;
 	}
 
 }

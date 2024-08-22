@@ -97,6 +97,34 @@ public class BD {
 		
 	}
 	
+	public static void reiniciarTabelaEscala() {
+		apagarTabelaEscala();
+		
+		
+		String sql = "create table if not exists `TG`.`Escala`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "data date not null,"
+				+ "cor varchar(20) not null,"
+				+ "monitorId int not null," 
+				+ "atirador1Id int not null,"
+				+ "atirador2Id int not null," 
+				+ "atirador3Id int not null,"
+				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id),"
+				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id),"
+				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id),"
+				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id));";
+		
+		PreparedStatement ps = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela Escala: " + e.getMessage());
+		}
+		
+	}
+	
 	public static void apagarTabelaAtirador() {
 		String sql = "drop table if exists TG.Atirador;";
 		PreparedStatement ps = null;

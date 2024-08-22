@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
+import controller.BD;
 import model.Array;
 import model.Escala;
 
@@ -167,6 +168,7 @@ public class telaFolga extends JFrame {
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						
+						BD.reiniciarTabelaEscala();
 						
 						Escala.gerarEscala(folgaPreta, folgaVermelha);
 						
