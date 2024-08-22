@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
 import controller.BD;
+import view.escala.telaFolga;
+
 import java.awt.Toolkit;
 
 public class telaPrincipal extends JFrame {
@@ -51,9 +53,9 @@ public class telaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA  01 - 013");
+		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA");
 		lblTelaPrincipal.setFont(new Font("Arial Black", Font.BOLD, 20));
-		lblTelaPrincipal.setBounds(76, 10, 313, 24);
+		lblTelaPrincipal.setBounds(115, 10, 210, 24);
 		contentPane.add(lblTelaPrincipal);
 		
 		JButton btnRegistroDeAtiradores = new JButton("Atiradores");
@@ -72,6 +74,9 @@ public class telaPrincipal extends JFrame {
 		
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaFolga Folga = new telaFolga();
+				Folga.setVisible(true);
 			}
 		});
 		
