@@ -51,9 +51,9 @@ public class telaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA");
+		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA  01 - 013");
 		lblTelaPrincipal.setFont(new Font("Arial Black", Font.BOLD, 20));
-		lblTelaPrincipal.setBounds(118, 10, 204, 24);
+		lblTelaPrincipal.setBounds(76, 10, 313, 24);
 		contentPane.add(lblTelaPrincipal);
 		
 		JButton btnRegistroDeAtiradores = new JButton("Atiradores");

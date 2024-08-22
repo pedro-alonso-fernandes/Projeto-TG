@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
 import model.Escala;
+import java.awt.Toolkit;
 
 public class telaFolga extends JFrame {
 
@@ -55,6 +56,7 @@ public class telaFolga extends JFrame {
 	 * Create the frame.
 	 */
 	public telaFolga() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaFolga.class.getResource("/model/images/calendario.png")));
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 586, 544);

@@ -32,6 +32,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
+import java.awt.Toolkit;
 
 public class telaEscala extends JFrame {
 
@@ -67,6 +68,7 @@ public class telaEscala extends JFrame {
 	 * Create the frame.
 	 */
 	public telaEscala() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaEscala.class.getResource("/model/images/calendario.png")));
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 803, 508);
