@@ -18,12 +18,15 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroFeriados extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -55,24 +58,24 @@ public class CadastroFeriados extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Cadastro de Feriados");
+		JLabel lblNewLabel = new JLabel("Folgas e Feriados");
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 30));
-		lblNewLabel.setBounds(103, 10, 383, 33);
+		lblNewLabel.setBounds(130, 10, 316, 33);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Insira as informações nos campos abaixo");
 		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(108, 53, 365, 22);
+		lblNewLabel_1.setBounds(98, 53, 365, 22);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Nome do Feriado");
 		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 15));
-		lblNewLabel_2.setBounds(10, 165, 154, 17);
+		lblNewLabel_2.setBounds(10, 111, 154, 17);
 		contentPane.add(lblNewLabel_2);
 
 		textField = new JTextField();
 		textField.setFont(new Font("Arial Black", Font.PLAIN, 10));
-		textField.setBounds(166, 165, 344, 21);
+		textField.setBounds(166, 111, 344, 21);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
@@ -100,12 +103,19 @@ public class CadastroFeriados extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(null);
 
-		JButton CadastrarFeriado = new JButton("Cadastrar Feriado");
+		JButton CadastrarFeriado = new JButton("Cadastrar ");
 		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
 		CadastrarFeriado.setBounds(63, 392, 206, 33);
 		contentPane.add(CadastrarFeriado);
 
 		JButton Menu = new JButton("Voltar ao Menu");
+		Menu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaFolga folga = new telaFolga();
+				folga.setVisible(true);
+			}
+		});
 		Menu.setFont(new Font("Arial Black", Font.BOLD, 15));
 		Menu.setBounds(304, 392, 206, 33);
 		contentPane.add(Menu);
@@ -119,6 +129,17 @@ public class CadastroFeriados extends JFrame {
 		lblNewLabel_6.setFont(new Font("Arial Black", Font.BOLD, 15));
 		lblNewLabel_6.setBounds(288, 218, 185, 37);
 		contentPane.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Nome da Folga");
+		lblNewLabel_2_1.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblNewLabel_2_1.setBounds(10, 156, 154, 17);
+		contentPane.add(lblNewLabel_2_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Arial Black", Font.PLAIN, 10));
+		textField_1.setColumns(10);
+		textField_1.setBounds(166, 156, 344, 21);
+		contentPane.add(textField_1);
 
 		this.setLocationRelativeTo(null);
 	}

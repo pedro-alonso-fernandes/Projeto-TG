@@ -68,9 +68,9 @@ public class telaFolga extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTelaFolga = new JLabel("TELA FOLGA");
-		lblTelaFolga.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblTelaFolga.setBounds(214, 12, 138, 24);
+		JLabel lblTelaFolga = new JLabel("DADOS DA ESCALA DOS ATIRADORES E MONITORES");
+		lblTelaFolga.setFont(new Font("Arial Black", Font.BOLD, 17));
+		lblTelaFolga.setBounds(30, 10, 522, 24);
 		contentPane.add(lblTelaFolga);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -120,7 +120,7 @@ public class telaFolga extends JFrame {
 
 		JButton btnEscala = new JButton("Gerar Escala");
 		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEscala.setBounds(24, 452, 138, 34);
+		btnEscala.setBounds(24, 452, 156, 34);
 		contentPane.add(btnEscala);
 		
 		JButton btnmenu = new JButton("Voltar ao Menu");
@@ -134,6 +134,23 @@ public class telaFolga extends JFrame {
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnmenu.setBounds(406, 452, 156, 34);
 		contentPane.add(btnmenu);
+		
+		JButton FolgaFeriado = new JButton("Feriados e Folgas");
+		FolgaFeriado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				CadastroFeriados feriados = new CadastroFeriados();
+				feriados.setVisible(true);
+			}
+		});
+		FolgaFeriado.setFont(new Font("Dialog", Font.BOLD, 14));
+		FolgaFeriado.setBounds(214, 452, 167, 34);
+		contentPane.add(FolgaFeriado);
+		
+		JLabel lblNewLabel = new JLabel("CLIQUE NOS CAMPOS E PREENCHA AS INFORMAÇÕES");
+		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 17));
+		lblNewLabel.setBounds(23, 41, 529, 13);
+		contentPane.add(lblNewLabel);
 
 		// Popular tabela inicial
 		ResultSet rs = AtiradorDAO.getAtiradoresByMonitores();

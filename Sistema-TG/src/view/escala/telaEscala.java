@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
+import controller.GerarPdf;
 import model.Data;
 import model.Escala;
 
@@ -35,6 +36,9 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.Toolkit;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class telaEscala extends JFrame {
 
@@ -325,6 +329,28 @@ public class telaEscala extends JFrame {
 		lblPrxmaSemana.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblPrxmaSemana.setBounds(323, 247, 141, 15);
 		contentPane.add(lblPrxmaSemana);
+		
+		JButton btnmenu = new JButton("Voltar ao Menu");
+		btnmenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaFolga folga = new telaFolga();
+				folga.setVisible(true);
+			}
+		});
+		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnmenu.setBounds(619, 406, 156, 34);
+		contentPane.add(btnmenu);
+		
+		JButton gerarPdf = new JButton("Gerar PDF");
+		gerarPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GerarPdf.GerarPdfEscala();
+			}
+		});
+		gerarPdf.setFont(new Font("Dialog", Font.BOLD, 14));
+		gerarPdf.setBounds(308, 406, 156, 34);
+		contentPane.add(gerarPdf);
 
 		this.setLocationRelativeTo(null);
 	}

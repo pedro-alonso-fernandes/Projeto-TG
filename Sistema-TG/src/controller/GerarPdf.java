@@ -18,6 +18,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.TabStop;
@@ -131,27 +132,40 @@ public class GerarPdf {
 
 	}
 
-	public class GerarPdfEscala {
-		public GerarPdfEscala() {
-			Document document = new Document();
-			try {
-				PdfWriter.getInstance(document, new FileOutputStream("EscalaSRV.pdf"));
 
-				document.open();
-				
-			} catch (Exception e) {
-				System.out.println(e);
-			} finally {
-				document.close();
-			}
+	public static void GerarPdfEscala() {
+		Document document = new Document();
+		try {
+			PdfWriter.getInstance(document, new FileOutputStream("EscalaSRV.pdf"));
 
-			// abre o pdf no leitor padrão
-			try {
-				Desktop.getDesktop().open(new File("EscalaSRV.pdf"));
-			} catch (Exception e2) {
-				System.out.println(e2);
-			}
+			document.open();
+			
+			Date data = new Date();
+			DateFormat formatador = DateFormat.getDateInstance(DateFormat.DATE_FIELD);
+			Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 16, BaseColor.BLACK);
+			Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14, BaseColor.BLACK);
+			Paragraph paragrafo1 = new Paragraph("Escala do Tiro de Guerra", font);
+			paragrafo1.setAlignment(Element.ALIGN_CENTER);
+			document.add(paragrafo1);
+			
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			document.close();
+		}
+
+		// abre o pdf no leitor padrão
+		try {
+			Desktop.getDesktop().open(new File("EscalaSRV.pdf"));
+		} catch (Exception e2) {
+			System.out.println(e2);
 		}
 	}
+		
+	}
 
-}
