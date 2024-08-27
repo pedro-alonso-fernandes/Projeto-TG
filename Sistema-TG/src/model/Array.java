@@ -22,7 +22,13 @@ public class Array {
 			array[i]--;
 		}
 		
-		return array;
+		int[] arrayNovo = {array[0], array[1], array[2], array[3]};
+		
+		for(int i = 0; i < array.length; i++) {
+			array[i]++;
+		}
+		
+		return arrayNovo;
 	}
 	
 }

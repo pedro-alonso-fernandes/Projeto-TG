@@ -1,5 +1,6 @@
 package view.escala;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.sql.ResultSet;
@@ -24,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
+import controller.FeriadoDAO;
 import model.Data;
 import model.Escala;
 
@@ -109,9 +111,11 @@ public class telaEscala extends JFrame {
 
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
-		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();        
+		DefaultTableCellRenderer preta = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer vermelha = new DefaultTableCellRenderer();
 
 		//Tabela semana atual
+		
 		String[] colunasAtual = {
 				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
 				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
@@ -136,16 +140,63 @@ public class telaEscala extends JFrame {
 		semanaAtual.getColumnModel().getColumn(4).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(5).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(6).setResizable(false);
+		semanaAtual.setEnabled(false);
 		
-		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		preta.setHorizontalAlignment(SwingConstants.CENTER);
+		vermelha.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		semanaAtual.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(5).setCellRenderer(centralizado);
-		semanaAtual.getColumnModel().getColumn(6).setCellRenderer(centralizado);
+		preta.setBackground(Color.BLACK);
+		preta.setForeground(Color.WHITE);
+		
+		vermelha.setBackground(Color.RED);
+		vermelha.setForeground(Color.WHITE);
+		
+		for(int i = 0; i < colunasAtual.length; i++) {
+			String diaSemana = null;
+			try {
+				diaSemana = Data.getDiaSemana(formato.parse(colunasAtual[i]));
+			} catch (ParseException e) {
+				System.out.println("Erro ao pegar dia da semana dentro do for: " + e.getMessage());
+			}
+			
+			if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
+				semanaAtual.getColumnModel().getColumn(i).setCellRenderer(vermelha);
+			}
+			else {
+				semanaAtual.getColumnModel().getColumn(i).setCellRenderer(preta);
+			}
+		}
+		
+		ResultSet rs = FeriadoDAO.getFeriados();
+		
+		try {
+			
+			while(rs.next()) {
+				
+				for(int i = 0; i < colunasAtual.length; i++) {
+					String dataFormatada = formato.format(rs.getDate("data"));
+					if(colunasAtual[i].equals(dataFormatada)) {
+						semanaAtual.getColumnModel().getColumn(i).setCellRenderer(vermelha);
+					}
+				}
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao percorrer pelos feriados do BD: " + e.getMessage());
+		}
+		
+		
+		
+		
+		
+		
+//		semanaAtual.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+//		semanaAtual.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
@@ -212,16 +263,50 @@ public class telaEscala extends JFrame {
 		proximaSemana.getColumnModel().getColumn(4).setResizable(false);
 		proximaSemana.getColumnModel().getColumn(5).setResizable(false);
 		proximaSemana.getColumnModel().getColumn(6).setResizable(false);
+		proximaSemana.setEnabled(false);
 		
-		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		proximaSemana.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(5).setCellRenderer(centralizado);
-		proximaSemana.getColumnModel().getColumn(6).setCellRenderer(centralizado);
+		for(int i = 0; i < colunasProxima.length; i++) {
+			String diaSemana = null;
+			try {
+				diaSemana = Data.getDiaSemana(formato.parse(colunasProxima[i]));
+			} catch (ParseException e) {
+				System.out.println("Erro ao pegar dia da semana dentro do for: " + e.getMessage());
+			}
+			
+			if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
+				proximaSemana.getColumnModel().getColumn(i).setCellRenderer(vermelha);
+			}
+			else {
+				proximaSemana.getColumnModel().getColumn(i).setCellRenderer(preta);
+			}
+		}
+		
+		rs = FeriadoDAO.getFeriados();
+		
+		try {
+			
+			while(rs.next()) {
+				
+				for(int i = 0; i < colunasProxima.length; i++) {
+					String dataFormatada = formato.format(rs.getDate("data"));
+					if(colunasProxima[i].equals(dataFormatada)) {
+						proximaSemana.getColumnModel().getColumn(i).setCellRenderer(vermelha);
+					}
+				}
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao percorrer pelos feriados do BD: " + e.getMessage());
+		}
+		
+//		proximaSemana.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(5).setCellRenderer(centralizado);
+//		proximaSemana.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		

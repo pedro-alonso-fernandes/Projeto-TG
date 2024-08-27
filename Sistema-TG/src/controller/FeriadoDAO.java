@@ -88,4 +88,25 @@ public class FeriadoDAO {
 		return rs;
 	}
 	
+	public static int getQtdFeriados() {
+		BD.selecionarDatabase();
+		
+		String sql = "select count(*) from Feriado;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int qtd = 0;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			qtd = rs.getInt("count(*)");
+	
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar quantidade de feriados: " + e.getMessage());
+		}
+		
+		return qtd;
+	}
+	
 }

@@ -954,7 +954,7 @@ public class Escala {
 		Date data = new Date();
 		
 		try {
-			data = formato.parse("18/08/2024");
+			data = formato.parse("25/08/2024");
 		} catch (ParseException e) {
 			System.out.println("Erro ao salvar data: " + e.getMessage());
 		}
@@ -1234,225 +1234,15 @@ public class Escala {
 			}
 			
 			escala = null;
+			String diaDaSemana = Data.getDiaSemana(data); 
 			
-			
-			
-			
-			switch (Data.getDiaSemana(data)) {
-			case "DOM":
+			if(diaDaSemana.equals("DOM") || diaDaSemana.equals("SAB")) {
 				
 				int[] idFolgaVermelha = verificarGuarda(folgaVermelha, data);
 				int[] indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
 				
 				escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
 				EscalaDAO.cadastrarEscala(escala);
-				
-				for(int i = 0; i < folgaPreta.length; i++) {
-					if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-						folgaPreta[i]++;
-					}
-					else {
-						folgaPreta[i] = 0;
-					}
-				}
-				
-				break;
-			case "SEG":
-				
-				if(!feriado) {
-					int[] idFolgaPreta = getIdFolga(folgaPreta);
-					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
-					
-					for(int i = 0; i < folgaPreta.length; i++) {
-						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
-							folgaPreta[i]++;
-						}
-						else {
-							folgaPreta[i] = 0;
-						}
-					}
-					
-				}
-				else {
-					
-					idFolgaVermelha = getIdFolga(folgaVermelha);
-					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
-					
-					for(int i = 0; i < folgaVermelha.length; i++) {
-						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-							folgaVermelha[i]++;
-						}
-						else {
-							folgaVermelha[i] = 0;
-						}
-					}
-					
-				}
-				
-				
-				break;
-			case "TER":
-				
-				if(!feriado) {
-					int[] idFolgaPreta = getIdFolga(folgaPreta);
-					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
-					
-					for(int i = 0; i < folgaPreta.length; i++) {
-						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
-							folgaPreta[i]++;
-						}
-						else {
-							folgaPreta[i] = 0;
-						}
-					}
-					
-				}
-				else {
-					
-					idFolgaVermelha = getIdFolga(folgaVermelha);
-					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
-					
-					for(int i = 0; i < folgaVermelha.length; i++) {
-						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-							folgaVermelha[i]++;
-						}
-						else {
-							folgaVermelha[i] = 0;
-						}
-					}
-					
-				}
-				
-				
-				break;
-			case "QUA":
-				
-				if(!feriado) {
-					int[] idFolgaPreta = getIdFolga(folgaPreta);
-					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
-					
-					for(int i = 0; i < folgaPreta.length; i++) {
-						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
-							folgaPreta[i]++;
-						}
-						else {
-							folgaPreta[i] = 0;
-						}
-					}
-					
-				}
-				else {
-					
-					idFolgaVermelha = getIdFolga(folgaVermelha);
-					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
-					
-					for(int i = 0; i < folgaVermelha.length; i++) {
-						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-							folgaVermelha[i]++;
-						}
-						else {
-							folgaVermelha[i] = 0;
-						}
-					}
-					
-				}
-				
-				
-				break;
-			case "QUI":
-				
-				if(!feriado) {
-					int[] idFolgaPreta = getIdFolga(folgaPreta);
-					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
-					
-					for(int i = 0; i < folgaPreta.length; i++) {
-						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
-							folgaPreta[i]++;
-						}
-						else {
-							folgaPreta[i] = 0;
-						}
-					}
-					
-				}
-				else {
-					
-					idFolgaVermelha = getIdFolga(folgaVermelha);
-					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
-					
-					for(int i = 0; i < folgaVermelha.length; i++) {
-						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-							folgaVermelha[i]++;
-						}
-						else {
-							folgaVermelha[i] = 0;
-						}
-					}
-					
-				}
-				
-				
-				break;
-			case "SEX":
-				
-				if(!feriado) {
-					int[] idFolgaPreta = getIdFolga(folgaPreta);
-					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
-					
-					for(int i = 0; i < folgaPreta.length; i++) {
-						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
-							folgaPreta[i]++;
-						}
-						else {
-							folgaPreta[i] = 0;
-						}
-					}
-					
-				}
-				else {
-					
-					idFolgaVermelha = getIdFolga(folgaVermelha);
-					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-					EscalaDAO.cadastrarEscala(escala);
-					indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
-					
-					for(int i = 0; i < folgaVermelha.length; i++) {
-						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
-							folgaVermelha[i]++;
-						}
-						else {
-							folgaVermelha[i] = 0;
-						}
-					}
-					
-				}
-				
-				
-				break;
-			case "SAB":
-				
-				idFolgaVermelha = getIdFolga(folgaVermelha);
-				escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
-				EscalaDAO.cadastrarEscala(escala);
-				indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
 				
 				for(int i = 0; i < folgaVermelha.length; i++) {
 					if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
@@ -1463,9 +1253,49 @@ public class Escala {
 					}
 				}
 				
-				
-				break;	
 			}
+			else if(diaDaSemana.equals("SEG") || diaDaSemana.equals("TER") || diaDaSemana.equals("QUA") 
+					|| diaDaSemana.equals("QUI") || diaDaSemana.equals("SEX")) {
+				
+				if(!feriado) {
+					
+					int[] idFolgaPreta = verificarGuarda(folgaPreta, data);
+					int[] indicesFolgaPreta = Array.getIndicePorId(idFolgaPreta);
+					
+					escala = new Escala(data, "Preta", idFolgaPreta[0], idFolgaPreta[1], idFolgaPreta[2], idFolgaPreta[3]);
+					EscalaDAO.cadastrarEscala(escala);
+					
+					for(int i = 0; i < folgaPreta.length; i++) {
+						if(i != indicesFolgaPreta[0] && i != indicesFolgaPreta[1] && i != indicesFolgaPreta[2] && i != indicesFolgaPreta[3]) {
+							folgaPreta[i]++;
+						}
+						else {
+							folgaPreta[i] = 0;
+						}
+					}
+					
+				}
+				else {
+					
+					int[] idFolgaVermelha = verificarGuarda(folgaVermelha, data);
+					int[] indicesFolgaVermelha = Array.getIndicePorId(idFolgaVermelha);
+					
+					escala = new Escala(data, "Vermelha", idFolgaVermelha[0], idFolgaVermelha[1], idFolgaVermelha[2], idFolgaVermelha[3]);
+					EscalaDAO.cadastrarEscala(escala);
+					
+					for(int i = 0; i < folgaVermelha.length; i++) {
+						if(i != indicesFolgaVermelha[0] && i != indicesFolgaVermelha[1] && i != indicesFolgaVermelha[2] && i != indicesFolgaVermelha[3]) {
+							folgaVermelha[i]++;
+						}
+						else {
+							folgaVermelha[i] = 0;
+						}
+					}
+					
+				}
+				
+			}
+			
 			
 			data = Data.addDias(data, 1);
 		}
@@ -1478,9 +1308,13 @@ public class Escala {
 	private static int[] verificarGuarda(int[] folga, Date data) {
 		int[] idFolga = getIdFolga(folga);
 		
-		// Verifica se os atiradores pegaram guarda no dia anterior
-		int[] simulacaoFolga = folga;
-		int[] indicesFolga = Array.getIndicePorId(idFolga);
+		
+		// Verifica se os atiradores pegaram guarda anteontem
+		int[] simulacaoFolga = new int[folga.length];
+		for(int i = 0; i < folga.length; i++) {
+			simulacaoFolga[i] = folga[i];
+		}
+		int []indicesFolga = Array.getIndicePorId(idFolga);
 		
 		for(int i = 0; i < simulacaoFolga.length; i++) {
 			if(i != indicesFolga[0] && i != indicesFolga[1] && i != indicesFolga[2] && i != indicesFolga[3]) {
@@ -1491,8 +1325,57 @@ public class Escala {
 			}
 		}
 		
-		ResultSet rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -1));
+		
+		ResultSet rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -2));
 		int[] idFolgaAnterior = new int[4];
+		
+		
+		try {
+			if(rsAnterior.next()) {
+				
+				idFolgaAnterior[0] = rsAnterior.getInt("monitorId");
+				idFolgaAnterior[1] = rsAnterior.getInt("atirador1Id");
+				idFolgaAnterior[2] = rsAnterior.getInt("atirador2Id");
+				idFolgaAnterior[3] = rsAnterior.getInt("atirador3Id");
+				
+				
+				int[] idFolgaProximo = getIdFolga(simulacaoFolga);
+				
+				int l = 1;
+				for(int i = 0; i < idFolga.length; i++) {
+					if(idFolga[i] == idFolgaAnterior[i] && i == 0) {
+						idFolga[i] = idFolgaProximo[i];
+					}
+					else if(idFolga[i] == idFolgaAnterior[i] && i > 0) {
+						idFolga[i] = idFolgaProximo[l];
+						l++;
+					}
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar Escala anterior: " + e.getMessage());
+		}
+		
+		// Verifica se os atiradores pegaram guarda no dia anterior
+		
+		
+		
+		
+		indicesFolga = Array.getIndicePorId(idFolga);
+		
+		for(int i = 0; i < simulacaoFolga.length; i++) {
+			if(i != indicesFolga[0] && i != indicesFolga[1] && i != indicesFolga[2] && i != indicesFolga[3]) {
+				simulacaoFolga[i]++;
+			}
+			else {
+				simulacaoFolga[i] = 0;
+			}
+		}
+		
+		rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -1));
+		idFolgaAnterior = new int[4];
 		
 		
 		try {
@@ -1520,52 +1403,6 @@ public class Escala {
 			}
 		}
 		
-		
-		
-		
-		
-		// Verifica se os atiradores pegaram guarda anteontem
-		simulacaoFolga = folga;
-		indicesFolga = Array.getIndicePorId(idFolga);
-		
-		for(int i = 0; i < simulacaoFolga.length; i++) {
-			if(i != indicesFolga[0] && i != indicesFolga[1] && i != indicesFolga[2] && i != indicesFolga[3]) {
-				simulacaoFolga[i]++;
-			}
-			else {
-				simulacaoFolga[i] = 0;
-			}
-		}
-		
-		
-		rsAnterior  = EscalaDAO.getEscala(Data.addDias(data, -2));
-		idFolgaAnterior = new int[4];
-		
-		
-		try {
-			rsAnterior.next();
-			idFolgaAnterior[0] = rsAnterior.getInt("monitorId");
-			idFolgaAnterior[1] = rsAnterior.getInt("atirador1Id");
-			idFolgaAnterior[2] = rsAnterior.getInt("atirador2Id");
-			idFolgaAnterior[3] = rsAnterior.getInt("atirador3Id");
-			
-			
-		} catch (SQLException e) {
-			System.out.println("Erro ao pegar Escala anterior: " + e.getMessage());
-		}
-		
-		idFolgaProximo = getIdFolga(simulacaoFolga);
-		
-		l = 1;
-		for(int i = 0; i < idFolga.length; i++) {
-			if(idFolga[i] == idFolgaAnterior[i] && i == 0) {
-				idFolga[i] = idFolgaProximo[i];
-			}
-			else if(idFolga[i] == idFolgaAnterior[i] && i > 0) {
-				idFolga[i] = idFolgaProximo[l];
-				l++;
-			}
-		}
 		
 		return idFolga;
 	}
