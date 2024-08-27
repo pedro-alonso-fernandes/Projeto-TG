@@ -179,8 +179,8 @@ public class CadastroAtirador extends JDialog {
 				if (textField.getText().equals("") || textField_2.getText().equals("") || Cguerra.getText().equals("")
 						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
 
-					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto", "Erro!",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+							JOptionPane.WARNING_MESSAGE);
 
 				} else {
 
@@ -201,10 +201,21 @@ public class CadastroAtirador extends JDialog {
 							}
 							
 							JOptionPane.showMessageDialog(null, "Cadastro Feito" , "Realizado!" , JOptionPane.INFORMATION_MESSAGE);
+						
+							textField.setText("");
+							textField_2.setText("");
+							Cguerra.setText("");
+							if(rdbtnMonitor.isSelected() == true) {
+								rdbtnMonitor.setSelected(false);
+							}
+							else if (rdbtnNewRadioButton.isSelected() == true){
+								rdbtnNewRadioButton.setSelected(false);
+							}
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "O Atirador já Existe!", "Erro!",
+							JOptionPane.showMessageDialog(null, "Esse ID já Existe!", "Erro!",
 									JOptionPane.ERROR_MESSAGE);
+							textField_2.setText("");
 						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -212,18 +223,7 @@ public class CadastroAtirador extends JDialog {
 					
 					AtiradorDAO.cadastrarAtirador(atdr);
 					
-					textField.setText("");
-					textField_2.setText("");
-					Cguerra.setText("");
-					if(rdbtnMonitor.isSelected() == true) {
-						rdbtnMonitor.setSelected(false);
-					}
-					else if (rdbtnNewRadioButton.isSelected() == true){
-						rdbtnNewRadioButton.setSelected(false);
-					}
 				}
-				
-
 			}
 		});
 

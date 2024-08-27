@@ -24,6 +24,9 @@ import controller.AtiradorDAO;
 import controller.BD;
 import model.Array;
 import model.Escala;
+import view.telaPrincipal;
+
+import java.awt.Toolkit;
 
 public class telaFolga extends JFrame {
 
@@ -55,6 +58,7 @@ public class telaFolga extends JFrame {
 	 * Create the frame.
 	 */
 	public telaFolga() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaFolga.class.getResource("/model/images/calendario.png")));
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 586, 544);
@@ -116,8 +120,20 @@ public class telaFolga extends JFrame {
 
 		JButton btnEscala = new JButton("Gerar Escala");
 		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEscala.setBounds(222, 474, 138, 34);
+		btnEscala.setBounds(24, 452, 138, 34);
 		contentPane.add(btnEscala);
+		
+		JButton btnmenu = new JButton("Voltar ao Menu");
+		btnmenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaPrincipal principal = new telaPrincipal();
+				principal.setVisible(true);
+			}
+		});
+		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnmenu.setBounds(406, 452, 156, 34);
+		contentPane.add(btnmenu);
 
 		// Popular tabela inicial
 		ResultSet rs = AtiradorDAO.getAtiradoresByMonitores();
