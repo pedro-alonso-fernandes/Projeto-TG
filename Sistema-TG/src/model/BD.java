@@ -1,7 +1,9 @@
-package controller;
+package model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import controller.Conexao;
 
 public class BD {
 
@@ -67,10 +69,32 @@ public class BD {
 		} catch (SQLException e) {
 			System.out.println("Erro ao criar tabela Feriados: " + e.getMessage());
 		}
+		
+		sql = "create table if not exists `TG`.`FolgaVermelha`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "valor int not null);";
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela FolgaVermelha: " + e.getMessage());
+		}
+		
+		sql = "create table if not exists `TG`.`FolgaPreta`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "valor int not null);";
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela FolgaPreta: " + e.getMessage());
+		}
 
 	}
 	
-	static void selecionarDatabase() {
+	public static void selecionarDatabase() {
 		String sql = "use TG";
 
 		PreparedStatement ps = null;
@@ -146,12 +170,65 @@ public class BD {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela Feriadoss: " + e.getMessage());;
+			System.out.println("Erro ao apagar tabela Feriados: " + e.getMessage());;
+		}
+		
+	}
+	
+	public static void apagarTabelaFolgaVermelha() {
+		String sql = "drop table if exists TG.FolgaVermelha;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar tabela FolgaVermelha: " + e.getMessage());;
+		}
+		
+	}
+	
+	public static void apagarTabelaFolgaPreta() {
+		String sql = "drop table if exists TG.FolgaPreta;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar tabela FolgaPreta: " + e.getMessage());;
+		}
+		
+	}
+	
+	public static void reiniciarTabelaFolga(String cor) {
+		String sql = "";
+		PreparedStatement ps = null;
+		
+		
+		if(cor.equals("Preta")) {
+			apagarTabelaFolgaPreta();
+			
+		}
+		else if(cor.equals("Vermelha")) {
+			apagarTabelaFolgaVermelha();
+		}
+		
+		sql = "create table if not exists `TG`.`Folga" + cor + "`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "valor int not null);";
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao reiniciar a Tabela Folga + " + cor + ": " + e.getMessage());
 		}
 		
 	}
 	
 	public static void apagarDatabase() {
+		apagarTabelaFolgaVermelha();
+		apagarTabelaFolgaPreta();
 		apagarTabelaFeriados();
 		apagarTabelaEscala();
 		apagarTabelaAtirador();

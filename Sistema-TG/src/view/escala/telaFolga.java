@@ -21,8 +21,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
-import controller.BD;
 import model.Array;
+import model.BD;
 import model.Escala;
 import view.telaPrincipal;
 

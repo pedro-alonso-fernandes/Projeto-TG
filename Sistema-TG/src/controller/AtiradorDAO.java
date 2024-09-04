@@ -1,9 +1,11 @@
 package controller;
 
-import java.sql.*;
-import java.util.StringJoiner;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import model.Atirador;
+import model.BD;
 
 public class AtiradorDAO {
 
