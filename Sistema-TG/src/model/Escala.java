@@ -950,9 +950,9 @@ public class Escala {
 	}
 
 	
-	public static void gerarEscala(int[] folgaPreta, int[] folgaVermelha) {
+	public static void gerarEscala(int[] folgaPreta, int[] folgaVermelha, Date dataEscala) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		Date data = new Date();
+		Date data = dataEscala;
 		
 //		try {
 //			data = formato.parse("25/08/2024");

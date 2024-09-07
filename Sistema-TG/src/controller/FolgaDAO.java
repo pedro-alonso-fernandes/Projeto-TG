@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.BD;
@@ -24,6 +25,23 @@ public class FolgaDAO {
 			System.out.println("Erro ao salvar Folga" + cor + " no BD: " + e.getMessage());
 		}
 		
+	}
+	
+	public static ResultSet getFolga(String cor) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Folga" + cor + ";";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos as Folgas " + cor + "s: " + e.getMessage());
+		}
+		
+		return rs;
 	}
 	
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -186,7 +187,7 @@ public class telaFolga extends JFrame {
 						
 						BD.reiniciarTabelaEscala();
 						
-						Escala.gerarEscala(folgaPreta, folgaVermelha);
+						Escala.gerarEscala(folgaPreta, folgaVermelha, new Date());
 						
 						dispose();
 						
