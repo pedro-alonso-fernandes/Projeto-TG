@@ -109,13 +109,11 @@ public class GerarPdf {
 			} catch (Exception e3) {
 				System.out.println(e3);
 			}
-
 			document.add(tabela);
-
-			// Paragraph paragrafosgt = new Paragraph("Chefe de Instrução:" +
-			// (String.valueOf(id + rs.getInt("nome"))), font2);
-			// paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
-			// document.add(paragrafosgt);
+			document.add(new Paragraph("     "));
+			Paragraph paragrafosgt = new Paragraph("Chefe de Instrução:____________________________________________________",font2);
+			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
+			document.add(paragrafosgt);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -132,14 +130,13 @@ public class GerarPdf {
 
 	}
 
-
 	public static void GerarPdfEscala() {
 		Document document = new Document();
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream("EscalaSRV.pdf"));
 
 			document.open();
-			
+
 			Date data = new Date();
 			DateFormat formatador = DateFormat.getDateInstance(DateFormat.DATE_FIELD);
 			Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 16, BaseColor.BLACK);
@@ -147,12 +144,7 @@ public class GerarPdf {
 			Paragraph paragrafo1 = new Paragraph("Escala do Tiro de Guerra", font);
 			paragrafo1.setAlignment(Element.ALIGN_CENTER);
 			document.add(paragrafo1);
-			
-			
-			
-			
-			
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
@@ -166,6 +158,5 @@ public class GerarPdf {
 			System.out.println(e2);
 		}
 	}
-		
-	}
 
+}
