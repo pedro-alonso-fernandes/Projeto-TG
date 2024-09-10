@@ -1,4 +1,4 @@
-package view.escala;
+package view.folgaEferiados;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -21,6 +21,8 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
 import com.mysql.cj.result.Field;
+
+import view.escala.telaGerarEscala;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -114,7 +116,7 @@ public class CadastroFeriados extends JFrame {
 		Menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaFolga folga = new telaFolga();
+				telaGerarEscala folga = new telaGerarEscala();
 				folga.setVisible(true);
 			}
 		});

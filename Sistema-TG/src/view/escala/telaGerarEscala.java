@@ -25,11 +25,12 @@ import controller.AtiradorDAO;
 import model.Array;
 import model.BD;
 import model.Escala;
-import view.telaPrincipal;
+import view.atirador.telaPrincipal;
+import view.folgaEferiados.CadastroFeriados;
 
 import java.awt.Toolkit;
 
-public class telaFolga extends JFrame {
+public class telaGerarEscala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -46,7 +47,7 @@ public class telaFolga extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					telaFolga frame = new telaFolga();
+					telaGerarEscala frame = new telaGerarEscala();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,8 +59,8 @@ public class telaFolga extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public telaFolga() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(telaFolga.class.getResource("/model/images/calendario.png")));
+	public telaGerarEscala() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaGerarEscala.class.getResource("/model/images/calendario.png")));
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 586, 544);

@@ -1,4 +1,4 @@
-package view;
+package view.atirador;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
 import model.BD;
-import view.escala.telaFolga;
+import view.escala.telaGerarEscala;
 
 import java.awt.Toolkit;
 
@@ -75,7 +75,7 @@ public class telaPrincipal extends JFrame {
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaFolga Folga = new telaFolga();
+				telaGerarEscala Folga = new telaGerarEscala();
 				Folga.setVisible(true);
 			}
 		});

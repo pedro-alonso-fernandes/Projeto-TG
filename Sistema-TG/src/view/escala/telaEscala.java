@@ -368,7 +368,7 @@ public class telaEscala extends JFrame {
 		btnmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaFolga folga = new telaFolga();
+				telaGerarEscala folga = new telaGerarEscala();
 				folga.setVisible(true);
 			}
 		});
