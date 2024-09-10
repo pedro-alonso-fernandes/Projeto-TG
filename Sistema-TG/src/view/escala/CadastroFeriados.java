@@ -19,6 +19,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.cj.result.Field;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
@@ -106,19 +109,6 @@ public class CadastroFeriados extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(null);
 
-		JButton CadastrarFeriado = new JButton("Cadastrar ");
-		CadastrarFeriado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (FieldGeral.getText().equals("")) {
-
-					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
-							JOptionPane.WARNING_MESSAGE);
-
-			}}
-		});
-		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
-		CadastrarFeriado.setBounds(63, 436, 206, 33);
-		contentPane.add(CadastrarFeriado);
 
 		JButton Menu = new JButton("Voltar ao Menu");
 		Menu.addActionListener(new ActionListener() {
@@ -229,6 +219,29 @@ public class CadastroFeriados extends JFrame {
 		lblNewLabel_7.setBounds(125, 85, 321, 28);
 		contentPane.add(lblNewLabel_7);
 
+		JButton CadastrarFeriado = new JButton("Cadastrar ");
+		CadastrarFeriado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(FeriadoCHK.isSelected()) {
+					if (FieldGeral.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
+
+						JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+								JOptionPane.WARNING_MESSAGE);
+					}
+					else if (FolgaCHK.isSelected()) {
+						if(FieldGeral.getText().equals("")) {
+							JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+									JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						
+					}
+				}}
+		});
+		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
+		CadastrarFeriado.setBounds(63, 436, 206, 33);
+		contentPane.add(CadastrarFeriado);
 		this.setLocationRelativeTo(null);
 	}
 }
