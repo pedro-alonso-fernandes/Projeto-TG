@@ -26,11 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
-<<<<<<< HEAD
 import controller.FolgaDAO;
-=======
 import controller.GerarPdf;
->>>>>>> gabriel
 import model.Data;
 import model.Escala;
 
