@@ -70,18 +70,19 @@ public class BD {
 			System.out.println("Erro ao criar tabela Feriados: " + e.getMessage());
 		}
 		
-		sql = "create table if not exists `TG`.`FolgaVermelha`(" 
+		sql = "create table if not exists `TG`.`Folgas`(" 
 				+ "id int not null primary key auto_increment," 
-				+ "valor int not null);";
-
+				+ "nome varchar(50) not null,"
+				+ "data date not null);";
+		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela FolgaVermelha: " + e.getMessage());
+			System.out.println("Erro ao criar tabela Folgas: " + e.getMessage());
 		}
 		
-		sql = "create table if not exists `TG`.`FolgaPreta`(" 
+		sql = "create table if not exists `TG`.`GuardaVermelha`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "valor int not null);";
 
@@ -89,7 +90,18 @@ public class BD {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela FolgaPreta: " + e.getMessage());
+			System.out.println("Erro ao criar tabela GuardaVermelha: " + e.getMessage());
+		}
+		
+		sql = "create table if not exists `TG`.`GuardaPreta`(" 
+				+ "id int not null primary key auto_increment," 
+				+ "valor int not null);";
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela GuardaPreta: " + e.getMessage());
 		}
 
 	}
@@ -175,61 +187,75 @@ public class BD {
 		
 	}
 	
-	public static void apagarTabelaFolgaVermelha() {
-		String sql = "drop table if exists TG.FolgaVermelha;";
+	public static void apagarTabelaFolgas() {
+		String sql = "drop table if exists TG.Folgas;";
 		PreparedStatement ps = null;
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela FolgaVermelha: " + e.getMessage());;
+			System.out.println("Erro ao apagar tabela Folgas: " + e.getMessage());;
 		}
 		
 	}
 	
-	public static void apagarTabelaFolgaPreta() {
-		String sql = "drop table if exists TG.FolgaPreta;";
+	public static void apagarTabelaGuardaVermelha() {
+		String sql = "drop table if exists TG.GuardaVermelha;";
 		PreparedStatement ps = null;
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela FolgaPreta: " + e.getMessage());;
+			System.out.println("Erro ao apagar tabela GuardaVermelha: " + e.getMessage());;
 		}
 		
 	}
 	
-	public static void reiniciarTabelaFolga(String cor) {
+	public static void apagarTabelaGuardaPreta() {
+		String sql = "drop table if exists TG.GuardaPreta;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar tabela GuardaPreta: " + e.getMessage());;
+		}
+		
+	}
+	
+	public static void reiniciarTabelaGuarda(String cor) {
 		String sql = "";
 		PreparedStatement ps = null;
 		
 		
 		if(cor.equals("Preta")) {
-			apagarTabelaFolgaPreta();
+			apagarTabelaGuardaPreta();
 			
 		}
 		else if(cor.equals("Vermelha")) {
-			apagarTabelaFolgaVermelha();
+			apagarTabelaGuardaVermelha();
 		}
 		
-		sql = "create table if not exists `TG`.`Folga" + cor + "`(" 
+		sql = "create table if not exists `TG`.`Guarda" + cor + "`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "valor int not null);";
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao reiniciar a Tabela Folga + " + cor + ": " + e.getMessage());
+			System.out.println("Erro ao reiniciar a Tabela Guarda + " + cor + ": " + e.getMessage());
 		}
 		
 	}
 	
 	public static void apagarDatabase() {
-		apagarTabelaFolgaVermelha();
-		apagarTabelaFolgaPreta();
+		apagarTabelaGuardaVermelha();
+		apagarTabelaGuardaPreta();
 		apagarTabelaFeriados();
+		apagarTabelaFolgas();
 		apagarTabelaEscala();
 		apagarTabelaAtirador();
 		

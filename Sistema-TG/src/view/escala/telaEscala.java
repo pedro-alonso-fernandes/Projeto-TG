@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
-import controller.FolgaDAO;
+import controller.GuardaDAO;
 import controller.GerarPdf;
 import model.Data;
 import model.Escala;
@@ -157,26 +157,26 @@ public class telaEscala extends JFrame {
 		
 		try {
 			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
-				ResultSet resultSet = FolgaDAO.getFolga("Preta");
+				ResultSet resultSet = GuardaDAO.getGuarda("Preta");
 				int i = 0;
-				int[] folgaPreta = new int[qtdAtiradores];
+				int[] guardaPreta = new int[qtdAtiradores];
 				
 				while(resultSet.next()) {
-					folgaPreta[i] = resultSet.getInt("valor");
+					guardaPreta[i] = resultSet.getInt("valor");
 					i++;
 				}
 				
 				
-				resultSet = FolgaDAO.getFolga("Vermelha");
+				resultSet = GuardaDAO.getGuarda("Vermelha");
 				i = 0;
-				int[] folgaVermelha = new int[qtdAtiradores];
+				int[] guardaVermelha = new int[qtdAtiradores];
 				
 				while(resultSet.next()) {
-					folgaVermelha[i] = resultSet.getInt("valor");
+					guardaVermelha[i] = resultSet.getInt("valor");
 					i++;
 				}
 				
-				Escala.gerarEscala(folgaPreta, folgaVermelha, dataProximaSemana);
+				Escala.gerarEscala(guardaPreta, guardaVermelha, dataProximaSemana);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao verificar escalas da semana que vem: " + e.getMessage());
@@ -368,8 +368,8 @@ public class telaEscala extends JFrame {
 		btnmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaGerarEscala folga = new telaGerarEscala();
-				folga.setVisible(true);
+				telaGerarEscala guarda = new telaGerarEscala();
+				guarda.setVisible(true);
 			}
 		});
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));

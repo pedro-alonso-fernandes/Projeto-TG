@@ -89,15 +89,19 @@ public class CadastroFeriados extends JFrame {
 
 		JLabel NomeData = new JLabel("Data:");
 		NomeData.setFont(new Font("Arial Black", Font.BOLD, 15));
-		NomeData.setBounds(10, 305, 51, 13);
+		NomeData.setBounds(10, 292, 51, 13);
 		contentPane.add(NomeData);
 
-		JSpinner DiaS = new JSpinner();
-		DiaS.setModel(
-				new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
-		DiaS.setFont(new Font("Arial Black", Font.BOLD, 15));
-		DiaS.setBounds(71, 290, 178, 42);
-		contentPane.add(DiaS);
+		SpinnerDateModel dateModel = new SpinnerDateModel();
+        JSpinner dataSpinner = new JSpinner(dateModel);
+
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
+        dataSpinner.setEditor(dateEditor);
+        
+		dataSpinner.setModel(new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
+		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		dataSpinner.setBounds(71, 277, 120, 42);
+		contentPane.add(dataSpinner);
 
 		JLabel TipoFeriado = new JLabel("Tipo de Feriado");
 		TipoFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
@@ -123,16 +127,6 @@ public class CadastroFeriados extends JFrame {
 		Menu.setFont(new Font("Arial Black", Font.BOLD, 15));
 		Menu.setBounds(304, 436, 206, 33);
 		contentPane.add(Menu);
-
-		JLabel NomeData2 = new JLabel("Datas abaixo de 01/01/2024");
-		NomeData2.setFont(new Font("Arial Black", Font.BOLD, 15));
-		NomeData2.setBounds(259, 282, 245, 33);
-		contentPane.add(NomeData2);
-
-		JLabel NomeData3 = new JLabel(" não são permitidas");
-		NomeData3.setFont(new Font("Arial Black", Font.BOLD, 15));
-		NomeData3.setBounds(290, 305, 185, 37);
-		contentPane.add(NomeData3);
 		
 		JCheckBox FeriadoCHK = new JCheckBox("Feriado");
 		FeriadoCHK.setFont(new Font("Arial Black", Font.BOLD, 15));
@@ -147,10 +141,8 @@ public class CadastroFeriados extends JFrame {
 		
 		Nomes.setVisible(false);
 		FieldGeral.setVisible(false);
-		DiaS.setVisible(false);
+		dataSpinner.setVisible(false);
 		NomeData.setVisible(false);
-		NomeData2.setVisible(false);
-		NomeData3.setVisible(false);
 		TipoFeriado.setVisible(false);
 		comboBox.setVisible(false);
 		
@@ -164,20 +156,16 @@ public class CadastroFeriados extends JFrame {
 				Nomes.setVisible(true);
 				Nomes.setText("Nome do Feriado");
 				FieldGeral.setVisible(true);
-				DiaS.setVisible(true);
+				dataSpinner.setVisible(true);
 				NomeData.setVisible(true);
-				NomeData2.setVisible(true);
-				NomeData3.setVisible(true);
 				TipoFeriado.setVisible(true);
 				comboBox.setVisible(true);
 				}
 				if(!FolgaCHK.isSelected() && !FeriadoCHK.isSelected()) {
 					Nomes.setVisible(false);
 					FieldGeral.setVisible(false);
-					DiaS.setVisible(false);
+					dataSpinner.setVisible(false);
 					NomeData.setVisible(false);
-					NomeData2.setVisible(false);
-					NomeData3.setVisible(false);
 					TipoFeriado.setVisible(false);
 					comboBox.setVisible(false);
 				}
@@ -195,20 +183,16 @@ public class CadastroFeriados extends JFrame {
 					Nomes.setVisible(true);
 					Nomes.setText("Nome da Folga");
 					FieldGeral.setVisible(true);
-					DiaS.setVisible(true);
+					dataSpinner.setVisible(true);
 					NomeData.setVisible(true);
-					NomeData2.setVisible(true);
-					NomeData3.setVisible(true);
 					TipoFeriado.setVisible(false);
 					comboBox.setVisible(false);
 					}
 				if(!FolgaCHK.isSelected() && !FeriadoCHK.isSelected()) {
 					Nomes.setVisible(false);
 					FieldGeral.setVisible(false);
-					DiaS.setVisible(false);
+					dataSpinner.setVisible(false);
 					NomeData.setVisible(false);
-					NomeData2.setVisible(false);
-					NomeData3.setVisible(false);
 					TipoFeriado.setVisible(false);
 					comboBox.setVisible(false);
 				}
@@ -230,16 +214,52 @@ public class CadastroFeriados extends JFrame {
 						JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
 								JOptionPane.WARNING_MESSAGE);
 					}
-					else if (FolgaCHK.isSelected()) {
-						if(FieldGeral.getText().equals("")) {
-							JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
-									JOptionPane.WARNING_MESSAGE);
-						}
-					}
+					
 					else {
 						
+						int anoModelo = 2024;
+						
+						SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+						Date data = (Date) dataSpinner.getValue();
+						int ano = Integer.parseInt(formato.format(data));
+						
+						if(ano < anoModelo) {
+							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
+						}
+						// Cadastra o Feriado/Folga
+						else {
+							
+						}
 					}
-				}}
+				}
+				else if (FolgaCHK.isSelected()) {
+					if(FieldGeral.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+								JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						int anoModelo = 2024;
+						
+						SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+						Date data = (Date) dataSpinner.getValue();
+						int ano = Integer.parseInt(formato.format(data));
+						
+						if(ano < anoModelo) {
+							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
+						}
+						// Cadastra o Feriado/Folga
+						else {
+							
+						}
+						
+						
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Não há nada para cadastrar! Selecione \"Feriado\" ou \"Folga\".", "Atenção!", JOptionPane.WARNING_MESSAGE);
+				}
+			
+			}
 		});
 		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
 		CadastrarFeriado.setBounds(63, 436, 206, 33);

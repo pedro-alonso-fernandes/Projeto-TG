@@ -36,8 +36,8 @@ public class telaGerarEscala extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
-	private int[] folgaVermelha = new int[idUltimoAtirador];
-	private int[] folgaPreta = new int[idUltimoAtirador];
+	private int[] guardaVermelha = new int[idUltimoAtirador];
+	private int[] guardaPreta = new int[idUltimoAtirador];
 	private int[] qtdGuarda = new int[idUltimoAtirador];
 
 	/**
@@ -70,10 +70,10 @@ public class telaGerarEscala extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTelaFolga = new JLabel("DADOS DA ESCALA DOS ATIRADORES E MONITORES");
-		lblTelaFolga.setFont(new Font("Arial Black", Font.BOLD, 17));
-		lblTelaFolga.setBounds(30, 10, 522, 24);
-		contentPane.add(lblTelaFolga);
+		JLabel lblTelaTitulo = new JLabel("DADOS DA ESCALA DOS ATIRADORES E MONITORES");
+		lblTelaTitulo.setFont(new Font("Arial Black", Font.BOLD, 17));
+		lblTelaTitulo.setBounds(30, 10, 522, 24);
+		contentPane.add(lblTelaTitulo);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(15, 76, 557, 340);
@@ -86,7 +86,7 @@ public class telaGerarEscala extends JFrame {
 		table = new JTable();
 		table.setFont(new Font("Dialog", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Nome de Guerra", "Cargo", "Folga Preta", "Folga Vermelha", "Qtd Guarda" }) {
+				new String[] { "ID", "Nome de Guerra", "Cargo", "Guarda Preta", "Guarda Vermelha", "Qtd Guarda" }) {
 
 			private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean[] { false, false, false, true, true, true };
@@ -161,13 +161,13 @@ public class telaGerarEscala extends JFrame {
 			while (rs.next()) {
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-						"" + folgaPreta[i], "" + folgaVermelha[i], "" + qtdGuarda[i] });
+						"" + guardaPreta[i], "" + guardaVermelha[i], "" + qtdGuarda[i] });
 				
 				i++;
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao preecher tabela folga: " + e.getMessage());
+			System.out.println("Erro ao preecher tabela guarda: " + e.getMessage());
 		}
 		
 		
@@ -183,10 +183,10 @@ public class telaGerarEscala extends JFrame {
 					int j = 0;
 					for (int i = 0; i < idUltimo; i++) {
 						String celula = (String) table.getModel().getValueAt(j, 3);
-						folgaPreta[i] = Integer.parseInt(celula);
+						guardaPreta[i] = Integer.parseInt(celula);
 
 						celula = (String) table.getModel().getValueAt(j, 4);
-						folgaVermelha[i] = Integer.parseInt(celula);
+						guardaVermelha[i] = Integer.parseInt(celula);
 
 						celula = (String) table.getModel().getValueAt(j, 5);
 						qtdGuarda[i] = Integer.parseInt(celula);
@@ -194,18 +194,18 @@ public class telaGerarEscala extends JFrame {
 						j++;
 					}
 
-					int maiorPreta = Array.getMaiorValorArray(folgaPreta, 0);
-					int maiorVermelha = Array.getMaiorValorArray(folgaVermelha, 0);
+					int maiorPreta = Array.getMaiorValorArray(guardaPreta, 0);
+					int maiorVermelha = Array.getMaiorValorArray(guardaVermelha, 0);
 
 					if (maiorPreta > 99 || maiorVermelha > 99) {
 						JOptionPane.showMessageDialog(null,
-								"Um dos valores informados é muito grande para ser uma folga!", "Erro!",
+								"Um dos valores informados é muito grande para ser uma guarda!", "Erro!",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						
 						BD.reiniciarTabelaEscala();
 						
-						Escala.gerarEscala(folgaPreta, folgaVermelha, new Date());
+						Escala.gerarEscala(guardaPreta, guardaVermelha, new Date());
 						
 						dispose();
 						
