@@ -148,10 +148,11 @@ public class telaEscala extends JFrame {
 		semanaAtual.setEnabled(false);
 		
 		Date dataProximaSemana = Data.addDias(data, 7); // Considerando que data = primeiro dia da semana atual
-		ResultSet rs = EscalaDAO.getEscala(dataProximaSemana);
+		ResultSet rsProximaSemana = EscalaDAO.getEscala(dataProximaSemana);
+		ResultSet rsSemanaAtual = EscalaDAO.getEscala(data);
 		
 		try {
-			if(!rs.next()) { 
+			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
 				ResultSet resultSet = FolgaDAO.getFolga("Preta");
 				int i = 0;
 				int[] folgaPreta = new int[qtdAtiradores];
@@ -202,7 +203,7 @@ public class telaEscala extends JFrame {
 			}
 		}
 		
-		rs = FeriadoDAO.getFeriados();
+		ResultSet rs = FeriadoDAO.getFeriados();
 		
 		try {
 			
