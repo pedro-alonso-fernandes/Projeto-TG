@@ -3,13 +3,15 @@ package view.folgaEferiados;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.text.ParseException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,14 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
-import com.mysql.cj.result.Field;
-
+import controller.FeriadoDAO;
+import controller.FolgaDAO;
+import model.Feriado;
+import model.Folga;
 import view.escala.telaGerarEscala;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
-import javax.swing.SwingConstants;
 
 public class CadastroFeriados extends JFrame {
 
@@ -76,14 +75,14 @@ public class CadastroFeriados extends JFrame {
 		lblNewLabel_1.setBounds(98, 53, 365, 22);
 		contentPane.add(lblNewLabel_1);
 
-		JLabel Nomes = new JLabel("Nome do Feriado");
+		JLabel Nomes = new JLabel("Nome do Feriado:");
 		Nomes.setFont(new Font("Arial Black", Font.BOLD, 15));
 		Nomes.setBounds(10, 214, 154, 17);
 		contentPane.add(Nomes);
 
 		FieldGeral = new JTextField();
-		FieldGeral.setFont(new Font("Arial Black", Font.PLAIN, 10));
-		FieldGeral.setBounds(166, 214, 344, 21);
+		FieldGeral.setFont(new Font("Arial", Font.PLAIN, 15));
+		FieldGeral.setBounds(166, 209, 344, 28);
 		contentPane.add(FieldGeral);
 		FieldGeral.setColumns(10);
 
@@ -92,7 +91,11 @@ public class CadastroFeriados extends JFrame {
 		NomeData.setBounds(10, 292, 51, 13);
 		contentPane.add(NomeData);
 
-		SpinnerDateModel dateModel = new SpinnerDateModel();
+		Calendar calendario = Calendar.getInstance();
+        calendario.set(2024, Calendar.JANUARY, 1);
+        Date dataInicial = calendario.getTime();
+		
+		SpinnerDateModel dateModel = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
         JSpinner dataSpinner = new JSpinner(dateModel);
 
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
@@ -103,13 +106,13 @@ public class CadastroFeriados extends JFrame {
 		dataSpinner.setBounds(71, 277, 120, 42);
 		contentPane.add(dataSpinner);
 
-		JLabel TipoFeriado = new JLabel("Tipo de Feriado");
+		JLabel TipoFeriado = new JLabel("Tipo de Feriado:");
 		TipoFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
 		TipoFeriado.setBounds(10, 358, 154, 21);
 		contentPane.add(TipoFeriado);
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Arial Black", Font.BOLD, 15));
+		comboBox.setFont(new Font("Arial", Font.PLAIN, 17));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nacional", "Estadual", "Municipal"}));
 		comboBox.setBounds(166, 354, 114, 28);
 		contentPane.add(comboBox);
@@ -154,7 +157,7 @@ public class CadastroFeriados extends JFrame {
 		
 				if(FeriadoCHK.isSelected()) {
 				Nomes.setVisible(true);
-				Nomes.setText("Nome do Feriado");
+				Nomes.setText("Nome do Feriado:");
 				FieldGeral.setVisible(true);
 				dataSpinner.setVisible(true);
 				NomeData.setVisible(true);
@@ -181,7 +184,7 @@ public class CadastroFeriados extends JFrame {
 				}
 				if(FolgaCHK.isSelected()) {
 					Nomes.setVisible(true);
-					Nomes.setText("Nome da Folga");
+					Nomes.setText("Nome da Folga:");
 					FieldGeral.setVisible(true);
 					dataSpinner.setVisible(true);
 					NomeData.setVisible(true);
@@ -226,9 +229,15 @@ public class CadastroFeriados extends JFrame {
 						if(ano < anoModelo) {
 							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
 						}
-						// Cadastra o Feriado/Folga
+						// Cadastra o Feriado
 						else {
+							Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
+							FeriadoDAO.cadastrarFeriado(feriado);
 							
+							FieldGeral.setText("");
+							comboBox.setSelectedItem(null);
+							
+							JOptionPane.showMessageDialog(null, "Feriado cadastrado com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
@@ -247,9 +256,14 @@ public class CadastroFeriados extends JFrame {
 						if(ano < anoModelo) {
 							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
 						}
-						// Cadastra o Feriado/Folga
+						// Cadastra a Folga
 						else {
+							Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
+							FolgaDAO.cadastrarFolga(folga);
 							
+							FieldGeral.setText("");
+							
+							JOptionPane.showMessageDialog(null, "Folga cadastrada com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 						

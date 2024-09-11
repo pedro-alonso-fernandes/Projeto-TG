@@ -20,6 +20,7 @@ public class FolgaDAO {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, folga.getNome());
 			ps.setString(2, formato.format(folga.getData()));
+			ps.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro ao cadastrar Folga: " + e.getMessage());
 		}
