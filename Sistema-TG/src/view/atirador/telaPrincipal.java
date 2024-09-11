@@ -2,6 +2,7 @@ package view.atirador;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,15 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controller.AtiradorDAO;
 import model.BD;
-<<<<<<< HEAD:Sistema-TG/src/view/telaPrincipal.java
-import view.escala.telaFolga;
-=======
 import view.escala.telaGerarEscala;
->>>>>>> 33750df1a5fc24cc740370fda71f0f1b6b739a74:Sistema-TG/src/view/atirador/telaPrincipal.java
-
-import java.awt.Toolkit;
 
 public class telaPrincipal extends JFrame {
 
