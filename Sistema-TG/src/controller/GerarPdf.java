@@ -12,6 +12,7 @@ import javax.swing.text.StyleConstants.ColorConstants;
 
 import org.w3c.dom.html.HTMLFieldSetElement;
 
+import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -26,6 +27,7 @@ import com.itextpdf.text.TabStop.Alignment;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.PageSize;
 
 public class GerarPdf {
 	public GerarPdf() {
@@ -131,10 +133,10 @@ public class GerarPdf {
 	}
 
 	public static void GerarPdfEscala() {
-		Document document = new Document();
+		Document document = new Document(PageSize.A4.rotate());
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream("EscalaSRV.pdf"));
-
+			
 			document.open();
 
 			Date data = new Date();
@@ -144,6 +146,37 @@ public class GerarPdf {
 			Paragraph paragrafo1 = new Paragraph("Escala do Tiro de Guerra", font);
 			paragrafo1.setAlignment(Element.ALIGN_CENTER);
 			document.add(paragrafo1);
+			document.add(new Paragraph("     "));
+			Paragraph paragrafo2 = new Paragraph("Semana Atual", font);
+			paragrafo2.setAlignment(Element.ALIGN_CENTER);
+			document.add(paragrafo2);
+			document.add(new Paragraph("     "));
+			
+			float[] colsWidth = { 1f, 1f, 1f, 1f, 1f, 1f , 1f};
+			PdfPTable tabela = new PdfPTable(colsWidth);
+			Paragraph D = new Paragraph("Domingo", font2);
+			PdfPCell coll1 = new PdfPCell(D);
+			tabela.addCell(coll1).setHorizontalAlignment(1);
+			PdfPCell coll2 = new PdfPCell(new Paragraph("Segunda", font2));
+			tabela.addCell(coll2).setHorizontalAlignment(1);
+			PdfPCell coll3 = new PdfPCell(new Paragraph("Terça", font2));
+			tabela.addCell(coll3).setHorizontalAlignment(1);
+			PdfPCell coll4 = new PdfPCell(new Paragraph("Quarta", font2));
+			tabela.addCell(coll4).setHorizontalAlignment(1);
+			PdfPCell coll5 = new PdfPCell(new Paragraph("Quinta", font2));
+			tabela.addCell(coll5).setHorizontalAlignment(1);
+			PdfPCell coll6 = new PdfPCell(new Paragraph("Sexta", font2));
+			tabela.addCell(coll6).setHorizontalAlignment(1);
+			PdfPCell coll7 = new PdfPCell(new Paragraph("Sábado", font2));
+			tabela.addCell(coll7).setHorizontalAlignment(1);
+
+			
+			
+			document.add(tabela);
+			document.add(new Paragraph("     "));
+			Paragraph paragrafosgt = new Paragraph("Chefe de Instrução:____________________________________________________",font2);
+			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
+			document.add(paragrafosgt);
 
 		} catch (Exception e) {
 			System.out.println(e);

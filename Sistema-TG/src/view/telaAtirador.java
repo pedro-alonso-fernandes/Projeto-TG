@@ -14,9 +14,9 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
-import controller.BD;
 import controller.Conexao;
 import controller.GerarPdf;
+import model.BD;
 
 import java.awt.Color;
 import javax.swing.JButton;

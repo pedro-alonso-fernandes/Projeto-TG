@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
-import controller.BD;
+import model.BD;
 import view.escala.telaFolga;
 
 import java.awt.Toolkit;

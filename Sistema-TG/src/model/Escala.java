@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
+import controller.FolgaDAO;
 import view.escala.telaEscala;
 
 public class Escala {
@@ -949,15 +950,15 @@ public class Escala {
 	}
 
 	
-	public static void gerarEscala(int[] folgaPreta, int[] folgaVermelha) {
+	public static void gerarEscala(int[] folgaPreta, int[] folgaVermelha, Date dataEscala) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		Date data = new Date();
+		Date data = dataEscala;
 		
-		try {
-			data = formato.parse("25/08/2024");
-		} catch (ParseException e) {
-			System.out.println("Erro ao salvar data: " + e.getMessage());
-		}
+//		try {
+//			data = formato.parse("25/08/2024");
+//		} catch (ParseException e) {
+//			System.out.println("Erro ao salvar data: " + e.getMessage());
+//		}
 		int contador = 0;
 		
 		
@@ -1299,6 +1300,9 @@ public class Escala {
 			
 			data = Data.addDias(data, 1);
 		}
+		FolgaDAO.cadastrarFolga(folgaPreta, "Preta");
+		FolgaDAO.cadastrarFolga(folgaVermelha, "Vermelha");
+		
 		
 	}
 	

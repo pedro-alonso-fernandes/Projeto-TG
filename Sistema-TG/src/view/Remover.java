@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AtiradorDAO;
-import controller.BD;
+import model.BD;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

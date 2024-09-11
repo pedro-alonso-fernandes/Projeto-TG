@@ -1,9 +1,11 @@
 package controller;
 
-import java.sql.*;
-import java.util.StringJoiner;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import model.Atirador;
+import model.BD;
 
 public class AtiradorDAO {
 
@@ -232,6 +234,29 @@ public class AtiradorDAO {
 			
 		} catch (SQLException e) {
 			System.out.println("Erro ao pegar quantidade de monitores: " + e.getMessage());
+		}
+		
+		
+		return qtd;
+	}
+	
+	public static int getQtdAtiradoresGeral() {
+		BD.selecionarDatabase();
+		
+		int qtd = 0;
+		
+		String sql = "select count(*) from Atirador;";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			qtd = rs.getInt("count(*)");
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar quantidade de atiradores (geral): " + e.getMessage());
 		}
 		
 		
