@@ -1,4 +1,4 @@
-package view;
+package view.atirador;
 
 import java.awt.EventQueue;
 import java.awt.Font;

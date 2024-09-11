@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
+import controller.FolgaDAO;
 import controller.GerarPdf;
 import model.Data;
 import model.Escala;
@@ -50,6 +51,7 @@ public class telaEscala extends JFrame {
 	private JTable dias_da_semana_2;
 	public static boolean aviso1 = false;
 	public static boolean aviso2 = false;
+	private int qtdAtiradores = AtiradorDAO.getQtdAtiradoresGeral();
 
 	/**
 	 * Launch the application.
@@ -90,7 +92,7 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(35, 103, 740, 20);
+		scrollPane_1.setBounds(23, 101, 740, 20);
 		contentPane.add(scrollPane_1);
 		
 		dias_da_semana = new JTable();
@@ -108,7 +110,7 @@ public class telaEscala extends JFrame {
 		scrollPane_1.setViewportView(dias_da_semana);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(35, 122, 740, 86);
+		scrollPane_2.setBounds(23, 120, 740, 87);
 		contentPane.add(scrollPane_2);
 
 		semanaAtual = new JTable();
@@ -117,6 +119,7 @@ public class telaEscala extends JFrame {
 
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
+//		Date data = Data.primeiroDiaSemana(Data.addDias(new Date(), 7));
 		DefaultTableCellRenderer preta = new DefaultTableCellRenderer();
 		DefaultTableCellRenderer vermelha = new DefaultTableCellRenderer();
 
@@ -147,6 +150,37 @@ public class telaEscala extends JFrame {
 		semanaAtual.getColumnModel().getColumn(5).setResizable(false);
 		semanaAtual.getColumnModel().getColumn(6).setResizable(false);
 		semanaAtual.setEnabled(false);
+		
+		Date dataProximaSemana = Data.addDias(data, 7); // Considerando que data = primeiro dia da semana atual
+		ResultSet rsProximaSemana = EscalaDAO.getEscala(dataProximaSemana);
+		ResultSet rsSemanaAtual = EscalaDAO.getEscala(data);
+		
+		try {
+			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
+				ResultSet resultSet = FolgaDAO.getFolga("Preta");
+				int i = 0;
+				int[] folgaPreta = new int[qtdAtiradores];
+				
+				while(resultSet.next()) {
+					folgaPreta[i] = resultSet.getInt("valor");
+					i++;
+				}
+				
+				
+				resultSet = FolgaDAO.getFolga("Vermelha");
+				i = 0;
+				int[] folgaVermelha = new int[qtdAtiradores];
+				
+				while(resultSet.next()) {
+					folgaVermelha[i] = resultSet.getInt("valor");
+					i++;
+				}
+				
+				Escala.gerarEscala(folgaPreta, folgaVermelha, dataProximaSemana);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar escalas da semana que vem: " + e.getMessage());
+		}
 		
 		preta.setHorizontalAlignment(SwingConstants.CENTER);
 		vermelha.setHorizontalAlignment(SwingConstants.CENTER);
@@ -212,7 +246,7 @@ public class telaEscala extends JFrame {
 		semanaAtual.setModel(modelo);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(35, 274, 740, 20);
+		scrollPane_3.setBounds(23, 272, 740, 20);
 		contentPane.add(scrollPane_3);
 		
 		dias_da_semana_2 = new JTable();
@@ -232,7 +266,7 @@ public class telaEscala extends JFrame {
 		
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setBounds(35, 292, 740, 86);
+		scrollPane_4.setBounds(23, 290, 740, 87);
 		contentPane.add(scrollPane_4);
 		
 		
@@ -334,7 +368,7 @@ public class telaEscala extends JFrame {
 		btnmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaFolga folga = new telaFolga();
+				telaGerarEscala folga = new telaGerarEscala();
 				folga.setVisible(true);
 			}
 		});
