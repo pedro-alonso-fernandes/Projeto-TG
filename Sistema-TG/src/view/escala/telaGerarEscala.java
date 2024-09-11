@@ -2,11 +2,11 @@ package view.escala;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -27,8 +27,6 @@ import model.BD;
 import model.Escala;
 import view.atirador.telaPrincipal;
 import view.folgaEferiados.CadastroFeriados;
-
-import java.awt.Toolkit;
 
 public class telaGerarEscala extends JFrame {
 
