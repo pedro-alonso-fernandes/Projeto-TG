@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -24,6 +25,24 @@ public class FolgaDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao cadastrar Folga: " + e.getMessage());
 		}
+	}
+	
+	public static ResultSet getFolgas() {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Folgas;";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todas as Folgas: " + e.getMessage());
+		}
+		
+		
+		return rs;
 	}
 	
 }
