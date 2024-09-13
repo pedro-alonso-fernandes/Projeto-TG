@@ -148,7 +148,7 @@ public class Escala {
 						linha[i] = "";
 						continue;
 					} else if (correcao == 0) {
-						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i]);
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
 						j++;
 						continue;
 					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
@@ -176,7 +176,7 @@ public class Escala {
 						linha[i] = "";
 						continue;
 					} else if (correcao == 0) {
-						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i]);
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
 						j++;
 						continue;
 					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
@@ -204,7 +204,7 @@ public class Escala {
 						linha[i] = "";
 						continue;
 					} else if (correcao == 0) {
-						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i]);
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
 						j++;
 						continue;
 					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
@@ -232,7 +232,7 @@ public class Escala {
 						linha[i] = "";
 						continue;
 					} else if (correcao == 0) {
-						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i]);
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
 						j++;
 						continue;
 					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
@@ -968,14 +968,24 @@ public class Escala {
 		ResultSet rsFolga = FolgaDAO.getFolgas();
 		
 		try {
-			while(rsFeriado.next() || rsFolga.next()) {
+			
+			while(rsFolga.next()) {
 				if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
 					folga = true;
+					data = Data.addDias(data, 1);
 					break;
 				}
+			}
+			
+			if(!folga) {
 				
-				if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-					feriado = true;
+				while(rsFeriado.next()) {
+					
+					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
+						feriado = true;
+						break;
+					}
+					
 				}
 				
 			}
@@ -1226,26 +1236,36 @@ public class Escala {
 			data = Data.addDias(data, 1);
 			
 		}
-		else {
-			data = Data.addDias(data, 1);
-		}
 		
 		
 		
 		
 		// Próximas escalas
-		for(int j = 0; j < contador; j++) {
+		externo: for(int j = 0; j < contador; j++) {
 			feriado = false;
-			ResultSet rs = FeriadoDAO.getFeriados();
+			folga = false;
+			rsFeriado = FeriadoDAO.getFeriados();
+			rsFolga = FolgaDAO.getFolgas();
 			
 			try {
-				while(rs.next()) {
-					if(formato.format(rs.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
+				
+				while(rsFolga.next()) {
+					if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
+						folga = false;
+						data = Data.addDias(data, 1);
+						continue externo;
 					}
 				}
+				
+				while(rsFeriado.next()) {
+					
+					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
+						feriado = true;
+					}
+					
+				}
 			} catch (SQLException e) {
-				System.out.println("Erro ao percorrer pelos feriados do BD: " + e.getMessage());
+				System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 			}
 			
 			escala = null;
@@ -1397,28 +1417,32 @@ public class Escala {
 		
 		
 		try {
-			rsAnterior.next();
-			idGuardaAnterior[0] = rsAnterior.getInt("monitorId");
-			idGuardaAnterior[1] = rsAnterior.getInt("atirador1Id");
-			idGuardaAnterior[2] = rsAnterior.getInt("atirador2Id");
-			idGuardaAnterior[3] = rsAnterior.getInt("atirador3Id");
+			if(rsAnterior.next()) {
+				
+				idGuardaAnterior[0] = rsAnterior.getInt("monitorId");
+				idGuardaAnterior[1] = rsAnterior.getInt("atirador1Id");
+				idGuardaAnterior[2] = rsAnterior.getInt("atirador2Id");
+				idGuardaAnterior[3] = rsAnterior.getInt("atirador3Id");
+				
+				int[] idGuardaProximo = getidGuarda(simulacaoguarda);
+				
+				int l = 1;
+				for(int i = 0; i < idGuarda.length; i++) {
+					if(idGuarda[i] == idGuardaAnterior[i] && i == 0) {
+						idGuarda[i] = idGuardaProximo[i];
+					}
+					else if(idGuarda[i] == idGuardaAnterior[i] && i > 0) {
+						idGuarda[i] = idGuardaProximo[l];
+						l++;
+					}
+				}
+				
+			}
+			
 			
 			
 		} catch (SQLException e) {
 			System.out.println("Erro ao pegar Escala anterior: " + e.getMessage());
-		}
-		
-		int[] idGuardaProximo = getidGuarda(simulacaoguarda);
-		
-		int l = 1;
-		for(int i = 0; i < idGuarda.length; i++) {
-			if(idGuarda[i] == idGuardaAnterior[i] && i == 0) {
-				idGuarda[i] = idGuardaProximo[i];
-			}
-			else if(idGuarda[i] == idGuardaAnterior[i] && i > 0) {
-				idGuarda[i] = idGuardaProximo[l];
-				l++;
-			}
 		}
 		
 		

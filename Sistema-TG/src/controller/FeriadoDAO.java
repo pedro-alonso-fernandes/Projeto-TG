@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.BD;
+import model.Data;
 import model.Feriado;
 
 public class FeriadoDAO {
@@ -108,6 +110,29 @@ public class FeriadoDAO {
 		}
 		
 		return qtd;
+	}
+	
+	public static ResultSet getFeriadosSemana(Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Feriado where data >= ? and data <= ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		
+		data = Data.primeiroDiaSemana(data);
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			ps.setString(2, formato.format(Data.addDias(data, 6)));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar os Feriados da Semana: " + e.getMessage());
+			return rs;
+		}
 	}
 	
 }

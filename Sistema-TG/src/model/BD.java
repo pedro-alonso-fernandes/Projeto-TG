@@ -67,10 +67,10 @@ public class BD {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Feriados: " + e.getMessage());
+			System.out.println("Erro ao criar tabela Feriado: " + e.getMessage());
 		}
 		
-		sql = "create table if not exists `TG`.`Folgas`(" 
+		sql = "create table if not exists `TG`.`Folga`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "nome varchar(50) not null,"
 				+ "data date not null);";
@@ -79,7 +79,7 @@ public class BD {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao criar tabela Folgas: " + e.getMessage());
+			System.out.println("Erro ao criar tabela Folga: " + e.getMessage());
 		}
 		
 		sql = "create table if not exists `TG`.`GuardaVermelha`(" 
@@ -174,7 +174,7 @@ public class BD {
 		
 	}
 	
-	public static void apagarTabelaFeriados() {
+	public static void apagarTabelaFeriado() {
 		String sql = "drop table if exists TG.Feriados;";
 		PreparedStatement ps = null;
 		
@@ -187,15 +187,15 @@ public class BD {
 		
 	}
 	
-	public static void apagarTabelaFolgas() {
-		String sql = "drop table if exists TG.Folgas;";
+	public static void apagarTabelaFolga() {
+		String sql = "drop table if exists TG.Folga;";
 		PreparedStatement ps = null;
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao apagar tabela Folgas: " + e.getMessage());;
+			System.out.println("Erro ao apagar tabela Folga: " + e.getMessage());;
 		}
 		
 	}
@@ -254,8 +254,8 @@ public class BD {
 	public static void apagarDatabase() {
 		apagarTabelaGuardaVermelha();
 		apagarTabelaGuardaPreta();
-		apagarTabelaFeriados();
-		apagarTabelaFolgas();
+		apagarTabelaFeriado();
+		apagarTabelaFolga();
 		apagarTabelaEscala();
 		apagarTabelaAtirador();
 		

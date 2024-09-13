@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
+import controller.FolgaDAO;
 import controller.GuardaDAO;
 import controller.GerarPdf;
 import model.Data;
@@ -122,6 +123,7 @@ public class telaEscala extends JFrame {
 //		Date data = Data.primeiroDiaSemana(Data.addDias(new Date(), 7));
 		DefaultTableCellRenderer preta = new DefaultTableCellRenderer();
 		DefaultTableCellRenderer vermelha = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer normal = new DefaultTableCellRenderer();
 
 		//Tabela semana atual
 		
@@ -151,9 +153,9 @@ public class telaEscala extends JFrame {
 		semanaAtual.getColumnModel().getColumn(6).setResizable(false);
 		semanaAtual.setEnabled(false);
 		
-		Date dataProximaSemana = Data.addDias(data, 7); // Considerando que data = primeiro dia da semana atual
-		ResultSet rsProximaSemana = EscalaDAO.getEscala(dataProximaSemana);
-		ResultSet rsSemanaAtual = EscalaDAO.getEscala(data);
+		Date dataProximaSemana = Data.diaProximaSemana(data); 
+		ResultSet rsProximaSemana = EscalaDAO.getEscalaSemana(dataProximaSemana);
+		ResultSet rsSemanaAtual = EscalaDAO.getEscalaSemana(data);
 		
 		try {
 			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
@@ -184,12 +186,14 @@ public class telaEscala extends JFrame {
 		
 		preta.setHorizontalAlignment(SwingConstants.CENTER);
 		vermelha.setHorizontalAlignment(SwingConstants.CENTER);
+		normal.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		preta.setBackground(Color.BLACK);
 		preta.setForeground(Color.WHITE);
 		
 		vermelha.setBackground(Color.RED);
 		vermelha.setForeground(Color.WHITE);
+		
 		
 		for(int i = 0; i < colunasAtual.length; i++) {
 			String diaSemana = null;
@@ -199,36 +203,45 @@ public class telaEscala extends JFrame {
 				System.out.println("Erro ao pegar dia da semana dentro do for: " + e.getMessage());
 			}
 			
+			
+			// Fim de Semana
 			if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
 				semanaAtual.getColumnModel().getColumn(i).setCellRenderer(vermelha);
 			}
+			// Dia da Semana
 			else {
 				semanaAtual.getColumnModel().getColumn(i).setCellRenderer(preta);
 			}
+				
 		}
 		
-		ResultSet rs = FeriadoDAO.getFeriados();
+		ResultSet rsFolga = FolgaDAO.getFolgasSemana(data);
+		ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
 		
 		try {
 			
-			while(rs.next()) {
-				
+			while(rsFeriado.next()) {
 				for(int i = 0; i < colunasAtual.length; i++) {
-					String dataFormatada = formato.format(rs.getDate("data"));
-					if(colunasAtual[i].equals(dataFormatada)) {
+					// Se for feriado
+					if(colunasAtual[i].equals(formato.format(rsFeriado.getDate("data")))) {
 						semanaAtual.getColumnModel().getColumn(i).setCellRenderer(vermelha);
 					}
 				}
-				
 			}
+			
+			while(rsFolga.next()) {
+				for(int i = 0; i < colunasAtual.length; i++) {
+					// Se for folga
+					if(colunasAtual[i].equals(formato.format(rsFolga.getDate("data")))) {
+						semanaAtual.getColumnModel().getColumn(i).setCellRenderer(normal);
+					}
+				}
+			}
+			
+			
 		} catch (SQLException e) {
-			System.out.println("Erro ao percorrer pelos feriados do BD: " + e.getMessage());
+			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 		}
-		
-		
-		
-		
-		
 		
 //		semanaAtual.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 //		semanaAtual.getColumnModel().getColumn(1).setCellRenderer(centralizado);
@@ -272,16 +285,14 @@ public class telaEscala extends JFrame {
 		
 		
 		//Tabela próxima semana
-		data = Data.diaProximaSemana(data);
-		
 		proximaSemana = new JTable();
 		proximaSemana.setFont(new Font("Dialog", Font.PLAIN, 12));
 		scrollPane_4.setViewportView(proximaSemana);
 		
 		String[] colunasProxima = {
-				formato.format(data), formato.format(Data.addDias(data, 1)), formato.format(Data.addDias(data, 2)),
-				formato.format(Data.addDias(data, 3)), formato.format(Data.addDias(data, 4)), formato.format(Data.addDias(data, 5)), 
-				formato.format(Data.addDias(data, 6))
+				formato.format(dataProximaSemana), formato.format(Data.addDias(dataProximaSemana, 1)), formato.format(Data.addDias(dataProximaSemana, 2)),
+				formato.format(Data.addDias(dataProximaSemana, 3)), formato.format(Data.addDias(dataProximaSemana, 4)), formato.format(Data.addDias(dataProximaSemana, 5)), 
+				formato.format(Data.addDias(dataProximaSemana, 6))
 		};
 		
 		proximaSemana.setModel(new DefaultTableModel(new Object[][] {}, colunasProxima){
@@ -314,31 +325,45 @@ public class telaEscala extends JFrame {
 				System.out.println("Erro ao pegar dia da semana dentro do for: " + e.getMessage());
 			}
 			
+			// Fim de Semana
 			if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
 				proximaSemana.getColumnModel().getColumn(i).setCellRenderer(vermelha);
 			}
+			// Dia da Semana
 			else {
 				proximaSemana.getColumnModel().getColumn(i).setCellRenderer(preta);
 			}
+				
 		}
 		
-		rs = FeriadoDAO.getFeriados();
+		rsFolga = FolgaDAO.getFolgasSemana(dataProximaSemana);
+		rsFeriado = FeriadoDAO.getFeriadosSemana(dataProximaSemana);
 		
 		try {
 			
-			while(rs.next()) {
-				
+			while(rsFeriado.next()) {
 				for(int i = 0; i < colunasProxima.length; i++) {
-					String dataFormatada = formato.format(rs.getDate("data"));
-					if(colunasProxima[i].equals(dataFormatada)) {
+					// Se for feriado
+					if(colunasProxima[i].equals(formato.format(rsFeriado.getDate("data")))) {
 						proximaSemana.getColumnModel().getColumn(i).setCellRenderer(vermelha);
 					}
 				}
-				
 			}
+			
+			while(rsFolga.next()) {
+				for(int i = 0; i < colunasProxima.length; i++) {
+					// Se for folga
+					if(colunasProxima[i].equals(formato.format(rsFolga.getDate("data")))) {
+						proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
+					}
+				}
+			}
+			
+			
 		} catch (SQLException e) {
-			System.out.println("Erro ao percorrer pelos feriados do BD: " + e.getMessage());
+			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 		}
+		
 		
 //		proximaSemana.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 //		proximaSemana.getColumnModel().getColumn(1).setCellRenderer(centralizado);
@@ -350,7 +375,7 @@ public class telaEscala extends JFrame {
 		
 		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
 		
-		DefaultTableModel modelo2 = Escala.getModelProximaSemana(data, colunasProxima);
+		DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
 		
 		proximaSemana.setModel(modelo2);
 		
