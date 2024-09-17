@@ -122,7 +122,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = formato.parse("13/09/2024");
+//			data = Data.primeiroDiaSemana(formato.parse("20/09/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}
@@ -244,27 +244,27 @@ public class telaEscala extends JFrame {
 				}
 			}
 			
-			int j = 0;
-			int contador = 0;
-			while(rsEscala.next()) {
-				
-				contador = 0;
-				for(int i = 0; i < colunasAtual.length; i++) {
-					
-					if(!colunasAtual[i].equals(formato.format(rsEscala.getDate("data")))) {
-						contador++;
-					}
-					else {
-						contador = 0;
-						break;
-					}
-				}
-				
-				if(contador > 0) {
-					semanaAtual.getColumnModel().getColumn(j).setCellRenderer(normal);
-				}
-				
-			}
+//			int j = 0;
+//			int contador = 0;
+//			while(rsEscala.next()) {
+//				
+//				contador = 0;
+//				for(int i = 0; i < colunasAtual.length; i++) {
+//					
+//					if(!colunasAtual[i].equals(formato.format(rsEscala.getDate("data")))) {
+//						contador++;
+//					}
+//					else {
+//						contador = 0;
+//						break;
+//					}
+//				}
+//				
+//				if(contador > 0) {
+//					semanaAtual.getColumnModel().getColumn(j).setCellRenderer(normal);
+//				}
+//				
+//			}
 			
 			
 		} catch (SQLException e) {

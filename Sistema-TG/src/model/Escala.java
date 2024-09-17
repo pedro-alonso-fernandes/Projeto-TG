@@ -138,18 +138,21 @@ public class Escala {
 			System.out.println("Erro ao percorrer pelas Escalas e Folgas do BD: " + e.getMessage());
 		}
 
-		if (datas[0] != null) {
+		if (datas[0] != null || datasFolga[0] != null) {
 			String[] linha = new String[7];
 			int correcao = 0;
 			int j = 0;
 			int f = 0;
 			
 			Date dataRecente = null;
-			if(datasFolga[0] != null) {
+			if(datas[0] != null && datasFolga[0] != null) {
 				dataRecente = Data.dataMaisRecente(datas[0], datasFolga[0]);
 			}
-			else {
+			else if(datas[0] != null){
 				dataRecente = datas[0];
+			}
+			else {
+				dataRecente = datasFolga[0];
 			}
 			
 			
@@ -1415,9 +1418,11 @@ public class Escala {
 					else if(monitores[i - 5] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1432,9 +1437,11 @@ public class Escala {
 						
 					} else {
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1458,9 +1465,11 @@ public class Escala {
 					else if(atiradores1[i - 5] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1476,9 +1485,11 @@ public class Escala {
 					}
 					else {
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1502,9 +1513,11 @@ public class Escala {
 					else if(atiradores2[i - 5] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1520,9 +1533,11 @@ public class Escala {
 					}
 					else {
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1546,9 +1561,11 @@ public class Escala {
 					else if(atiradores3[i - 5] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1564,9 +1581,11 @@ public class Escala {
 					}
 					else {
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1591,9 +1610,11 @@ public class Escala {
 					else if(monitores[i - 6] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1622,9 +1643,11 @@ public class Escala {
 					else if(atiradores1[i - 6] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1653,9 +1676,11 @@ public class Escala {
 					else if(atiradores2[i - 6] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1684,9 +1709,11 @@ public class Escala {
 					else if(atiradores3[i - 6] == 0) {
 						
 						folga = false;
+						f = 0;
 						while(datasFolga[f] != null) {
 							if(formato.format(datasFolga[f]).equals(colunas[i])) {
 								folga = true;
+								break;
 							}
 							f++;
 						}
@@ -1840,7 +1867,7 @@ public class Escala {
 		
 //		Date data = null;
 //		try {
-//			data = formato.parse("19/09/2024");
+//			data = formato.parse("21/09/2024");
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data: " + e.getMessage());
 //		}
