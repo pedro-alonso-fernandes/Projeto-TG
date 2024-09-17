@@ -81,4 +81,20 @@ public class Data {
 		
 		return data;
 	}
+	
+	public static Date dataMaisRecente(Date data1, Date data2) {
+		Date dataRecente = null;
+		
+		if(data1.after(data2)) {
+			dataRecente = data2;
+		}
+		else if(data2.after(data1)) {
+			dataRecente = data1;
+		}
+		else {
+			dataRecente = data1;
+		}
+		
+		return dataRecente;
+	}
 }

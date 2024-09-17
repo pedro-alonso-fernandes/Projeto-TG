@@ -120,7 +120,12 @@ public class telaEscala extends JFrame {
 
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
-//		Date data = Data.primeiroDiaSemana(Data.addDias(new Date(), 7));
+//		Date data = null;
+//		try {
+//			data = formato.parse("13/09/2024");
+//		} catch (ParseException e) {
+//			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
+//		}
 		DefaultTableCellRenderer preta = new DefaultTableCellRenderer();
 		DefaultTableCellRenderer vermelha = new DefaultTableCellRenderer();
 		DefaultTableCellRenderer normal = new DefaultTableCellRenderer();
@@ -217,6 +222,7 @@ public class telaEscala extends JFrame {
 		
 		ResultSet rsFolga = FolgaDAO.getFolgasSemana(data);
 		ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
+		ResultSet rsEscala = EscalaDAO.getEscalaSemana(data);
 		
 		try {
 			
@@ -236,6 +242,28 @@ public class telaEscala extends JFrame {
 						semanaAtual.getColumnModel().getColumn(i).setCellRenderer(normal);
 					}
 				}
+			}
+			
+			int j = 0;
+			int contador = 0;
+			while(rsEscala.next()) {
+				
+				contador = 0;
+				for(int i = 0; i < colunasAtual.length; i++) {
+					
+					if(!colunasAtual[i].equals(formato.format(rsEscala.getDate("data")))) {
+						contador++;
+					}
+					else {
+						contador = 0;
+						break;
+					}
+				}
+				
+				if(contador > 0) {
+					semanaAtual.getColumnModel().getColumn(j).setCellRenderer(normal);
+				}
+				
 			}
 			
 			
