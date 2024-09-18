@@ -3,23 +3,26 @@ package view.escala;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,20 +30,10 @@ import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
-import controller.GuardaDAO;
 import controller.GerarPdf;
+import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseWheelListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.Toolkit;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class telaEscala extends JFrame {
 
@@ -223,6 +216,8 @@ public class telaEscala extends JFrame {
 		ResultSet rsFolga = FolgaDAO.getFolgasSemana(data);
 		ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
 		ResultSet rsEscala = EscalaDAO.getEscalaSemana(data);
+		Date dataFolga = null;
+		Date dataEscala = null;
 		
 		try {
 			
@@ -236,6 +231,8 @@ public class telaEscala extends JFrame {
 			}
 			
 			while(rsFolga.next()) {
+				dataFolga = dataFolga == null ? rsFolga.getDate("data") : dataFolga; // Pegará apenas a data da primeira folga
+				
 				for(int i = 0; i < colunasAtual.length; i++) {
 					// Se for folga
 					if(colunasAtual[i].equals(formato.format(rsFolga.getDate("data")))) {
@@ -244,27 +241,65 @@ public class telaEscala extends JFrame {
 				}
 			}
 			
-//			int j = 0;
-//			int contador = 0;
-//			while(rsEscala.next()) {
-//				
-//				contador = 0;
-//				for(int i = 0; i < colunasAtual.length; i++) {
-//					
-//					if(!colunasAtual[i].equals(formato.format(rsEscala.getDate("data")))) {
-//						contador++;
-//					}
-//					else {
-//						contador = 0;
-//						break;
-//					}
-//				}
-//				
-//				if(contador > 0) {
-//					semanaAtual.getColumnModel().getColumn(j).setCellRenderer(normal);
-//				}
-//				
-//			}
+			if(rsEscala.next()) {
+				dataEscala = rsEscala.getDate("data");
+			}
+			
+			
+			if(dataEscala != null) {
+				
+				Date dataRecente = null;
+				if(dataEscala != null && dataFolga != null) {
+					dataRecente = Data.dataMaisRecente(dataEscala, dataFolga);
+				}
+				else {
+					dataRecente = dataEscala;
+				}
+				
+				
+				switch (Data.getDiaSemana(dataRecente)) {
+				case "SEG":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					break;
+				case "TER":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(1).setCellRenderer(normal);
+					break;
+				case "QUA":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(1).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(2).setCellRenderer(normal);
+					break;
+				case "QUI":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(1).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(2).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(3).setCellRenderer(normal);
+					break;
+				case "SEX":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(1).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(2).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(3).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(4).setCellRenderer(normal);
+					break;
+				case "SAB":
+					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(1).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(2).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(3).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(4).setCellRenderer(normal);
+					semanaAtual.getColumnModel().getColumn(5).setCellRenderer(normal);
+					break;	
+				}
+				
+			}
+			else {
+				for(int i = 0; i < 7; i++) {
+					semanaAtual.getColumnModel().getColumn(i).setCellRenderer(normal);
+				}
+			}
+			
 			
 			
 		} catch (SQLException e) {
@@ -384,6 +419,18 @@ public class telaEscala extends JFrame {
 					if(colunasProxima[i].equals(formato.format(rsFolga.getDate("data")))) {
 						proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
 					}
+				}
+			}
+			
+			if(rsEscala.next()) {
+				dataEscala = rsEscala.getDate("data");
+			}
+			
+			
+			if(dataEscala == null) {
+				
+				for(int i = 0; i < 7; i++) {
+					proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
 				}
 			}
 			

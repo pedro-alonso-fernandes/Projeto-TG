@@ -138,7 +138,7 @@ public class Escala {
 			System.out.println("Erro ao percorrer pelas Escalas e Folgas do BD: " + e.getMessage());
 		}
 
-		if (datas[0] != null || datasFolga[0] != null) {
+		if (datas[0] != null) {
 			String[] linha = new String[7];
 			int correcao = 0;
 			int j = 0;
@@ -148,11 +148,8 @@ public class Escala {
 			if(datas[0] != null && datasFolga[0] != null) {
 				dataRecente = Data.dataMaisRecente(datas[0], datasFolga[0]);
 			}
-			else if(datas[0] != null){
-				dataRecente = datas[0];
-			}
 			else {
-				dataRecente = datasFolga[0];
+				dataRecente = datas[0];
 			}
 			
 			
