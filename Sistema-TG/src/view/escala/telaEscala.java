@@ -401,6 +401,7 @@ public class telaEscala extends JFrame {
 		
 		rsFolga = FolgaDAO.getFolgasSemana(dataProximaSemana);
 		rsFeriado = FeriadoDAO.getFeriadosSemana(dataProximaSemana);
+		rsEscala = EscalaDAO.getEscalaSemana(dataProximaSemana);
 		
 		try {
 			

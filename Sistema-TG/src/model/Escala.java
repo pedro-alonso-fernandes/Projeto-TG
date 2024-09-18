@@ -115,6 +115,7 @@ public class Escala {
 		int[] atiradores3 = new int[7];
 		Date[] datas = new Date[7];
 		Date[] datasFolga = new Date[7];
+		Date dataEscala = null;
 
 		try {
 			int i = 0;
@@ -133,12 +134,22 @@ public class Escala {
 				datasFolga[i] = rsFolga.getDate("data");
 				i++;
 			}
+			
+			if(tabela.equals("semanaAtual")) {
+				ResultSet rsProximaSemana = EscalaDAO.getEscalaSemana(Data.diaProximaSemana(data));
+				if(rsProximaSemana.next()) {
+					dataEscala = rsProximaSemana.getDate("data");
+				}
+				
+			}
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao percorrer pelas Escalas e Folgas do BD: " + e.getMessage());
 		}
 
-		if (datas[0] != null) {
+		
+		
+		if (datas[0] != null || dataEscala != null) {
 			String[] linha = new String[7];
 			int correcao = 0;
 			int j = 0;
@@ -148,8 +159,11 @@ public class Escala {
 			if(datas[0] != null && datasFolga[0] != null) {
 				dataRecente = Data.dataMaisRecente(datas[0], datasFolga[0]);
 			}
-			else {
+			else if(datas[0] != null) {
 				dataRecente = datas[0];
+			}
+			else {
+				dataRecente = datasFolga[0];
 			}
 			
 			
