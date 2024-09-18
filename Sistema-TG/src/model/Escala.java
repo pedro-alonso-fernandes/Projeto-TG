@@ -1872,7 +1872,7 @@ public class Escala {
 	}
 
 	
-	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, Date dataEscala, boolean pular) {
+	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, int[] qtdGuarda, Date dataEscala, boolean pular) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
@@ -1915,10 +1915,15 @@ public class Escala {
 			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 		}
 		
+		
 		Escala escala = null;
 		
 		if(!pular) {
 			
+			// Cadastra todas as Quantidade de Guardas.
+			for(int i = 0; i < qtdGuarda.length; i++) {
+				AtiradorDAO.cadastrarQtdGuarda(i + 1, qtdGuarda[i]);
+			}
 		
 			if(!folga) {
 				
@@ -1928,6 +1933,11 @@ public class Escala {
 					int[] idGuardaVermelha = getidGuarda(guardaVermelha);
 					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 					EscalaDAO.cadastrarEscala(escala);
+					
+					for(int i = 0; i < idGuardaVermelha.length; i++) {
+						AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+					}
+
 					int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 					
 					for(int i = 0; i < guardaVermelha.length; i++) {
@@ -1948,6 +1958,11 @@ public class Escala {
 						int[] idGuardaPreta = getidGuarda(guardaPreta);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaPreta.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+						}
+						
 						int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
 						
 						for(int i = 0; i < guardaPreta.length; i++) {
@@ -1965,6 +1980,11 @@ public class Escala {
 						idGuardaVermelha = getidGuarda(guardaVermelha);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaVermelha.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+						}
+						
 						indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 						
 						for(int i = 0; i < guardaVermelha.length; i++) {
@@ -1987,6 +2007,11 @@ public class Escala {
 						int[] idGuardaPreta = getidGuarda(guardaPreta);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaPreta.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+						}
+						
 						int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
 						
 						for(int i = 0; i < guardaPreta.length; i++) {
@@ -2004,6 +2029,11 @@ public class Escala {
 						idGuardaVermelha = getidGuarda(guardaVermelha);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaVermelha.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+						}
+						
 						indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 						
 						for(int i = 0; i < guardaVermelha.length; i++) {
@@ -2026,6 +2056,11 @@ public class Escala {
 						int[] idGuardaPreta = getidGuarda(guardaPreta);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaPreta.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+						}
+						
 						int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
 						
 						for(int i = 0; i < guardaPreta.length; i++) {
@@ -2043,6 +2078,11 @@ public class Escala {
 						idGuardaVermelha = getidGuarda(guardaVermelha);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaVermelha.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+						}
+						
 						indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 						
 						for(int i = 0; i < guardaVermelha.length; i++) {
@@ -2065,6 +2105,11 @@ public class Escala {
 						int[] idGuardaPreta = getidGuarda(guardaPreta);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaPreta.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+						}
+						
 						int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
 						
 						for(int i = 0; i < guardaPreta.length; i++) {
@@ -2082,6 +2127,11 @@ public class Escala {
 						idGuardaVermelha = getidGuarda(guardaVermelha);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaVermelha.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+						}
+						
 						indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 						
 						for(int i = 0; i < guardaVermelha.length; i++) {
@@ -2104,6 +2154,11 @@ public class Escala {
 						int[] idGuardaPreta = getidGuarda(guardaPreta);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaPreta.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+						}
+						
 						int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
 						
 						for(int i = 0; i < guardaPreta.length; i++) {
@@ -2121,6 +2176,11 @@ public class Escala {
 						idGuardaVermelha = getidGuarda(guardaVermelha);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
+						
+						for(int i = 0; i < idGuardaVermelha.length; i++) {
+							AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+						}
+						
 						indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 						
 						for(int i = 0; i < guardaVermelha.length; i++) {
@@ -2142,6 +2202,11 @@ public class Escala {
 					idGuardaVermelha = getidGuarda(guardaVermelha);
 					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 					EscalaDAO.cadastrarEscala(escala);
+					
+					for(int i = 0; i < idGuardaVermelha.length; i++) {
+						AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+					}
+					
 					indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
 					
 					for(int i = 0; i < guardaVermelha.length; i++) {
@@ -2193,25 +2258,25 @@ public class Escala {
 		else {
 			switch (Data.getDiaSemana(data)) {
 			case "DOM":
-				contador = 14;
+				contador = 7;
 				break;
 			case "SEG":
-				contador = 13;
+				contador = 6;
 				break;
 			case "TER":
-				contador = 12;
+				contador = 5;
 				break;
 			case "QUA":
-				contador = 11;
+				contador = 4;
 				break;
 			case "QUI":
-				contador = 10;
+				contador = 3;
 				break;
 			case "SEX":
-				contador = 9;
+				contador = 2;
 				break;
 			case "SAB":
-				contador = 8;
+				contador = 1;
 				break;	
 			}
 		}
@@ -2252,11 +2317,15 @@ public class Escala {
 			if(diaDaSemana.equals("DOM") || diaDaSemana.equals("SAB")) {
 				
 				int[] idGuardaVermelha = verificarGuarda(guardaVermelha, data);
-				int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
-				
 				escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 				EscalaDAO.cadastrarEscala(escala);
 				
+				for(int i = 0; i < idGuardaVermelha.length; i++) {
+					AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+				}
+				
+				int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
+
 				for(int i = 0; i < guardaVermelha.length; i++) {
 					if(i != indicesGuardaVermelha[0] && i != indicesGuardaVermelha[1] && i != indicesGuardaVermelha[2] && i != indicesGuardaVermelha[3]) {
 						guardaVermelha[i]++;
@@ -2273,11 +2342,15 @@ public class Escala {
 				if(!feriado) {
 					
 					int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
-					int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
-					
 					escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 					EscalaDAO.cadastrarEscala(escala);
 					
+					for(int i = 0; i < idGuardaPreta.length; i++) {
+						AtiradorDAO.adicionarQtdGuarda(idGuardaPreta[i]);
+					}
+					
+					int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
+
 					for(int i = 0; i < guardaPreta.length; i++) {
 						if(i != indicesGuardaPreta[0] && i != indicesGuardaPreta[1] && i != indicesGuardaPreta[2] && i != indicesGuardaPreta[3]) {
 							guardaPreta[i]++;
@@ -2291,11 +2364,15 @@ public class Escala {
 				else {
 					
 					int[] idGuardaVermelha = verificarGuarda(guardaVermelha, data);
-					int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
-					
 					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 					EscalaDAO.cadastrarEscala(escala);
 					
+					for(int i = 0; i < idGuardaVermelha.length; i++) {
+						AtiradorDAO.adicionarQtdGuarda(idGuardaVermelha[i]);
+					}
+					
+					int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
+
 					for(int i = 0; i < guardaVermelha.length; i++) {
 						if(i != indicesGuardaVermelha[0] && i != indicesGuardaVermelha[1] && i != indicesGuardaVermelha[2] && i != indicesGuardaVermelha[3]) {
 							guardaVermelha[i]++;

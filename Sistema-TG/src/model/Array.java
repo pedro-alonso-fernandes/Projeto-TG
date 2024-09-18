@@ -31,4 +31,13 @@ public class Array {
 		return arrayNovo;
 	}
 	
+	public static void aumentarArray(int[] array) {
+		
+		for(int i = 0; i < array.length; i++) {
+			array[i]++;
+		}
+		
+		
+	}
+	
 }

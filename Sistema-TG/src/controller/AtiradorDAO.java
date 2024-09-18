@@ -196,6 +196,38 @@ public class AtiradorDAO {
 		}
 	}
 	
+	public static void adicionarQtdGuarda(int id) {
+		BD.selecionarDatabase();
+		
+		String sql = "update Atirador set qtdGuarda = qtdGuarda + 1 where id = ?;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao adicionar qtdGuarda: " + e.getMessage());
+		}
+	}
+	
+	public static ResultSet getQtdGuardas() {
+		BD.selecionarDatabase();
+		
+		ResultSet rs = null;
+		String sql = "select qtdGuarda from Atirador;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar Quantidade de Guardas dos atiradores: " + e.getMessage());
+		}
+		
+		return rs;
+	}
 	
 	public static int getIdUltimoAtirador() {
 		BD.selecionarDatabase();

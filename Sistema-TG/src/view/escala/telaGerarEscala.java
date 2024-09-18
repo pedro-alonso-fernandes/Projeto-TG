@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -203,7 +204,7 @@ public class telaGerarEscala extends JFrame {
 						
 						BD.reiniciarTabelaEscala();
 						
-						Escala.gerarEscala(guardaPreta, guardaVermelha, new Date(), false);
+						Escala.gerarEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date(), false);
 						
 						dispose();
 						
