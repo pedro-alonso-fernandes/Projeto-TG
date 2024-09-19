@@ -84,7 +84,10 @@ public class BD {
 		
 		sql = "create table if not exists `TG`.`GuardaVermelha`(" 
 				+ "id int not null primary key auto_increment," 
-				+ "valor int not null);";
+				+ "valor int not null,"
+				+ "data date not null,"
+				+ "atiradorId int not null,"
+				+ "constraint fk_Atirador_GuardaVermeha foreign key (atiradorId) references Atirador (id));";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -95,7 +98,10 @@ public class BD {
 		
 		sql = "create table if not exists `TG`.`GuardaPreta`(" 
 				+ "id int not null primary key auto_increment," 
-				+ "valor int not null);";
+				+ "valor int not null,"
+				+ "data date not null,"
+				+ "atiradorId int not null,"
+				+ "constraint fk_Atirador_GuardaPreta foreign key (atiradorId) references Atirador (id));";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -241,12 +247,15 @@ public class BD {
 		
 		sql = "create table if not exists `TG`.`Guarda" + cor + "`(" 
 				+ "id int not null primary key auto_increment," 
-				+ "valor int not null);";
+				+ "valor int not null,"
+				+ "data date not null,"
+				+ "atiradorId int not null,"
+				+ "constraint fk_Atirador_Guarda" + cor + " foreign key (atiradorId) references Atirador (id));";
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao reiniciar a Tabela Guarda + " + cor + ": " + e.getMessage());
+			System.out.println("Erro ao reiniciar a Tabela Guarda " + cor + ": " + e.getMessage());
 		}
 		
 	}

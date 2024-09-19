@@ -3,22 +3,28 @@ package controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.BD;
 
 public class GuardaDAO {
 
-	public static void cadastrarGuarda(int[] guarda, String cor) {
+	public static void cadastrarGuarda(int[] guarda, String cor, Date data) {
 		BD.selecionarDatabase();
 		
-		BD.reiniciarTabelaGuarda(cor);
+//		BD.reiniciarTabelaGuarda(cor);
 		
-		String sql = "insert into Guarda" + cor + " (valor) values (?)";
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String sql = "insert into Guarda" + cor + " (valor, data, atiradorId) values (?, ?, ?)";
 		PreparedStatement ps = null;
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			for(int i = 0; i < guarda.length; i++) {
 				ps.setString(1, String.valueOf(guarda[i]));
+				ps.setString(2, formato.format(data));
+				ps.setString(3, String.valueOf(i + 1));;
 				ps.execute();
 			}
 		} catch (SQLException e) {

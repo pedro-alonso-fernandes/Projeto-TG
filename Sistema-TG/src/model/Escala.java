@@ -2223,6 +2223,8 @@ public class Escala {
 					break;	
 				}
 				
+				GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
+				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
 				
 			}
 			else {
@@ -2386,11 +2388,11 @@ public class Escala {
 				
 			}
 			
+			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
+			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
 			
 			data = Data.addDias(data, 1);
 		}
-		GuardaDAO.cadastrarGuarda(guardaPreta, "Preta");
-		GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha");
 		
 		
 	}
