@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -27,6 +28,9 @@ import com.itextpdf.text.TabStop.Alignment;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import model.Data;
+
 import com.itextpdf.text.PageSize;
 
 public class GerarPdf {
@@ -78,7 +82,6 @@ public class GerarPdf {
 
 			ResultSet rs = AtiradorDAO.getAtiradores();
 			String id = "0";
-			String qtd = "0";
 			try {
 
 				while (rs.next()) {
@@ -139,11 +142,10 @@ public class GerarPdf {
 			
 			document.open();
 
-			Date data = new Date();
-			DateFormat formatador = DateFormat.getDateInstance(DateFormat.DATE_FIELD);
 			Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 16, BaseColor.BLACK);
 			Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14, BaseColor.BLACK);
-			Paragraph paragrafo1 = new Paragraph("Escala do Tiro de Guerra", font);
+			Font font3 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14, BaseColor.WHITE);
+			Paragraph paragrafo1 = new Paragraph("Escala do Tiro de Guerra 01-013", font);
 			paragrafo1.setAlignment(Element.ALIGN_CENTER);
 			document.add(paragrafo1);
 			document.add(new Paragraph("     "));
@@ -152,6 +154,9 @@ public class GerarPdf {
 			document.add(paragrafo2);
 			document.add(new Paragraph("     "));
 			
+			Date data1 = new Date();
+			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
 			float[] colsWidth = { 1f, 1f, 1f, 1f, 1f, 1f , 1f};
 			PdfPTable tabela = new PdfPTable(colsWidth);
 			Paragraph D = new Paragraph("Domingo", font2);
@@ -170,14 +175,35 @@ public class GerarPdf {
 			PdfPCell coll7 = new PdfPCell(new Paragraph("Sábado", font2));
 			tabela.addCell(coll7).setHorizontalAlignment(1);
 
+			data1 = Data.primeiroDiaSemana(data1);
+			
+			float[] colsWidth1 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f};
+			PdfPTable tabela1 = new PdfPTable(colsWidth1);
+			PdfPCell D1 = new PdfPCell(new Paragraph(formato.format(data1) , font2));
+			tabela1.addCell(D1).setHorizontalAlignment(1);
+			PdfPCell D2 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 1) ) , font2));
+			tabela1.addCell(D2).setHorizontalAlignment(1);
+			PdfPCell D3 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 2) ) , font2));
+			tabela1.addCell(D3).setHorizontalAlignment(1);
+			PdfPCell D4 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 3) ) , font2));
+			tabela1.addCell(D4).setHorizontalAlignment(1);
+			PdfPCell D5 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 4) ) , font2));
+			tabela1.addCell(D5).setHorizontalAlignment(1);
+			PdfPCell D6 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 5) ) , font2));
+			tabela1.addCell(D6).setHorizontalAlignment(1);
+			PdfPCell D7 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data1, 6) ) , font2));
+			tabela1.addCell(D7).setHorizontalAlignment(1);
+
+			
+			
 			
 			
 			document.add(tabela);
+			document.add(tabela1);
 			document.add(new Paragraph("     "));
 			Paragraph paragrafosgt = new Paragraph("Chefe de Instrução:____________________________________________________",font2);
 			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
 			document.add(paragrafosgt);
-
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
