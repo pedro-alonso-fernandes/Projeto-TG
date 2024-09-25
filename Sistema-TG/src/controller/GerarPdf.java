@@ -157,6 +157,7 @@ public class GerarPdf {
 			document.add(new Paragraph("     "));
 
 			Date data1 = new Date();
+			Date data2 = new Date();
 			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
 			float[] colsWidth = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
@@ -207,10 +208,67 @@ public class GerarPdf {
 
 			listarAtiradores(colunas, data1, tabela2);
 			
-
 			document.add(tabela);
 			document.add(tabela1);
 			document.add(tabela2);
+			
+			document.add(new Paragraph("     "));
+			Paragraph paragrafo3 = new Paragraph("Próxima Semana", font);
+			paragrafo3.setAlignment(Element.ALIGN_CENTER);
+			document.add(paragrafo3);
+			document.add(new Paragraph("     "));
+			
+			float[] colsWidth3 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+			PdfPTable tabela3 = new PdfPTable(colsWidth);
+			Paragraph Dia3 = new Paragraph("Domingo", font2);
+			PdfPCell colun1 = new PdfPCell(Dia3);
+			tabela3.addCell(colun1).setHorizontalAlignment(1);
+			PdfPCell colun2 = new PdfPCell(new Paragraph("Segunda", font2));
+			tabela3.addCell(colun2).setHorizontalAlignment(1);
+			PdfPCell colun3 = new PdfPCell(new Paragraph("Terça", font2));
+			tabela3.addCell(colun3).setHorizontalAlignment(1);
+			PdfPCell colun4 = new PdfPCell(new Paragraph("Quarta", font2));
+			tabela3.addCell(colun4).setHorizontalAlignment(1);
+			PdfPCell colun5 = new PdfPCell(new Paragraph("Quinta", font2));
+			tabela3.addCell(colun5).setHorizontalAlignment(1);
+			PdfPCell colun6 = new PdfPCell(new Paragraph("Sexta", font2));
+			tabela3.addCell(colun6).setHorizontalAlignment(1);
+			PdfPCell colun7 = new PdfPCell(new Paragraph("Sábado", font2));
+			tabela3.addCell(colun7).setHorizontalAlignment(1);
+			
+			data2 = Data.diaProximaSemana(data2);
+
+			
+			float[] colsWidth4 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+			PdfPTable tabela4 = new PdfPTable(colsWidth1);
+			PdfPCell di1 = new PdfPCell(new Paragraph(formato.format(data2), font2));
+			tabela4.addCell(di1).setHorizontalAlignment(1);
+			PdfPCell di2 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 1)), font2));
+			tabela4.addCell(di2).setHorizontalAlignment(1);
+			PdfPCell di3 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 2)), font2));
+			tabela4.addCell(di3).setHorizontalAlignment(1);
+			PdfPCell di4 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 3)), font2));
+			tabela4.addCell(di4).setHorizontalAlignment(1);
+			PdfPCell di5 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 4)), font2));
+			tabela4.addCell(di5).setHorizontalAlignment(1);
+			PdfPCell di6 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 5)), font2));
+			tabela4.addCell(di6).setHorizontalAlignment(1);
+			PdfPCell di7 = new PdfPCell(new Paragraph(formato.format(Data.addDias(data2, 6)), font2));
+			tabela4.addCell(di7).setHorizontalAlignment(1);
+			
+			
+			float[] colsWidth5 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+			PdfPTable tabela5 = new PdfPTable(colsWidth2);
+			String[] colunas5 = { formato.format(data2), formato.format(Data.addDias(data2, 1)),
+					formato.format(Data.addDias(data2, 2)), formato.format(Data.addDias(data2, 3)),
+					formato.format(Data.addDias(data2, 4)), formato.format(Data.addDias(data2, 5)),
+					formato.format(Data.addDias(data2, 6)) };
+
+			listarAtiradores(colunas5, data2, tabela5);
+			
+			document.add(tabela3);
+			document.add(tabela4);
+			document.add(tabela5);
 			document.add(new Paragraph("     "));
 			Paragraph paragrafosgt = new Paragraph(
 					"Chefe de Instrução:____________________________________________________", font2);
