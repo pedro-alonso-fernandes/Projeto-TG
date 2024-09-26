@@ -106,7 +106,7 @@ public class telaEditarEscala extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(387, 160, 154, 22);
+		scrollPane.setBounds(347, 160, 194, 22);
 		contentPane.add(scrollPane);
 		
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -145,7 +145,7 @@ public class telaEditarEscala extends JFrame {
 		scrollPane.setViewportView(dia_da_semana);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(387, 180, 154, 87);
+		scrollPane_1.setBounds(347, 180, 194, 103);
 		contentPane.add(scrollPane_1);
 		
 		novaEscala = new JTable();
@@ -154,6 +154,7 @@ public class telaEditarEscala extends JFrame {
 				new String[] { formato.format(data)}));
 		novaEscala.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
 		novaEscala.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova a coluna
+		novaEscala.setRowHeight(20);
 		novaEscala.setEnabled(false);
 		
 		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
