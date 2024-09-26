@@ -118,10 +118,16 @@ public class GerarPdf {
 			document.add(tabela);
 			document.add(new Paragraph("     "));
 			Paragraph paragrafosgt = new Paragraph(
-					"Chefe de Instrução:____________________________________________________", font2);
+					"Chefe de Instrução:____________________________________________________________________", font2);
 			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
 			document.add(paragrafosgt);
 
+			
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
@@ -271,9 +277,28 @@ public class GerarPdf {
 			document.add(tabela5);
 			document.add(new Paragraph("     "));
 			Paragraph paragrafosgt = new Paragraph(
-					"Chefe de Instrução:____________________________________________________", font2);
+					"Chefe de Instrução:___________________________________________________________________", font2);
 			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
 			document.add(paragrafosgt);
+			document.add(new Paragraph("     "));
+			Paragraph instrucao = new Paragraph("Instruções para o uso das Escala:", font2);
+			instrucao.setAlignment(Element.ALIGN_CENTER);
+			document.add(instrucao);
+			document.add(new Paragraph("     "));
+			float[] colsWidth6 = {1f, 1f, 1f};
+			PdfPTable tabela6 = new PdfPTable(colsWidth6);
+			PdfPCell red = new PdfPCell(new Paragraph("Feriado/Vermelha", font2));
+			red.setBackgroundColor(BaseColor.RED);
+			tabela6.addCell(red);
+			PdfPCell black = new PdfPCell(new Paragraph("Preta", font3));
+			black.setBackgroundColor(BaseColor.BLACK);
+			tabela6.addCell(black);
+			PdfPCell folga = new PdfPCell(new Paragraph("X = Folga", font2));
+			folga.setBackgroundColor(BaseColor.WHITE);
+			tabela6.addCell(folga);
+			document.add(tabela6);
+			
+		
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
