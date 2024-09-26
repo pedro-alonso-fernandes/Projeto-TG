@@ -86,7 +86,7 @@ public class telaEscala extends JFrame {
 		contentPane.add(lblTabelaEscala);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(23, 101, 740, 20);
+		scrollPane_1.setBounds(23, 101, 740, 22);
 		contentPane.add(scrollPane_1);
 		
 		dias_da_semana = new JTable();
@@ -331,7 +331,7 @@ public class telaEscala extends JFrame {
 		semanaAtual.setModel(modelo);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(23, 272, 740, 20);
+		scrollPane_3.setBounds(23, 272, 740, 22);
 		contentPane.add(scrollPane_3);
 		
 		dias_da_semana_2 = new JTable();

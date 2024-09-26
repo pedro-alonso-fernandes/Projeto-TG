@@ -135,6 +135,7 @@ public class Escala {
 				i++;
 			}
 			
+			// Verifica se tem escala na semana que vem (Para o caso da semana atual só ter folga)
 			if(tabela.equals("semanaAtual")) {
 				ResultSet rsProximaSemana = EscalaDAO.getEscalaSemana(Data.diaProximaSemana(data));
 				if(rsProximaSemana.next()) {

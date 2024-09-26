@@ -232,5 +232,23 @@ public class EscalaDAO {
 			return rs;
 		}
 	}
+	
+	public static ResultSet getPrimeiraEscala() {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Escala limit 1";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a primeira Escala do BD: " + e.getMessage());
+		}
+		
+		return rs;
+	}
 		
 }
