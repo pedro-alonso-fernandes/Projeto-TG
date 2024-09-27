@@ -50,4 +50,23 @@ public class GuardaDAO {
 		return rs;
 	}
 	
+	public static ResultSet getGuardaData(String cor, Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Guarda" + cor + " where data = ?;";
+		PreparedStatement ps = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos Guarda " + cor + " pela data: " + e.getMessage());
+		}
+		
+		return rs;
+	}
+	
 }

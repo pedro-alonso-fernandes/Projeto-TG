@@ -82,7 +82,7 @@ public class EscalaDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -103,7 +103,7 @@ public class EscalaDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -124,7 +124,7 @@ public class EscalaDAO {
 			
 			PreparedStatement ps = null;
 			ResultSet rs = null;
-			SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 			
 			data = Data.primeiroDiaSemana(data);
 			
@@ -219,7 +219,7 @@ public class EscalaDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -249,6 +249,25 @@ public class EscalaDAO {
 		}
 		
 		return rs;
+	}
+	
+	// Retorna apenas as datas das Escalas
+	public static ResultSet getDatasEscalas() {
+		BD.selecionarDatabase();
+		
+		String sql = "select data from Escala;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar as datas das Escalas: " + e.getMessage());
+			return rs;
+		}
 	}
 		
 }
