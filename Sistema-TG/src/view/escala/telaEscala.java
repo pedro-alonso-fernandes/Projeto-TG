@@ -115,7 +115,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = Data.primeiroDiaSemana(formato.parse("22/09/2024"));
+//			data = Data.primeiroDiaSemana(formato.parse("30/09/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}
@@ -157,7 +157,9 @@ public class telaEscala extends JFrame {
 		
 		try {
 			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
-				ResultSet resultSet = GuardaDAO.getGuarda("Preta");
+				Date dataPreta = GuardaDAO.getUltimaGuarda("Preta");
+				
+				ResultSet resultSet = GuardaDAO.getGuardaData("Preta", dataPreta);
 				int i = 0;
 				int[] guardaPreta = new int[qtdAtiradores];
 				
@@ -166,8 +168,9 @@ public class telaEscala extends JFrame {
 					i++;
 				}
 				
+				Date dataVermelha = GuardaDAO.getUltimaGuarda("Vermelha");
 				
-				resultSet = GuardaDAO.getGuarda("Vermelha");
+				resultSet = GuardaDAO.getGuardaData("Vermelha", dataVermelha);
 				i = 0;
 				int[] guardaVermelha = new int[qtdAtiradores];
 				
@@ -176,16 +179,8 @@ public class telaEscala extends JFrame {
 					i++;
 				}
 				
-				resultSet = AtiradorDAO.getQtdGuardas();
-				i = 0;
-				int[] qtdGuarda = new int[qtdAtiradores];
 				
-				while(resultSet.next()) {
-					qtdGuarda[i] = resultSet.getInt("qtdGuarda");
-					i++;
-				}
-				
-				Escala.gerarEscala(guardaPreta, guardaVermelha, qtdGuarda, dataProximaSemana, true);
+				Escala.gerarEscala(guardaPreta, guardaVermelha, 1, dataProximaSemana);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao verificar escalas da semana que vem: " + e.getMessage());

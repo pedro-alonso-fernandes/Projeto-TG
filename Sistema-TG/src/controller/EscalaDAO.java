@@ -252,22 +252,41 @@ public class EscalaDAO {
 	}
 	
 	// Retorna apenas as datas das Escalas
-	public static ResultSet getDatasEscalas() {
+	public static ResultSet getDatasEscalas(Date data) {
 		BD.selecionarDatabase();
 		
-		String sql = "select data from Escala;";
-		
+		String sql = "select data from Escala where data > ?;";
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
 			System.out.println("Erro ao pegar as datas das Escalas: " + e.getMessage());
 			return rs;
 		}
+	}
+	
+	public static void apagarEscalasData(Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "delete from Escala where data >= ?;";
+		
+		PreparedStatement ps = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar escalas por data: " + e.getMessage());
+		}
+		
 	}
 		
 }

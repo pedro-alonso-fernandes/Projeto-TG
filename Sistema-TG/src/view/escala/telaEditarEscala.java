@@ -1,15 +1,21 @@
 package view.escala;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -20,8 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -32,7 +38,10 @@ import javax.swing.table.JTableHeader;
 
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
+import controller.FeriadoDAO;
+import controller.GuardaDAO;
 import model.Data;
+import model.Escala;
 
 public class telaEditarEscala extends JFrame {
 
@@ -47,6 +56,8 @@ public class telaEditarEscala extends JFrame {
 	private int atirador2Id = 0;
 	private int atirador3Id = 0;
 	private List<Date> datasPermitidas = new ArrayList<>();
+	private List<Integer> monitorIdPermitido = new ArrayList<>();
+	private List<Integer> atiradorIdPermitido = new ArrayList<>();
 	boolean fechar = false;
 
 	/**
@@ -98,14 +109,26 @@ public class telaEditarEscala extends JFrame {
 //        calendar.set(2030, Calendar.DECEMBER, 31);
 //        Date dataMaxima = calendar.getTime();
         
-        ResultSet rs = EscalaDAO.getDatasEscalas();
+        ResultSet rsEscala = EscalaDAO.getDatasEscalas(new Date());
+        ResultSet rsMonitor = AtiradorDAO.getMonitores();
+        ResultSet rsAtirador = AtiradorDAO.getAtiradores();
         
         try {
-			while(rs.next()) {
-				datasPermitidas.add(rs.getDate("data"));
+			while(rsEscala.next()) {
+				datasPermitidas.add(rsEscala.getDate("data"));
+			}
+			
+			monitorIdPermitido.add(0);
+			while(rsMonitor.next()) {
+				monitorIdPermitido.add(rsMonitor.getInt("id"));
+			}
+			
+			atiradorIdPermitido.add(0);
+			while(rsAtirador.next()) {
+				atiradorIdPermitido.add(rsAtirador.getInt("id"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar a data de todas as Escala: " + e.getMessage());
+			System.out.println("Erro ao pegar a data de todas as escalas, e todos os atiradores: " + e.getMessage());
 		}
         
         if(datasPermitidas.size() == 0) {
@@ -119,9 +142,9 @@ public class telaEditarEscala extends JFrame {
         
         // Formata a exibição do JSpinner manualemnte. Não pude usar o JSpinner.DateEditor porque estou usando um SpinnerListModel 
         // ao invés de um SpinnerDateModel.
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) dataSpinner.getEditor();
-        JFormattedTextField textField = editor.getTextField();
-        textField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+        JSpinner.DefaultEditor editorData = (JSpinner.DefaultEditor) dataSpinner.getEditor();
+        JFormattedTextField textFieldData = editorData.getTextField();
+        textFieldData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
             new javax.swing.text.DateFormatter(new SimpleDateFormat("dd/MM/yyyy"))
         ));
         
@@ -188,8 +211,6 @@ public class telaEditarEscala extends JFrame {
 		novaEscala.setRowHeight(20);
 		novaEscala.setEnabled(false);
 		
-		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JTableHeader headerDiaSemana = dia_da_semana.getTableHeader();
 		headerDiaSemana.setFont(novaEscala.getFont());						// Atribue uma fonte para o cabelho da tabela
@@ -197,52 +218,68 @@ public class telaEditarEscala extends JFrame {
 		JTableHeader headerNovaEscala = novaEscala.getTableHeader();
 		headerNovaEscala.setFont(novaEscala.getFont());						// Atribue uma fonte para o cabelho da tabela
 		
-		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 		
 		scrollPane_1.setViewportView(novaEscala);
 		
 		JLabel lblNewLabel_2 = new JLabel("ID do Monitor:");
 		lblNewLabel_2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(362, 136, 121, 13);
+		lblNewLabel_2.setBounds(20, 207, 121, 13);
 		contentPane.add(lblNewLabel_2);
 		
-        SpinnerNumberModel modeloMonitor = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
-        JSpinner monitorSpinner = new JSpinner(modeloMonitor);
+//        SpinnerNumberModel modeloMonitor = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+		SpinnerListModel modeloMonitor = new SpinnerListModel(monitorIdPermitido);
+		JSpinner monitorSpinner = new JSpinner(modeloMonitor);
+		configurarSpinner(monitorSpinner, monitorIdPermitido);
+		
+        monitorSpinner.setName("Monitor");
 		monitorSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
-		monitorSpinner.setBounds(493, 130, 40, 26);
+		monitorSpinner.setBounds(151, 201, 40, 26);
 		contentPane.add(monitorSpinner);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("ID do 1º Atirador:");
 		lblNewLabel_2_1.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		lblNewLabel_2_1.setBounds(21, 202, 145, 13);
+		lblNewLabel_2_1.setBounds(336, 201, 145, 13);
 		contentPane.add(lblNewLabel_2_1);
 		
-		SpinnerNumberModel modeloAtirador1 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+		
+//		SpinnerNumberModel modeloAtirador1 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+		SpinnerListModel modeloAtirador1 = new SpinnerListModel(atiradorIdPermitido);
 		JSpinner atirador1Spinner = new JSpinner(modeloAtirador1);
+		configurarSpinner(atirador1Spinner, atiradorIdPermitido);
+		
+		atirador1Spinner.setName("Atirador 1");
 		atirador1Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
-		atirador1Spinner.setBounds(192, 196, 40, 26);
+		atirador1Spinner.setBounds(507, 195, 40, 26);
 		contentPane.add(atirador1Spinner);
 		
-		SpinnerNumberModel modeloAtirador2 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+//		SpinnerNumberModel modeloAtirador2 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+		SpinnerListModel modeloAtirador2 = new SpinnerListModel(atiradorIdPermitido);
 		JSpinner atirador2Spinner = new JSpinner(modeloAtirador2);
+		configurarSpinner(atirador2Spinner, atiradorIdPermitido);
+		
+		atirador2Spinner.setName("Atirador 2");
 		atirador2Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
-		atirador2Spinner.setBounds(493, 196, 40, 26);
+		atirador2Spinner.setBounds(176, 255, 40, 26);
 		contentPane.add(atirador2Spinner);
 		
-		SpinnerNumberModel modeloAtirador3 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+//		SpinnerNumberModel modeloAtirador3 = new SpinnerNumberModel(0, 0, qtdAtiradores, 1); // Valor inicial: 0, Mínimo: 0, Máximo: quantidade de atiradores, Passo: de 1 em 1
+		SpinnerListModel modeloAtirador3 = new SpinnerListModel(atiradorIdPermitido);
 		JSpinner atirador3Spinner = new JSpinner(modeloAtirador3);
+		configurarSpinner(atirador3Spinner, atiradorIdPermitido);
+		
+		atirador3Spinner.setName("Atirador 3");
 		atirador3Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
-		atirador3Spinner.setBounds(191, 261, 40, 26);
+		atirador3Spinner.setBounds(507, 255, 40, 26);
 		contentPane.add(atirador3Spinner);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("ID do 2º Atirador:");
 		lblNewLabel_2_1_1.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		lblNewLabel_2_1_1.setBounds(338, 202, 145, 13);
+		lblNewLabel_2_1_1.setBounds(21, 261, 145, 13);
 		contentPane.add(lblNewLabel_2_1_1);
 		
 		JLabel lblNewLabel_2_1_2 = new JLabel("ID do 3º Atirador:");
 		lblNewLabel_2_1_2.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		lblNewLabel_2_1_2.setBounds(21, 267, 145, 13);
+		lblNewLabel_2_1_2.setBounds(337, 261, 145, 13);
 		contentPane.add(lblNewLabel_2_1_2);
 		
 		JButton btnEditarEscala = new JButton("Editar Escala");
@@ -250,6 +287,8 @@ public class telaEditarEscala extends JFrame {
 		btnEditarEscala.setBounds(216, 509, 138, 34);
 		contentPane.add(btnEditarEscala);
 		
+		colorirTabela();
+
 		DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
 		modelo.addRow(new String[] { "" });
 		modelo.addRow(new String[] { "" });
@@ -297,37 +336,38 @@ public class telaEditarEscala extends JFrame {
         		atirador2Id = (Integer) atirador2Spinner.getValue();
         		atirador3Id = (Integer) atirador3Spinner.getValue();
         		
-        		if(monitorId > 0 && monitorId <= qtdAtiradores) {
+        		if(monitorId > 0) {
         			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
         		}
         		else {
         			modelo.addRow(new String[] { "" });
         		}
         		
-        		if(atirador1Id > 0 && atirador1Id <= qtdAtiradores) {
+        		if(atirador1Id > 0) {
         			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
         		}
         		else {
         			modelo.addRow(new String[] { "" });
         		}
         		
-        		if(atirador2Id > 0 && atirador2Id <= qtdAtiradores) {
+        		if(atirador2Id > 0) {
         			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
         		}
         		else {
         			modelo.addRow(new String[] { "" });
         		}
         		
-        		if(atirador3Id > 0 && atirador3Id <= qtdAtiradores) {
+        		if(atirador3Id > 0) {
         			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
         		}
         		else {
         			modelo.addRow(new String[] { "" });
         		}
         		
-        		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        		colorirTabela();
         		
         		novaEscala.setModel(modelo);
+        		
         	}
         });
 		
@@ -343,35 +383,35 @@ public class telaEditarEscala extends JFrame {
 	        		atirador2Id = (Integer) atirador2Spinner.getValue();
 	        		atirador3Id = (Integer) atirador3Spinner.getValue();
 	        		
-	        		if(monitorId > 0 && monitorId <= qtdAtiradores) {
+	        		if(monitorId > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador1Id > 0 && atirador1Id <= qtdAtiradores) {
+	        		if(atirador1Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador2Id > 0 && atirador2Id <= qtdAtiradores) {
+	        		if(atirador2Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador3Id > 0 && atirador3Id <= qtdAtiradores) {
+	        		if(atirador3Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+	        		colorirTabela();
 	        		
 	        		novaEscala.setModel(modelo);
 	        		
@@ -390,35 +430,35 @@ public class telaEditarEscala extends JFrame {
 	        		atirador2Id = (Integer) atirador2Spinner.getValue();
 	        		atirador3Id = (Integer) atirador3Spinner.getValue();
 	        		
-	        		if(monitorId > 0 && monitorId <= qtdAtiradores) {
+	        		if(monitorId > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador1Id > 0 && atirador1Id <= qtdAtiradores) {
+	        		if(atirador1Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador2Id > 0 && atirador2Id <= qtdAtiradores) {
+	        		if(atirador2Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador3Id > 0 && atirador3Id <= qtdAtiradores) {
+	        		if(atirador3Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+	        		colorirTabela();
 	        		
 	        		novaEscala.setModel(modelo);
 					
@@ -437,35 +477,35 @@ public class telaEditarEscala extends JFrame {
 	        		atirador2Id = (Integer) atirador2Spinner.getValue();
 	        		atirador3Id = (Integer) atirador3Spinner.getValue();
 	        		
-	        		if(monitorId > 0 && monitorId <= qtdAtiradores) {
+	        		if(monitorId > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador1Id > 0 && atirador1Id <= qtdAtiradores) {
+	        		if(atirador1Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador2Id > 0 && atirador2Id <= qtdAtiradores) {
+	        		if(atirador2Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador3Id > 0 && atirador3Id <= qtdAtiradores) {
+	        		if(atirador3Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+	        		colorirTabela();
 	        		
 	        		novaEscala.setModel(modelo);
 					
@@ -484,35 +524,35 @@ public class telaEditarEscala extends JFrame {
 	        		atirador2Id = (Integer) atirador2Spinner.getValue();
 	        		atirador3Id = (Integer) atirador3Spinner.getValue();
 	        		
-	        		if(monitorId > 0 && monitorId <= qtdAtiradores) {
+	        		if(monitorId > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador1Id > 0 && atirador1Id <= qtdAtiradores) {
+	        		if(atirador1Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador2Id > 0 && atirador2Id <= qtdAtiradores) {
+	        		if(atirador2Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		if(atirador3Id > 0 && atirador3Id <= qtdAtiradores) {
+	        		if(atirador3Id > 0) {
 	        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
 	        		}
 	        		else {
 	        			modelo.addRow(new String[] { "" });
 	        		}
 	        		
-	        		novaEscala.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+	        		colorirTabela();
 	        		
 	        		novaEscala.setModel(modelo);
 					
@@ -522,14 +562,198 @@ public class telaEditarEscala extends JFrame {
 		 btnEditarEscala.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					data = Data.addDias(data, -1);
-					
-					
-					
+					if(monitorId > 0 && atirador1Id > 0 && atirador2Id > 0 && atirador3Id > 0) {
+						
+						data = Data.addDias(data, -1);
+						try {
+						
+						ResultSet resultSet = GuardaDAO.getGuardaData("Preta", data);
+						int i = 0;
+						int[] guardaPreta = new int[qtdAtiradores];
+						
+						while(resultSet.next()) {
+							guardaPreta[i] = resultSet.getInt("valor");
+							i++;
+						}
+						
+
+						resultSet = GuardaDAO.getGuardaData("Vermelha", data);
+						i = 0;
+						int[] guardaVermelha = new int[qtdAtiradores];
+						
+						while(resultSet.next()) {
+							guardaVermelha[i] = resultSet.getInt("valor");
+							i++;
+						}
+						
+						data = Data.addDias(data, 1);
+						String diaSemana = Data.getDiaSemana(data);
+						
+						// Fim de Semana
+						if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
+							for(int j = 0; j < guardaVermelha.length; j++) {
+								if(j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1 || j == atirador3Id - 1) {
+									guardaVermelha[j] = 370;
+								}
+							}
+						}
+						// Dia da Semana
+						else {
+							
+							ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
+							boolean feriado = false;
+							try {
+								while(rsFeriado.next()) {
+									if(formato.format(data).equals(formato.format(rsFeriado.getDate("data")))) {
+										feriado = true;
+										
+									}
+								}
+								
+								if(feriado) {
+									
+									for(int j = 0; j < guardaVermelha.length; j++) {
+										if(j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1 || j == atirador3Id - 1) {
+											guardaVermelha[j] = 370;
+										}
+									}
+									
+								}
+								else {
+									
+									for(int j = 0; j < guardaPreta.length; j++) {
+										if(j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1 || j == atirador3Id - 1) {
+											guardaPreta[j] = 370;
+										}
+									}
+								}
+							} catch (SQLException ex) {
+								System.out.println("Erro ao buscar feriados da semana: " + ex.getMessage());
+							}
+							
+						}
+						
+						// Arrumar um jeito de editar a quantidade de guardas tbm
+						// Em mente: mudar a forma como o programa cadastra guardas. Só será contabilizado guarda quando o dia passar
+						
+						// Arrumar auto geração das escalas: auto gerar mesmo sem ele entrar no programa há muito tempo
+						EscalaDAO.apagarEscalasData(data);
+						GuardaDAO.apagarGuardasData("Preta", data);
+						GuardaDAO.apagarGuardasData("Vermelha", data);
+						Escala.gerarEscala(guardaPreta, guardaVermelha, 1, data);
+						
+						} catch (SQLException e1) {
+							System.out.println("Erro ao buscar Guardas Pretas e Guardas Vermelhas: " + e1.getMessage());
+						}
+						
+						telaEscala frame = new telaEscala();
+						frame.setVisible(true);
+						dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de editar a escala!", "Campos Incompletos!", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			});
 		
 		
 		this.setLocationRelativeTo(null);
+	}
+	
+	private void colorirTabela() {
+		
+		DefaultTableCellRenderer preta = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer vermelha = new DefaultTableCellRenderer();
+		
+		preta.setHorizontalAlignment(SwingConstants.CENTER);
+		vermelha.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		preta.setBackground(Color.BLACK);
+		preta.setForeground(Color.WHITE);
+		
+		vermelha.setBackground(Color.RED);
+		vermelha.setForeground(Color.WHITE);
+		
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		
+		String diaSemana = Data.getDiaSemana(data);
+		
+		// Fim de Semana
+		if(diaSemana.equals("DOM") || diaSemana.equals("SAB")){
+			novaEscala.getColumnModel().getColumn(0).setCellRenderer(vermelha);
+		}
+		// Dia da Semana
+		else {
+			novaEscala.getColumnModel().getColumn(0).setCellRenderer(preta);
+		}
+		
+		ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
+		
+		try {
+			while(rsFeriado.next()) {
+				if(formato.format(data).equals(formato.format(rsFeriado.getDate("data")))) {
+					novaEscala.getColumnModel().getColumn(0).setCellRenderer(vermelha);
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar feriados da semana: " + e.getMessage());
+		}
+	}
+	
+	private void verificarValorSpinner(JSpinner spinner, JTextField textField, List<Integer> idPermitido) {
+		try {
+            int valor = Integer.parseInt(textField.getText());
+
+            if (idPermitido.contains(valor)) {
+                spinner.setValue(valor);  // Atualiza o spinner com o valor digitado
+            } else {
+                textField.setText(spinner.getValue().toString());
+                
+                switch (spinner.getName()) {
+				case "Monitor": 
+					JOptionPane.showMessageDialog(null, "Não existe nenhum Monitor com o ID informado.", "Monitor Inexistente", JOptionPane.WARNING_MESSAGE);
+					break;
+				case "Atirador 1":
+					JOptionPane.showMessageDialog(null, "Não existe nenhum Atirador com o ID informado.", "Atirador Inexistente", JOptionPane.WARNING_MESSAGE);
+					break;
+				case "Atirador 2":
+					JOptionPane.showMessageDialog(null, "Não existe nenhum Atirador com o ID informado.", "Atirador Inexistente", JOptionPane.WARNING_MESSAGE);
+					break;
+				case "Atirador 3":
+					JOptionPane.showMessageDialog(null, "Não existe nenhum Atirador com o ID informado.", "Atirador Inexistente", JOptionPane.WARNING_MESSAGE);
+					break;
+				}
+                
+            }
+            
+        } catch (NumberFormatException ex) {
+            // Se o valor não for um número, volta para o valor anterior
+            textField.setText(spinner.getValue().toString());
+            JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Parâmetro Incorreto", JOptionPane.WARNING_MESSAGE);
+        }
+	}
+	
+	private void configurarSpinner(JSpinner spinner, List<Integer> idPermitido) {
+		// Pegando o editor do JSpinner para acessar o JTextField
+        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
+        JTextField textField = editor.getTextField();
+
+        // Adiciona um FocusListener para validar quando o campo perde o foco
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                verificarValorSpinner(spinner, textField, idPermitido);
+            }
+        });
+
+        // Adiciona um KeyListener para interceptar a tecla Enter
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    verificarValorSpinner(spinner, textField, idPermitido);
+                }
+            }
+        });
 	}
 }

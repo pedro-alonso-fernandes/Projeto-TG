@@ -81,7 +81,7 @@ public class GerarPdf {
 			PdfPCell coll5 = new PdfPCell(new Paragraph("Qtd Guardas", font2));
 			tabela.addCell(coll5).setHorizontalAlignment(1);
 
-			ResultSet rs = AtiradorDAO.getAtiradores();
+			ResultSet rs = AtiradorDAO.getAtiradoresGeral();
 			String id = "0";
 			try {
 

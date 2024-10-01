@@ -203,8 +203,10 @@ public class telaGerarEscala extends JFrame {
 					} else {
 						
 						BD.reiniciarTabelaEscala();
+						BD.reiniciarTabelaGuarda("Preta");
+						BD.reiniciarTabelaGuarda("Vermelha");
 						
-						Escala.gerarEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date(), false);
+						Escala.gerarEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
 						
 						dispose();
 						

@@ -71,7 +71,7 @@ public class AtiradorDAO {
 	}
 
 	// pega geral para a Escala
-	public static ResultSet getAtiradores() {
+	public static ResultSet getAtiradoresGeral() {
 		String sql = "use TG;";
 
 		PreparedStatement ps = null;
@@ -293,6 +293,40 @@ public class AtiradorDAO {
 		
 		
 		return qtd;
+	}
+	
+	public static ResultSet getMonitores() {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Atirador where cargo = \"Monitor\";";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos os monitores: " + e.getMessage());
+		}
+		
+		return rs;
+	}
+	
+	public static ResultSet getAtiradores() {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Atirador where cargo = \"Atirador\";";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos os atiradores: " + e.getMessage());
+		}
+		
+		return rs;
 	}
 	
 }

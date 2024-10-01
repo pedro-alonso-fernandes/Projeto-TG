@@ -69,4 +69,41 @@ public class GuardaDAO {
 		return rs;
 	}
 	
+	public static Date getUltimaGuarda(String cor) {
+		BD.selecionarDatabase();
+		
+		String sql = "select data from Guarda" + cor + " order by data desc limit 1;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Date data = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			data = rs.getDate("data");
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar todos Guarda " + cor + " pela data: " + e.getMessage());
+		}
+		
+		return data;
+	}
+	
+	public static void apagarGuardasData(String cor, Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "delete from Guarda" + cor + " where data >= ?";
+		PreparedStatement ps = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar Guarda " + cor + " por data: " + e.getMessage());
+		}
+		
+	}
+	
 }
