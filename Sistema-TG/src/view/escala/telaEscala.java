@@ -115,7 +115,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = Data.primeiroDiaSemana(formato.parse("30/09/2024"));
+//			data = Data.primeiroDiaSemana(formato.parse("18/11/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}
@@ -152,11 +152,13 @@ public class telaEscala extends JFrame {
 		semanaAtual.setEnabled(false);
 		
 		Date dataProximaSemana = Data.diaProximaSemana(data); 
+		boolean escala = EscalaDAO.verificarExistenciaEscala();
 		ResultSet rsProximaSemana = EscalaDAO.getEscalaSemana(dataProximaSemana);
 		ResultSet rsSemanaAtual = EscalaDAO.getEscalaSemana(data);
-		
 		try {
-			if(!rsProximaSemana.next() && rsSemanaAtual.next()) { 
+			
+			if((escala && !rsSemanaAtual.next()) || (escala && !rsProximaSemana.next()) ) { 
+				
 				Date dataPreta = GuardaDAO.getUltimaGuarda("Preta");
 				
 				ResultSet resultSet = GuardaDAO.getGuardaData("Preta", dataPreta);
@@ -179,8 +181,12 @@ public class telaEscala extends JFrame {
 					i++;
 				}
 				
+				resultSet = EscalaDAO.getUltimaEscala();
+				resultSet.next();
+				Date dataComeco = Data.addDias(resultSet.getDate("data"), 1);
 				
-				Escala.gerarEscala(guardaPreta, guardaVermelha, 1, dataProximaSemana);
+				Escala.gerarEscala(guardaPreta, guardaVermelha, dataComeco, Data.ultimoDiaSemana(dataProximaSemana));
+					
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao verificar escalas da semana que vem: " + e.getMessage());

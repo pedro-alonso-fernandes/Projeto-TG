@@ -206,7 +206,7 @@ public class telaGerarEscala extends JFrame {
 						BD.reiniciarTabelaGuarda("Preta");
 						BD.reiniciarTabelaGuarda("Vermelha");
 						
-						Escala.gerarEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
+						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
 						
 						dispose();
 						

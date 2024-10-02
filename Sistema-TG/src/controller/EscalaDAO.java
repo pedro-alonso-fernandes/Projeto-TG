@@ -251,6 +251,24 @@ public class EscalaDAO {
 		return rs;
 	}
 	
+	public static ResultSet getUltimaEscala() {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Escala order by data desc limit 1";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a ultima Escala do BD: " + e.getMessage());
+		}
+		
+		return rs;
+	}
+	
 	// Retorna apenas as datas das Escalas
 	public static ResultSet getDatasEscalas(Date data) {
 		BD.selecionarDatabase();
@@ -287,6 +305,21 @@ public class EscalaDAO {
 			System.out.println("Erro ao apagar escalas por data: " + e.getMessage());
 		}
 		
+	}
+	
+	public static boolean verificarExistenciaEscala() {
+		BD.selecionarDatabase();
+		
+		ResultSet rs = getPrimeiraEscala();
+		boolean escala = false;
+		
+		try {
+			escala = rs.next();
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se há escala cadastrada no BD: " + e.getMessage());
+		}
+		
+		return escala;
 	}
 		
 }

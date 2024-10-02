@@ -11,11 +11,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -109,7 +109,7 @@ public class telaEditarEscala extends JFrame {
 //        calendar.set(2030, Calendar.DECEMBER, 31);
 //        Date dataMaxima = calendar.getTime();
         
-        ResultSet rsEscala = EscalaDAO.getDatasEscalas(new Date());
+        ResultSet rsEscala = EscalaDAO.getDatasEscalas(new Date()); // O método pega escala com datas maiores do que a data informada
         ResultSet rsMonitor = AtiradorDAO.getMonitores();
         ResultSet rsAtirador = AtiradorDAO.getAtiradores();
         
@@ -137,6 +137,8 @@ public class telaEditarEscala extends JFrame {
         	return;
         }
         
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        
         SpinnerListModel modeloData = new SpinnerListModel(datasPermitidas);
         JSpinner dataSpinner = new JSpinner(modeloData);
         
@@ -147,6 +149,22 @@ public class telaEditarEscala extends JFrame {
         textFieldData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
             new javax.swing.text.DateFormatter(new SimpleDateFormat("dd/MM/yyyy"))
         ));
+        
+        
+        textFieldData.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyPressed(KeyEvent evt) {
+        		if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    verificarDataSpinner(dataSpinner, textFieldData, formato, datasPermitidas);
+                }
+        	}
+        });
+        textFieldData.addFocusListener(new FocusAdapter() {
+        	@Override
+        	public void focusLost(FocusEvent e) {
+        		verificarDataSpinner(dataSpinner, textFieldData, formato, datasPermitidas);
+        	}
+        });
         
 		dataSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		dataSpinner.setBounds(181, 122, 106, 42);
@@ -161,7 +179,7 @@ public class telaEditarEscala extends JFrame {
 		scrollPane.setBounds(181, 319, 194, 22);
 		contentPane.add(scrollPane);
 		
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
 		data = (Date) dataSpinner.getValue();
 		String dia = "";
 		
@@ -633,10 +651,6 @@ public class telaEditarEscala extends JFrame {
 							
 						}
 						
-						// Arrumar um jeito de editar a quantidade de guardas tbm
-						// Em mente: mudar a forma como o programa cadastra guardas. Só será contabilizado guarda quando o dia passar
-						
-						// Arrumar auto geração das escalas: auto gerar mesmo sem ele entrar no programa há muito tempo
 						EscalaDAO.apagarEscalasData(data);
 						GuardaDAO.apagarGuardasData("Preta", data);
 						GuardaDAO.apagarGuardasData("Vermelha", data);
@@ -731,6 +745,35 @@ public class telaEditarEscala extends JFrame {
             textField.setText(spinner.getValue().toString());
             JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Parâmetro Incorreto", JOptionPane.WARNING_MESSAGE);
         }
+	}
+	
+	private void verificarDataSpinner(JSpinner spinner, JFormattedTextField textField, SimpleDateFormat formato, List<Date> dataPermitida) {
+		 try {
+	            // Tenta converter o texto para uma data
+	            String text = textField.getText();
+	            Date data = formato.parse(text);
+
+	            // Verifica se a data está na lista de datas permitidas
+	            if (dataPermitida.contains(data)) {
+	                spinner.setValue(data);  // Define a data no spinner
+	            } else {
+	            	
+	            	textField.setValue(spinner.getValue());
+	            	data = Data.addDias(data, -1);
+	            	if(new Date().after(data)) {
+	            		JOptionPane.showMessageDialog(null, "Não é possível editar Escalas passadas ou a Escala do dia atual!", "Escala Antiga!", JOptionPane.WARNING_MESSAGE);
+	            	}
+	            	else {
+	            		JOptionPane.showMessageDialog(null, "Não existe escala regitrada nessa data!", "Escala Inexistente", JOptionPane.WARNING_MESSAGE);
+	            	}
+	            	
+	            }
+
+	        } catch (ParseException ex) {
+	            // Se a data não for válida, volta para o valor anterior
+	        	textField.setValue(spinner.getValue());  // Reverte para o valor anterior
+	            JOptionPane.showMessageDialog(null, "A data digitada não é válida. Digite uma data no formato DD/MM/AAAA", "Data Inválida!", JOptionPane.WARNING_MESSAGE);
+	        }
 	}
 	
 	private void configurarSpinner(JSpinner spinner, List<Integer> idPermitido) {

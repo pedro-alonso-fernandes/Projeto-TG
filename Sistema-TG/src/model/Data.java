@@ -74,6 +74,34 @@ public class Data {
 		return data;
 	}
 	
+	public static Date ultimoDiaSemana(Date data) {
+		
+		switch (getDiaSemana(data)) {
+		case "DOM":
+			data = Data.addDias(data, 6);
+			break;
+		case "SEG":
+			data = Data.addDias(data, 5);
+			break;
+		case "TER":
+			data = Data.addDias(data, 4);
+			break;
+		case "QUA":
+			data = Data.addDias(data, 3);
+			break;
+		case "QUI":
+			data = Data.addDias(data, 2);
+			break;
+		case "SEX":
+			data = Data.addDias(data, 1);
+			break;
+		case "SAB":
+			break;	
+		}
+		
+		return data;
+	}
+	
 	public static Date diaProximaSemana(Date data) {
 		
 		data = primeiroDiaSemana(data);

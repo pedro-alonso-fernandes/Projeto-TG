@@ -1873,7 +1873,7 @@ public class Escala {
 	}
 
 	
-	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, int[] qtdGuarda, Date dataEscala) {
+	public static void gerarPrimeiraEscala(int[] guardaPreta, int[] guardaVermelha, int[] qtdGuarda, Date dataEscala) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
@@ -2312,7 +2312,7 @@ public class Escala {
 		
 	}
 	
-	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, int qtd, Date dataEscala) {
+	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, int qtdSemana, Date dataEscala) {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
@@ -2380,12 +2380,156 @@ public class Escala {
 			break;	
 		}
 		
-		contador += 7 * (qtd - 1);
+		contador += 7 * (qtdSemana - 1);
 		
 		Escala escala = null;
 		
 		// Próximas escalas
 		externo: for(int j = 0; j < contador; j++) {
+			feriado = false;
+			folga = false;
+			rsFeriado = FeriadoDAO.getFeriados();
+			rsFolga = FolgaDAO.getFolgas();
+			
+			try {
+				
+				while(rsFolga.next()) {
+					if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
+						folga = true;
+						data = Data.addDias(data, 1);
+						continue externo;
+					}
+				}
+				
+				while(rsFeriado.next()) {
+					
+					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
+						feriado = true;
+					}
+					
+				}
+			} catch (SQLException e) {
+				System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
+			}
+			
+			escala = null;
+			String diaDaSemana = Data.getDiaSemana(data); 
+			
+			if(diaDaSemana.equals("DOM") || diaDaSemana.equals("SAB")) {
+				
+				int[] idGuardaVermelha = verificarGuarda(guardaVermelha, data);
+				escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
+				EscalaDAO.cadastrarEscala(escala);
+				
+				int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
+
+				for(int i = 0; i < guardaVermelha.length; i++) {
+					if(i != indicesGuardaVermelha[0] && i != indicesGuardaVermelha[1] && i != indicesGuardaVermelha[2] && i != indicesGuardaVermelha[3]) {
+						guardaVermelha[i]++;
+					}
+					else {
+						guardaVermelha[i] = 0;
+					}
+				}
+				
+			}
+			else if(diaDaSemana.equals("SEG") || diaDaSemana.equals("TER") || diaDaSemana.equals("QUA") 
+					|| diaDaSemana.equals("QUI") || diaDaSemana.equals("SEX")) {
+				
+				if(!feriado) {
+					
+					int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
+					escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
+					EscalaDAO.cadastrarEscala(escala);
+					
+					int[] indicesGuardaPreta = Array.getIndicePorId(idGuardaPreta);
+
+					for(int i = 0; i < guardaPreta.length; i++) {
+						if(i != indicesGuardaPreta[0] && i != indicesGuardaPreta[1] && i != indicesGuardaPreta[2] && i != indicesGuardaPreta[3]) {
+							guardaPreta[i]++;
+						}
+						else {
+							guardaPreta[i] = 0;
+						}
+					}
+					
+				}
+				else {
+					
+					int[] idGuardaVermelha = verificarGuarda(guardaVermelha, data);
+					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
+					EscalaDAO.cadastrarEscala(escala);
+					
+					int[] indicesGuardaVermelha = Array.getIndicePorId(idGuardaVermelha);
+
+					for(int i = 0; i < guardaVermelha.length; i++) {
+						if(i != indicesGuardaVermelha[0] && i != indicesGuardaVermelha[1] && i != indicesGuardaVermelha[2] && i != indicesGuardaVermelha[3]) {
+							guardaVermelha[i]++;
+						}
+						else {
+							guardaVermelha[i] = 0;
+						}
+					}
+					
+				}
+				
+			}
+			
+			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
+			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
+			
+			data = Data.addDias(data, 1);
+		}
+	}
+	
+	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, Date dataEscala, Date dataLimite) {
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		Date data = dataEscala;
+		
+//		Date data = null;
+//		try {
+//			data = formato.parse("21/09/2024");
+//		} catch (ParseException e) {
+//			System.out.println("Erro ao salvar data: " + e.getMessage());
+//		}
+		
+		
+		boolean feriado = false;
+		boolean folga = false;
+		ResultSet rsFeriado = FeriadoDAO.getFeriados();
+		ResultSet rsFolga = FolgaDAO.getFolgas();
+		
+		try {
+			
+			while(rsFolga.next()) {
+				if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
+					folga = true;
+					break;
+				}
+			}
+			
+			if(!folga) {
+				
+				while(rsFeriado.next()) {
+					
+					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
+						feriado = true;
+						break;
+					}
+					
+				}
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
+		}
+		
+		dataLimite = Data.addDias(dataLimite, 1);
+		
+		Escala escala = null;
+		
+		// Próximas escalas
+		externo: while(dataLimite.after(data)) {
 			feriado = false;
 			folga = false;
 			rsFeriado = FeriadoDAO.getFeriados();
