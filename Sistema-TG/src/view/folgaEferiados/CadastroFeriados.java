@@ -229,7 +229,7 @@ public class CadastroFeriados extends JFrame {
 						if(ano < anoModelo) {
 							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
 						}
-						// Cadastra o Feriado
+						// Cadastra o Feriado                   
 						else {
 							Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
 							FeriadoDAO.cadastrarFeriado(feriado);
