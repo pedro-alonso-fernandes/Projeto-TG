@@ -98,6 +98,11 @@ public class telaAtirador extends JFrame {
         table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+        
+        table.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
+        table.getColumnModel().getColumn(1).setResizable(false); // Impede que o usuário mude o tamanho da coluna
+        table.getColumnModel().getColumn(2).setResizable(false); // Impede que o usuário mude o tamanho da coluna
+        table.getColumnModel().getColumn(3).setResizable(false); // Impede que o usuário mude o tamanho da coluna
 
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 

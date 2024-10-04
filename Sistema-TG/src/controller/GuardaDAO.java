@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.BD;
+import model.Data;
 
 public class GuardaDAO {
 
@@ -89,7 +90,7 @@ public class GuardaDAO {
 		return data;
 	}
 	
-	public static void apagarGuardasData(String cor, Date data) {
+	public static void apagarGuardasDataMaior(String cor, Date data) {
 		BD.selecionarDatabase();
 		
 		String sql = "delete from Guarda" + cor + " where data >= ?";
@@ -101,7 +102,36 @@ public class GuardaDAO {
 			ps.setString(1, formato.format(data));
 			ps.execute();
 		} catch (SQLException e) {
-			System.out.println("Erro ao apagar Guarda " + cor + " por data: " + e.getMessage());
+			System.out.println("Erro ao apagar Guarda " + cor + " posteriores à data informada: " + e.getMessage());
+		}
+		
+	}
+	
+	public static void apagarGuardasPassadas(String cor) {
+		BD.selecionarDatabase();
+
+		
+		String sql = "delete from Guarda" + cor + " where data < ?";
+		PreparedStatement ps = null;
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		Date dataHoje = new Date();
+		Date dataUltimaGuarda = getUltimaGuarda(cor);
+		
+		Date dataFinal = null;
+		if(dataUltimaGuarda.after(dataHoje)) {
+			dataFinal = dataHoje;
+		}
+		else {
+			dataFinal = dataUltimaGuarda;
+		}
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(dataFinal));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar Guarda " + cor + " passada: " + e.getMessage());
 		}
 		
 	}
