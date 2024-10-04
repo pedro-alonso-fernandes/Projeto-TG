@@ -119,7 +119,7 @@ public class FeriadoDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat formato = new SimpleDateFormat("yyy-MM-dd");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		
 		data = Data.primeiroDiaSemana(data);
 		
@@ -134,5 +134,25 @@ public class FeriadoDAO {
 			return rs;
 		}
 	}
+	public static ResultSet getFeriadoData(Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Feriado where data = ?;";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar o Feriado por data: " + e.getMessage());
+			return rs;
+		}
+	}
+	
 	
 }
