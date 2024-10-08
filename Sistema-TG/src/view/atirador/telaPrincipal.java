@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.BD;
 import view.escala.telaGerarEscala;
+import view.folgaEferiados.Feriados_e_Folgas;
 
 public class telaPrincipal extends JFrame {
 
@@ -64,8 +65,8 @@ public class telaPrincipal extends JFrame {
 				Atirador.setVisible(true);
 			}
 		});
-		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		btnRegistroDeAtiradores.setBounds(138, 84, 156, 39);
+		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		btnRegistroDeAtiradores.setBounds(122, 72, 187, 39);
 		contentPane.add(btnRegistroDeAtiradores);
 		
 		JButton btnEscalaDeGuarda = new JButton("Escala");
@@ -78,9 +79,21 @@ public class telaPrincipal extends JFrame {
 			}
 		});
 		
-		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		btnEscalaDeGuarda.setBounds(138, 147, 156, 34);
+		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		btnEscalaDeGuarda.setBounds(122, 134, 187, 34);
 		contentPane.add(btnEscalaDeGuarda);
+		
+		JButton btnFeriadosEFolgas = new JButton("Feriados e Folgas");
+		btnFeriadosEFolgas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Feriados_e_Folgas FF = new Feriados_e_Folgas();
+				FF.setVisible(true);
+			}
+		});
+		btnFeriadosEFolgas.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		btnFeriadosEFolgas.setBounds(122, 188, 187, 39);
+		contentPane.add(btnFeriadosEFolgas);
 		this.setLocationRelativeTo(null);
 	}
 }

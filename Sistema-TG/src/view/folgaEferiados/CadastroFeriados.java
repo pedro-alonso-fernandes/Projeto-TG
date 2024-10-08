@@ -123,8 +123,8 @@ public class CadastroFeriados extends JFrame {
 		Menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaGerarEscala folga = new telaGerarEscala();
-				folga.setVisible(true);
+				Feriados_e_Folgas fg = new Feriados_e_Folgas();
+				fg.setVisible(true);
 			}
 		});
 		Menu.setFont(new Font("Arial Black", Font.BOLD, 15));

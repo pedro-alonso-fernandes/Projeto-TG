@@ -8,6 +8,7 @@ import java.util.Date;
 
 import model.BD;
 import model.Data;
+import model.Feriado;
 import model.Folga;
 
 public class FolgaDAO {
@@ -87,6 +88,27 @@ public class FolgaDAO {
 			System.out.println("Erro ao pegar a Folga por data: " + e.getMessage());
 			return rs;
 		}
+	}
+	public static void editarFolga(Folga folga) {
+		BD.selecionarDatabase();
+		
+		String sql = "update Folga set nome = ?, data = ? where id = ?;";
+		
+		PreparedStatement ps = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, folga.getNome());
+			ps.setString(2, formato.format(folga.getData()));
+			ps.setString(3, String.valueOf(folga.getId()));
+			ps.execute();
+			ps.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao editar Folga: " + e.getMessage());
+		}
+		
 	}
 	
 }
