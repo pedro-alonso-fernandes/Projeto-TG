@@ -329,4 +329,25 @@ public class AtiradorDAO {
 		return rs;
 	}
 	
+	public static int[] getArrayIdAtiradores() {
+		BD.selecionarDatabase();
+		
+		int[] IDs = new int[getQtdAtiradoresGeral()];
+		
+		ResultSet rs = getAtiradoresByMonitores();
+		
+		try {
+			int i = 0;
+			while(rs.next()) {
+				IDs[i] = rs.getInt("id");
+				i++;
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar Atirador por Monitores no AtiradorDAO: " + e.getMessage());
+		}
+		
+		return IDs;
+	}
+	
 }

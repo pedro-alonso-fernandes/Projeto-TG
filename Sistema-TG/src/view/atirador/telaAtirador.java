@@ -17,6 +17,7 @@ import controller.AtiradorDAO;
 import controller.Conexao;
 import controller.GerarPdf;
 import model.BD;
+import view.telaPrincipal;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -35,6 +36,7 @@ public class telaAtirador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	public static boolean alteracao = false;
 
 	/**
 	 * Launch the application.

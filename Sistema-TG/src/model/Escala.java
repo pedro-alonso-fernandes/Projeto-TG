@@ -1769,7 +1769,7 @@ public class Escala {
 	
 	
 	public static int[] getidGuarda(int[] guardas) {
-		int[] indices = new int[4];
+		int[] idGuarda = new int[4];
 
 		// Pega o indice do monitor mais folgado
 		int maior = Integer.MIN_VALUE;
@@ -1856,20 +1856,21 @@ public class Escala {
 
 
 		// Armazena o indice do monitor e dos atiradores em 1 array só
+
+		int[] IDs = AtiradorDAO.getArrayIdAtiradores();
 		int j = 0;
-		for (int i = 0; i < indices.length; i++) {
+		for (int i = 0; i < idGuarda.length; i++) {
 
 			if (i == 0) { 
-				indices[i] = indiceMonitor + 1;
+				idGuarda[i] = IDs[indiceMonitor];
 			} else {
-				indices[i] = indicesAtirador[j] + 1;
+				idGuarda[i] = IDs[indicesAtirador[j]];
 				j++;
 			}
 
 		}
 
-
-		return indices;
+		return idGuarda;
 	}
 
 	
@@ -2175,8 +2176,10 @@ public class Escala {
 					break;	
 				}
 				
-				GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
-				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
+				int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+				
+				GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 				
 			}
 			else {
@@ -2303,8 +2306,10 @@ public class Escala {
 				
 			}
 			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
+			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+			
+			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}
@@ -2475,8 +2480,10 @@ public class Escala {
 				
 			}
 			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
+			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+			
+			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}
@@ -2619,8 +2626,10 @@ public class Escala {
 				
 			}
 			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data);
+			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+			
+			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}

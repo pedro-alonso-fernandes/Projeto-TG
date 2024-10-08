@@ -11,10 +11,8 @@ import model.Data;
 
 public class GuardaDAO {
 
-	public static void cadastrarGuarda(int[] guarda, String cor, Date data) {
+	public static void cadastrarGuarda(int[] guarda, String cor, Date data, int[] IDs) {
 		BD.selecionarDatabase();
-		
-//		BD.reiniciarTabelaGuarda(cor);
 		
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -25,7 +23,7 @@ public class GuardaDAO {
 			for(int i = 0; i < guarda.length; i++) {
 				ps.setString(1, String.valueOf(guarda[i]));
 				ps.setString(2, formato.format(data));
-				ps.setString(3, String.valueOf(i + 1));;
+				ps.setString(3, String.valueOf(IDs[i]));;
 				ps.execute();
 			}
 		} catch (SQLException e) {
