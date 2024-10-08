@@ -652,8 +652,8 @@ public class telaEditarEscala extends JFrame {
 						}
 						
 						EscalaDAO.apagarEscalasData(data);
-						GuardaDAO.apagarGuardasData("Preta", data);
-						GuardaDAO.apagarGuardasData("Vermelha", data);
+						GuardaDAO.apagarGuardasDataMaior("Preta", data);
+						GuardaDAO.apagarGuardasDataMaior("Vermelha", data);
 						Escala.gerarEscala(guardaPreta, guardaVermelha, 1, data);
 						
 						} catch (SQLException e1) {

@@ -185,10 +185,11 @@ public class CadastroAtirador extends JDialog {
 				} else {
 
 					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(textField_2.getText()));	
-					Atirador atdr = new Atirador();
-					atdr.setNome(textField.getText());
 					try {
 						if(rs.next() == false) {
+							
+							Atirador atdr = new Atirador();
+							atdr.setNome(textField.getText());
 							atdr.setID(Integer.parseInt(textField_2.getText()));
 							atdr.setGuerra(Cguerra.getText());
 							
@@ -200,8 +201,11 @@ public class CadastroAtirador extends JDialog {
 								atdr.setCargo(rdbtnNewRadioButton.getText());
 							}
 							
+							AtiradorDAO.cadastrarAtirador(atdr); // Cadastra o atirador no BD
+							telaAtirador.alteracao = true;
 							JOptionPane.showMessageDialog(null, "Cadastro Feito" , "Realizado!" , JOptionPane.INFORMATION_MESSAGE);
 						
+							// Reseta os campos
 							textField.setText("");
 							textField_2.setText("");
 							Cguerra.setText("");
@@ -218,10 +222,9 @@ public class CadastroAtirador extends JDialog {
 							textField_2.setText("");
 						}
 					} catch (SQLException e1) {
-						e1.printStackTrace();
+						System.out.println("Erro ao buscar Atirador na tela CadastroAtirador: " + e1.getMessage());
 					}
 					
-					AtiradorDAO.cadastrarAtirador(atdr);
 					
 				}
 			}

@@ -1,4 +1,4 @@
-package view.atirador;
+package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.BD;
+import view.atirador.telaAtirador;
 import view.escala.telaGerarEscala;
 import view.folgaEferiados.Feriados_e_Folgas;
 
