@@ -5,13 +5,16 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.EscalaDAO;
 import model.BD;
 import view.atirador.telaAtirador;
 import view.escala.telaGerarEscala;
@@ -42,9 +45,10 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		BD.criarBanco();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -95,6 +99,7 @@ public class telaPrincipal extends JFrame {
 		btnFeriadosEFolgas.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnFeriadosEFolgas.setBounds(122, 188, 187, 39);
 		contentPane.add(btnFeriadosEFolgas);
+		
 		this.setLocationRelativeTo(null);
 	}
 }

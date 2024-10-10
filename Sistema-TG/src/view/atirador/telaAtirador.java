@@ -15,9 +15,11 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
 import controller.Conexao;
+import controller.EscalaDAO;
 import controller.GerarPdf;
 import model.BD;
 import view.telaPrincipal;
+import view.escala.telaGerarEscala;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 import java.awt.Toolkit;
@@ -167,8 +170,31 @@ public class telaAtirador extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaPrincipal principal = new telaPrincipal();
-				principal.setVisible(true);
+				boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
+				String[] opcoes = {"Ir para Gerar Escala", "Cancelar"};
+				
+				if(telaAtirador.alteracao && existenciaEscala) {
+					// Usando html para centralizar uma parte da mensagem
+					String texto = "<html>Você fez alterações no registro de Atiradores, portanto é necessário gerar a escala novamente.<br><center>Deseja refazer a escala agora?</center></html>";
+					
+					// Salva a decisão do usuário numa variável 
+					int decisao = JOptionPane.showOptionDialog(null, texto, "Gerar a escala novamente!",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
+					
+					if(decisao == JOptionPane.YES_OPTION) {
+						telaGerarEscala frame = new telaGerarEscala();
+						frame.setVisible(true);
+					}
+					else {
+						telaPrincipal principal = new telaPrincipal();
+						principal.setVisible(true);
+					}
+					
+				}
+				else {
+					telaPrincipal principal = new telaPrincipal();
+					principal.setVisible(true);
+				} 
 			}
 		});
 		btnNewButton_3.setFont(new Font("Arial Black", Font.BOLD, 12));

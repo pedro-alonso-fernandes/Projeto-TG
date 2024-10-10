@@ -585,7 +585,7 @@ public class telaEditarEscala extends JFrame {
 						data = Data.addDias(data, -1);
 						try {
 						
-						ResultSet resultSet = GuardaDAO.getGuardaData("Preta", data);
+						ResultSet resultSet = GuardaDAO.getGuardaPorData("Preta", data);
 						int i = 0;
 						int[] guardaPreta = new int[qtdAtiradores];
 						
@@ -595,7 +595,7 @@ public class telaEditarEscala extends JFrame {
 						}
 						
 
-						resultSet = GuardaDAO.getGuardaData("Vermelha", data);
+						resultSet = GuardaDAO.getGuardaPorData("Vermelha", data);
 						i = 0;
 						int[] guardaVermelha = new int[qtdAtiradores];
 						
