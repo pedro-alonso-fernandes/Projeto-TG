@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.BD;
 import view.atirador.telaAtirador;
+import view.escala.telaEscala;
 import view.escala.telaGerarEscala;
 import view.folgaEferiados.Feriados_e_Folgas;
 
@@ -42,9 +43,10 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		BD.criarBanco();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -75,8 +77,8 @@ public class telaPrincipal extends JFrame {
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaGerarEscala Folga = new telaGerarEscala();
-				Folga.setVisible(true);
+				telaEscala frame = new telaEscala();
+				frame.setVisible(true);
 			}
 		});
 		
@@ -95,6 +97,7 @@ public class telaPrincipal extends JFrame {
 		btnFeriadosEFolgas.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnFeriadosEFolgas.setBounds(122, 188, 187, 39);
 		contentPane.add(btnFeriadosEFolgas);
+		
 		this.setLocationRelativeTo(null);
 	}
 }

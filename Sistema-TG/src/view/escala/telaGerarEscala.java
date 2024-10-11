@@ -22,10 +22,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AtiradorDAO;
+import controller.EscalaDAO;
+import controller.GuardaDAO;
 import model.Array;
 import model.BD;
 import model.Escala;
 import view.telaPrincipal;
+import view.atirador.telaAtirador;
 import view.folgaEferiados.CadastroFeriados;
 
 public class telaGerarEscala extends JFrame {
@@ -143,14 +146,34 @@ public class telaGerarEscala extends JFrame {
 		// Popular tabela inicial
 		ResultSet rs = AtiradorDAO.getAtiradoresByMonitores();
 		try {
-			int i = 0;
-			while (rs.next()) {
-				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-				modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-						"" + guardaPreta[i], "" + guardaVermelha[i], "" + qtdGuarda[i] });
+			boolean escala = EscalaDAO.verificarExistenciaEscala();
+			if(escala) {
 				
-				i++;
+				Date dataGuardaPreta = GuardaDAO.getDataUltimaGuarda("Preta");
+				Date dataGuardaVermelha = GuardaDAO.getDataUltimaGuarda("Vermelha");
+				int i = 0;
+				while (rs.next()) {
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
+							GuardaDAO.getValorGuardaPorAtirador("Preta", dataGuardaPreta, rs.getInt("id")), 
+							GuardaDAO.getValorGuardaPorAtirador("Vermelha", dataGuardaVermelha, rs.getInt("id")),
+							"" + qtdGuarda[i] });
+							// Calcular qtdGuarda em algum lugar do código, buscar a qtdGuarda e mostrar aqui
+					i++;
+				}
+				
 			}
+			else {
+				int i = 0;
+				while (rs.next()) {
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
+							"" + guardaPreta[i], "" + guardaVermelha[i], "" + qtdGuarda[i] });
+					
+					i++;
+				}
+			}
+			
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao preecher tabela guarda: " + e.getMessage());
@@ -194,6 +217,10 @@ public class telaGerarEscala extends JFrame {
 						BD.reiniciarTabelaGuarda("Vermelha");
 						
 						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
+						
+						if(telaAtirador.alteracao) {
+							telaAtirador.alteracao = false;
+						}
 						
 						dispose();
 						
