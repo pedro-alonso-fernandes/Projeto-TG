@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class EditarFeriado extends JDialog {
 
@@ -59,6 +60,7 @@ public class EditarFeriado extends JDialog {
 	 * Create the dialog.
 	 */
 	public EditarFeriado() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(EditarFeriado.class.getResource("/model/images/calendario.png")));
 		setBounds(100, 100, 586, 544);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

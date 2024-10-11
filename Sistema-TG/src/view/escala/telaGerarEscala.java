@@ -121,7 +121,7 @@ public class telaGerarEscala extends JFrame {
 
 		JButton btnEscala = new JButton("Gerar Escala");
 		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEscala.setBounds(24, 452, 156, 34);
+		btnEscala.setBounds(68, 452, 156, 34);
 		contentPane.add(btnEscala);
 		
 		JButton btnmenu = new JButton("Voltar ao Menu");
@@ -133,20 +133,8 @@ public class telaGerarEscala extends JFrame {
 			}
 		});
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnmenu.setBounds(406, 452, 156, 34);
+		btnmenu.setBounds(360, 452, 156, 34);
 		contentPane.add(btnmenu);
-		
-		JButton FolgaFeriado = new JButton("Feriados e Folgas");
-		FolgaFeriado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				CadastroFeriados feriados = new CadastroFeriados();
-				feriados.setVisible(true);
-			}
-		});
-		FolgaFeriado.setFont(new Font("Dialog", Font.BOLD, 14));
-		FolgaFeriado.setBounds(214, 452, 167, 34);
-		contentPane.add(FolgaFeriado);
 		
 		JLabel lblNewLabel = new JLabel("CLIQUE NOS CAMPOS E PREENCHA AS INFORMAÇÕES");
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 17));

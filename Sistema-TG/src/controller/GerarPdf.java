@@ -118,7 +118,7 @@ public class GerarPdf {
 			document.add(tabela);
 			document.add(new Paragraph("     "));
 			Paragraph paragrafosgt = new Paragraph(
-					"Chefe de Instrução:__________________________________________________________", font2);
+					"Chefe de Instrução:__________________________________", font2);
 			paragrafosgt.setAlignment(Element.ALIGN_BASELINE);
 			document.add(paragrafosgt);
 

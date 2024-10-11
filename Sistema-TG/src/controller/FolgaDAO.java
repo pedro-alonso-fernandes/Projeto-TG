@@ -110,5 +110,23 @@ public class FolgaDAO {
 		}
 		
 	}
+	public static void removerFolga(int id) {
+		BD.selecionarDatabase();
+		
+		String sql = "delete from Folga where id = ?;";
+		
+		PreparedStatement ps = null;
+
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(id));
+			ps.execute();
+
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao remover Folga: " + e.getMessage());
+		}
+	
+	}
 	
 }
