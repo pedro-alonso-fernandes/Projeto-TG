@@ -224,13 +224,16 @@ public class Remover extends JDialog {
 							JOptionPane.ERROR_MESSAGE);
 
 				} else {
-					AtiradorDAO.RemoverAtirador(removerId);
+					AtiradorDAO.RemoverAtirador(removerId); // Removendo Atirador
+					telaAtirador.alteracao = true;
+					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Realizado!!",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					// Atualizar tabela
 					modelo = (DefaultTableModel) table.getModel();
 					modelo.removeRow(0);
 					table.setModel(modelo);
 					Campid.setText("");
-					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Realizado!!",
-							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			}

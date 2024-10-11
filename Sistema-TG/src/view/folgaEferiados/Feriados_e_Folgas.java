@@ -3,10 +3,14 @@ package view.folgaEferiados;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,9 +20,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AtiradorDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+<<<<<<< HEAD
 import view.atirador.Remover;
 import view.atirador.telaPrincipal;
 
@@ -28,6 +32,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
+=======
+import view.telaPrincipal;
+>>>>>>> 5104d5aa31cbd4ddb209eb0af549ce529abc8f43
 
 public class Feriados_e_Folgas extends JFrame {
 

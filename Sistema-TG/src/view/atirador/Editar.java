@@ -278,7 +278,8 @@ public class Editar extends JDialog {
 								atdr.setCargo(rdbtnNewRadioButton.getText());
 							}
 
-							AtiradorDAO.EditarAtirador(atdr, Integer.parseInt(Campid1.getText()));
+							AtiradorDAO.EditarAtirador(atdr, Integer.parseInt(Campid1.getText())); // Edita Atirador
+							telaAtirador.alteracao = true;
 							
 							JOptionPane.showMessageDialog(null, "Edição Feita!", "Completa!!",
 									JOptionPane.INFORMATION_MESSAGE);

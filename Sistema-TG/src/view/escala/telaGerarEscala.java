@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -26,7 +25,7 @@ import controller.AtiradorDAO;
 import model.Array;
 import model.BD;
 import model.Escala;
-import view.atirador.telaPrincipal;
+import view.telaPrincipal;
 import view.folgaEferiados.CadastroFeriados;
 
 public class telaGerarEscala extends JFrame {
@@ -34,10 +33,10 @@ public class telaGerarEscala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private int idUltimoAtirador = AtiradorDAO.getIdUltimoAtirador();
-	private int[] guardaVermelha = new int[idUltimoAtirador];
-	private int[] guardaPreta = new int[idUltimoAtirador];
-	private int[] qtdGuarda = new int[idUltimoAtirador];
+	private int qtdAtiradoresGeral = AtiradorDAO.getQtdAtiradoresGeral();
+	private int[] guardaVermelha = new int[qtdAtiradoresGeral];
+	private int[] guardaPreta = new int[qtdAtiradoresGeral];
+	private int[] qtdGuarda = new int[qtdAtiradoresGeral];
 
 	/**
 	 * Launch the application.
@@ -164,11 +163,11 @@ public class telaGerarEscala extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int ultimaLinha = table.getModel().getRowCount() - 1;
-					int idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
+//					int idUltimo = (Integer) table.getModel().getValueAt(ultimaLinha, 0);
 
 					ultimaLinha++;
 					int j = 0;
-					for (int i = 0; i < idUltimo; i++) {
+					for (int i = 0; i < ultimaLinha; i++) {
 						String celula = (String) table.getModel().getValueAt(j, 3);
 						guardaPreta[i] = Integer.parseInt(celula);
 
