@@ -175,7 +175,7 @@ public class telaAtirador extends JFrame {
 				
 				if(telaAtirador.alteracao && existenciaEscala) {
 					// Usando html para centralizar uma parte da mensagem
-					String texto = "<html>Você fez alterações no registro de Atiradores, portanto é necessário gerar a escala novamente.<br><center>Deseja refazer a escala agora?</center></html>";
+					String texto = "Você fez alterações no registro de Atiradores, portanto é necessário gerar a escala novamente!";
 					
 					// Salva a decisão do usuário numa variável 
 					int decisao = JOptionPane.showOptionDialog(null, texto, "Gerar a escala novamente!",

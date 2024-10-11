@@ -5,18 +5,16 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controller.EscalaDAO;
 import model.BD;
 import view.atirador.telaAtirador;
+import view.escala.telaEscala;
 import view.escala.telaGerarEscala;
 import view.folgaEferiados.Feriados_e_Folgas;
 
@@ -79,8 +77,8 @@ public class telaPrincipal extends JFrame {
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaGerarEscala Folga = new telaGerarEscala();
-				Folga.setVisible(true);
+				telaEscala frame = new telaEscala();
+				frame.setVisible(true);
 			}
 		});
 		
