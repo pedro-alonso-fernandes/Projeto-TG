@@ -42,6 +42,7 @@ import controller.FeriadoDAO;
 import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
+import java.awt.Toolkit;
 
 public class telaEditarEscala extends JFrame {
 
@@ -80,6 +81,7 @@ public class telaEditarEscala extends JFrame {
 	 * Create the frame.
 	 */
 	public telaEditarEscala() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(telaEditarEscala.class.getResource("/model/images/calendario.png")));
 		this.setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 586, 608);
@@ -167,7 +169,7 @@ public class telaEditarEscala extends JFrame {
         	}
         });
         
-		dataSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner.setBounds(181, 122, 106, 42);
 		contentPane.add(dataSpinner);
 		
@@ -209,6 +211,7 @@ public class telaEditarEscala extends JFrame {
 		}
 		
 		dia_da_semana = new JTable();
+		dia_da_semana.setFont(new Font("Arial Black", Font.BOLD, 10));
 		dia_da_semana.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { dia }));
 		dia_da_semana.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
@@ -222,7 +225,7 @@ public class telaEditarEscala extends JFrame {
 		contentPane.add(scrollPane_1);
 		
 		novaEscala = new JTable();
-		novaEscala.setFont(new Font("Arial", Font.PLAIN, 13));
+		novaEscala.setFont(new Font("Arial Black", Font.BOLD, 13));
 		novaEscala.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { formato.format(data)}));
 		novaEscala.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
@@ -251,7 +254,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(monitorSpinner, monitorIdPermitido);
 		
         monitorSpinner.setName("Monitor");
-		monitorSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		monitorSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		monitorSpinner.setBounds(151, 201, 40, 26);
 		contentPane.add(monitorSpinner);
 		
@@ -267,7 +270,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador1Spinner, atiradorIdPermitido);
 		
 		atirador1Spinner.setName("Atirador 1");
-		atirador1Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		atirador1Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		atirador1Spinner.setBounds(507, 195, 40, 26);
 		contentPane.add(atirador1Spinner);
 		
@@ -277,7 +280,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador2Spinner, atiradorIdPermitido);
 		
 		atirador2Spinner.setName("Atirador 2");
-		atirador2Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		atirador2Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		atirador2Spinner.setBounds(176, 255, 40, 26);
 		contentPane.add(atirador2Spinner);
 		
@@ -287,7 +290,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador3Spinner, atiradorIdPermitido);
 		
 		atirador3Spinner.setName("Atirador 3");
-		atirador3Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		atirador3Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		atirador3Spinner.setBounds(507, 255, 40, 26);
 		contentPane.add(atirador3Spinner);
 		
@@ -302,9 +305,21 @@ public class telaEditarEscala extends JFrame {
 		contentPane.add(lblNewLabel_2_1_2);
 		
 		JButton btnEditarEscala = new JButton("Editar Escala");
-		btnEditarEscala.setFont(new Font("Arial", Font.PLAIN, 15));
-		btnEditarEscala.setBounds(216, 509, 138, 34);
+		btnEditarEscala.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnEditarEscala.setBounds(71, 509, 162, 34);
 		contentPane.add(btnEditarEscala);
+		
+		JButton btnVoltarAEscala = new JButton("Voltar a Escala");
+		btnVoltarAEscala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaEscala TE = new telaEscala();
+				TE.setVisible(true);
+			}
+		});
+		btnVoltarAEscala.setFont(new Font("Arial Black", Font.BOLD, 12));
+		btnVoltarAEscala.setBounds(336, 509, 162, 34);
+		contentPane.add(btnVoltarAEscala);
 		
 		colorirTabela();
 

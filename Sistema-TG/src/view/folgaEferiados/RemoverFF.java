@@ -145,7 +145,7 @@ public class RemoverFF extends JDialog {
 		dataSpinner.setModel(
 				new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
-		dataSpinner.setBounds(252, 116, 120, 42);
+		dataSpinner.setBounds(253, 134, 120, 42);
 		contentPanel.add(dataSpinner);
 
 		JButton btnPesquisar = new JButton("Pesquisar");

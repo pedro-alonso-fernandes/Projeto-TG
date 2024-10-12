@@ -201,6 +201,7 @@ public class Remover extends JDialog {
 		contentPanel.add(scrollPane);
 
 		table = new JTable();
+		table.setFont(new Font("Arial Black", Font.BOLD, 10));
 		table.setModel(
 				new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nome", "Nome de Guerra", "Cargo" }));
 		table.getColumnModel().getColumn(1).setPreferredWidth(330);

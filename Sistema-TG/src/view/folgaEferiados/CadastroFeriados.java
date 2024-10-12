@@ -81,7 +81,7 @@ public class CadastroFeriados extends JFrame {
 		contentPane.add(Nomes);
 
 		FieldGeral = new JTextField();
-		FieldGeral.setFont(new Font("Arial", Font.PLAIN, 15));
+		FieldGeral.setFont(new Font("Arial Black", Font.BOLD, 15));
 		FieldGeral.setBounds(166, 209, 344, 28);
 		contentPane.add(FieldGeral);
 		FieldGeral.setColumns(10);
@@ -112,7 +112,7 @@ public class CadastroFeriados extends JFrame {
 		contentPane.add(TipoFeriado);
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 17));
+		comboBox.setFont(new Font("Arial Black", Font.BOLD, 15));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nacional", "Estadual", "Municipal"}));
 		comboBox.setBounds(166, 354, 114, 28);
 		contentPane.add(comboBox);

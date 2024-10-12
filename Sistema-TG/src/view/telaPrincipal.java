@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -81,7 +82,26 @@ public class telaPrincipal extends JFrame {
 				telaEscala frame = new telaEscala();
 				frame.setVisible(true);
 				if(telaEscala.aviso1 && telaEscala.aviso2) {
-					JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!", JOptionPane.WARNING_MESSAGE);
+					String[] opcoes = {"Ir para Gerar Escala"};
+					
+						String texto = "Não há nenhuma Escala registrada! É necessário gerar uma escala primeiro!";
+						
+						
+						JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
+						
+						JDialog tela = optionPane.createDialog("Nenhuma Escala encontrada!");
+						tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+						tela.setIconImage(Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
+						tela.setVisible(true);
+						
+						dispose();
+						frame.dispose();
+						
+						telaGerarEscala frame1 = new telaGerarEscala();
+						frame1.setVisible(true);
+						
+						telaEscala.aviso1 = false;
+						telaEscala.aviso2 = false;
 				}
 			}
 		});

@@ -33,6 +33,7 @@ import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
 import view.telaPrincipal;
+import javax.swing.ImageIcon;
 
 public class telaEscala extends JFrame {
 
@@ -482,10 +483,11 @@ public class telaEscala extends JFrame {
 			}
 		});
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnmenu.setBounds(619, 406, 156, 34);
+		btnmenu.setBounds(586, 406, 156, 34);
 		contentPane.add(btnmenu);
 		
 		JButton gerarPdf = new JButton("Gerar PDF");
+		gerarPdf.setIcon(new ImageIcon(telaEscala.class.getResource("/model/images/business (1).png")));
 		gerarPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerarPdf.GerarPdfEscala();
@@ -494,6 +496,18 @@ public class telaEscala extends JFrame {
 		gerarPdf.setFont(new Font("Dialog", Font.BOLD, 14));
 		gerarPdf.setBounds(308, 406, 156, 34);
 		contentPane.add(gerarPdf);
+		
+		JButton btnEditarEscala = new JButton("Editar Escala");
+		btnEditarEscala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				telaEditarEscala TEE = new telaEditarEscala();
+				TEE.setVisible(true);
+			}
+		});
+		btnEditarEscala.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnEditarEscala.setBounds(47, 406, 156, 34);
+		contentPane.add(btnEditarEscala);
 
 		this.setLocationRelativeTo(null);
 	}

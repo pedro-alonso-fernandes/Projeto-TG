@@ -287,7 +287,7 @@ public class GerarPdf {
 			document.add(new Paragraph("     "));
 			float[] colsWidth6 = {1f, 1f, 1f};
 			PdfPTable tabela6 = new PdfPTable(colsWidth6);
-			PdfPCell red = new PdfPCell(new Paragraph("Feriado/Vermelha", font2));
+			PdfPCell red = new PdfPCell(new Paragraph("Feriado/Escala Vermelha", font2));
 			red.setBackgroundColor(BaseColor.RED);
 			tabela6.addCell(red);
 			PdfPCell black = new PdfPCell(new Paragraph("Preta", font3));
