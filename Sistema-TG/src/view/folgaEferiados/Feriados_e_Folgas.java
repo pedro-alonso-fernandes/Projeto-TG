@@ -3,15 +3,16 @@ package view.folgaEferiados;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+<<<<<<< HEAD
 import view.atirador.Remover;
  
 import javax.swing.JButton;
@@ -30,6 +32,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
+=======
+>>>>>>> acaf2ef17a91b1a63ad8f45784884bceb674c7ac
 import view.telaPrincipal;
 
 public class Feriados_e_Folgas extends JFrame {
@@ -175,7 +179,7 @@ public class Feriados_e_Folgas extends JFrame {
 	        table_1.setFont(new Font("Arial Black", Font.BOLD, 12));
 	        table_1.setModel(new DefaultTableModel(
 	            new Object[][] {},
-	            new String[] { "Nome", "Data", "Folga" }
+	            new String[] { "Nome", "Data", "Folgas" }
 	        ));
 	        scrollPane_1.setViewportView(table_1);
 

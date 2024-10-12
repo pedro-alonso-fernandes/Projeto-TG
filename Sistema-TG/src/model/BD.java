@@ -45,10 +45,10 @@ public class BD {
 				+ "atirador1Id int not null,"
 				+ "atirador2Id int not null," 
 				+ "atirador3Id int not null,"
-				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id) on update cascade);";
+				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id) on update cascade on delete cascade);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -87,7 +87,7 @@ public class BD {
 				+ "valor int not null,"
 				+ "data date not null,"
 				+ "atiradorId int not null,"
-				+ "constraint fk_Atirador_GuardaVermeha foreign key (atiradorId) references Atirador (id) on update cascade);";
+				+ "constraint fk_Atirador_GuardaVermeha foreign key (atiradorId) references Atirador (id) on update cascade on delete cascade);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -101,7 +101,7 @@ public class BD {
 				+ "valor int not null,"
 				+ "data date not null,"
 				+ "atiradorId int not null,"
-				+ "constraint fk_Atirador_GuardaPreta foreign key (atiradorId) references Atirador (id) on update cascade);";
+				+ "constraint fk_Atirador_GuardaPreta foreign key (atiradorId) references Atirador (id) on update cascade on delete cascade);";
 
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
@@ -151,10 +151,10 @@ public class BD {
 				+ "atirador1Id int not null,"
 				+ "atirador2Id int not null," 
 				+ "atirador3Id int not null,"
-				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id) on update cascade,"
-				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id) on update cascade);";
+				+ "constraint fk_Monitor_Escala foreign key (monitorId) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador1_Escala foreign key (atirador1Id) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador2_Escala foreign key (atirador2Id) references Atirador (id) on update cascade on delete cascade,"
+				+ "constraint fk_Atirador3_Escala foreign key (atirador3Id) references Atirador (id) on update cascade on delete cascade);";
 		
 		PreparedStatement ps = null;
 
@@ -250,7 +250,7 @@ public class BD {
 				+ "valor int not null,"
 				+ "data date not null,"
 				+ "atiradorId int not null,"
-				+ "constraint fk_Atirador_Guarda" + cor + " foreign key (atiradorId) references Atirador (id) on update cascade);";
+				+ "constraint fk_Atirador_Guarda" + cor + " foreign key (atiradorId) references Atirador (id) on update cascade on delete cascade);";
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.execute();

@@ -1931,7 +1931,7 @@ public class Escala {
 				switch (Data.getDiaSemana(data)) {
 				case "DOM":
 					
-					int[] idGuardaVermelha = getidGuarda(guardaVermelha);
+					int[] idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 					EscalaDAO.cadastrarEscala(escala);
 
@@ -1952,7 +1952,7 @@ public class Escala {
 				case "SEG":
 					
 					if(!feriado) {
-						int[] idGuardaPreta = getidGuarda(guardaPreta);
+						int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -1970,7 +1970,7 @@ public class Escala {
 					}
 					else {
 						
-						idGuardaVermelha = getidGuarda(guardaVermelha);
+						idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -1993,7 +1993,7 @@ public class Escala {
 				case "TER":
 					
 					if(!feriado) {
-						int[] idGuardaPreta = getidGuarda(guardaPreta);
+						int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2011,7 +2011,7 @@ public class Escala {
 					}
 					else {
 						
-						idGuardaVermelha = getidGuarda(guardaVermelha);
+						idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2034,7 +2034,7 @@ public class Escala {
 				case "QUA":
 					
 					if(!feriado) {
-						int[] idGuardaPreta = getidGuarda(guardaPreta);
+						int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2052,7 +2052,7 @@ public class Escala {
 					}
 					else {
 						
-						idGuardaVermelha = getidGuarda(guardaVermelha);
+						idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2075,7 +2075,7 @@ public class Escala {
 				case "QUI":
 					
 					if(!feriado) {
-						int[] idGuardaPreta = getidGuarda(guardaPreta);
+						int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2093,7 +2093,7 @@ public class Escala {
 					}
 					else {
 						
-						idGuardaVermelha = getidGuarda(guardaVermelha);
+						idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2116,7 +2116,7 @@ public class Escala {
 				case "SEX":
 					
 					if(!feriado) {
-						int[] idGuardaPreta = getidGuarda(guardaPreta);
+						int[] idGuardaPreta = verificarGuarda(guardaPreta, data);
 						escala = new Escala(data, "Preta", idGuardaPreta[0], idGuardaPreta[1], idGuardaPreta[2], idGuardaPreta[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2134,7 +2134,7 @@ public class Escala {
 					}
 					else {
 						
-						idGuardaVermelha = getidGuarda(guardaVermelha);
+						idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 						escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 						EscalaDAO.cadastrarEscala(escala);
 						
@@ -2156,7 +2156,7 @@ public class Escala {
 					break;
 				case "SAB":
 					
-					idGuardaVermelha = getidGuarda(guardaVermelha);
+					idGuardaVermelha = verificarGuarda(guardaVermelha, data);
 					escala = new Escala(data, "Vermelha", idGuardaVermelha[0], idGuardaVermelha[1], idGuardaVermelha[2], idGuardaVermelha[3]);
 					EscalaDAO.cadastrarEscala(escala);
 					

@@ -32,7 +32,7 @@ public class GuardaDAO {
 		
 	}
 	
-	public static ResultSet getGuarda(String cor) {
+	public static ResultSet getGuardas(String cor) {
 		BD.selecionarDatabase();
 		
 		String sql = "select * from Guarda" + cor + ";";
@@ -49,7 +49,7 @@ public class GuardaDAO {
 		return rs;
 	}
 	
-	public static ResultSet getGuardaData(String cor, Date data) {
+	public static ResultSet getGuardaPorData(String cor, Date data) {
 		BD.selecionarDatabase();
 		
 		String sql = "select * from Guarda" + cor + " where data = ?;";
@@ -68,7 +68,7 @@ public class GuardaDAO {
 		return rs;
 	}
 	
-	public static Date getUltimaGuarda(String cor) {
+	public static Date getDataUltimaGuarda(String cor) {
 		BD.selecionarDatabase();
 		
 		String sql = "select data from Guarda" + cor + " order by data desc limit 1;";
@@ -82,10 +82,36 @@ public class GuardaDAO {
 			rs.next();
 			data = rs.getDate("data");
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar todos Guarda " + cor + " pela data: " + e.getMessage());
+			System.out.println("Erro ao pegar a data da última Guarda " + cor + ": " + e.getMessage());
 		}
 		
 		return data;
+	}
+	
+	public static int getValorGuardaPorAtirador(String cor, Date data, int atiradorId) {
+		BD.selecionarDatabase();
+		
+		int valor = Integer.MIN_VALUE;
+		
+		String sql = "select valor from Guarda" + cor + " where data = ? and atiradorId = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			ps.setString(2, String.valueOf(atiradorId));
+			rs = ps.executeQuery();
+			
+			rs.next();
+			valor = rs.getInt("valor");
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar o valor da Guarda " + cor + " de um Atirador: " + e.getMessage());
+		}
+		
+		return valor;
 	}
 	
 	public static void apagarGuardasDataMaior(String cor, Date data) {
@@ -114,7 +140,7 @@ public class GuardaDAO {
 		
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		Date dataHoje = new Date();
-		Date dataUltimaGuarda = getUltimaGuarda(cor);
+		Date dataUltimaGuarda = getDataUltimaGuarda(cor);
 		
 		Date dataFinal = null;
 		if(dataUltimaGuarda.after(dataHoje)) {

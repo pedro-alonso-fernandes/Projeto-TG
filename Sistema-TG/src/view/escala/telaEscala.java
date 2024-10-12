@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,6 +32,7 @@ import controller.GerarPdf;
 import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
+import view.telaPrincipal;
 
 public class telaEscala extends JFrame {
 
@@ -159,9 +158,9 @@ public class telaEscala extends JFrame {
 			
 			if((escala && !rsSemanaAtual.next()) || (escala && !rsProximaSemana.next()) ) { 
 				
-				Date dataPreta = GuardaDAO.getUltimaGuarda("Preta");
+				Date dataPreta = GuardaDAO.getDataUltimaGuarda("Preta");
 				
-				ResultSet resultSet = GuardaDAO.getGuardaData("Preta", dataPreta);
+				ResultSet resultSet = GuardaDAO.getGuardaPorData("Preta", dataPreta);
 				int i = 0;
 				int[] guardaPreta = new int[qtdAtiradores];
 				
@@ -170,9 +169,9 @@ public class telaEscala extends JFrame {
 					i++;
 				}
 				
-				Date dataVermelha = GuardaDAO.getUltimaGuarda("Vermelha");
+				Date dataVermelha = GuardaDAO.getDataUltimaGuarda("Vermelha");
 				
-				resultSet = GuardaDAO.getGuardaData("Vermelha", dataVermelha);
+				resultSet = GuardaDAO.getGuardaPorData("Vermelha", dataVermelha);
 				i = 0;
 				int[] guardaVermelha = new int[qtdAtiradores];
 				
@@ -481,8 +480,8 @@ public class telaEscala extends JFrame {
 		btnmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaGerarEscala guarda = new telaGerarEscala();
-				guarda.setVisible(true);
+				telaPrincipal frame = new telaPrincipal();
+				frame.setVisible(true);
 			}
 		});
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
