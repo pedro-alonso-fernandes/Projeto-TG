@@ -109,7 +109,7 @@ public class telaEditarEscala extends JFrame {
 //        calendar.set(2030, Calendar.DECEMBER, 31);
 //        Date dataMaxima = calendar.getTime();
         
-        ResultSet rsEscala = EscalaDAO.getDatasEscalas(new Date()); // O método pega escala com datas maiores do que a data informada
+        ResultSet rsEscala = EscalaDAO.getEscalasDataMaior(new Date()); // O método pega escala com datas maiores do que a data informada
         ResultSet rsMonitor = AtiradorDAO.getMonitores();
         ResultSet rsAtirador = AtiradorDAO.getAtiradores();
         
@@ -131,8 +131,9 @@ public class telaEditarEscala extends JFrame {
 			System.out.println("Erro ao pegar a data de todas as escalas, e todos os atiradores: " + e.getMessage());
 		}
         
+        // Mudar como essa tela vai ser exibida
         if(datasPermitidas.size() == 0) {
-        	JOptionPane.showMessageDialog(null, "Não nenhuma escala cadastrada!\nCadastre uma Escala antes de editá-la.", "Erro!", JOptionPane.ERROR_MESSAGE);
+        	JOptionPane.showMessageDialog(null, "Não há nenhuma escala cadastrada!\nCadastre uma Escala antes de editá-la.", "Erro!", JOptionPane.ERROR_MESSAGE);
         	fechar = true;
         	return;
         }

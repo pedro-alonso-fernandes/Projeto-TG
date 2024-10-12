@@ -175,7 +175,7 @@ public class Editar extends JDialog {
 		Pesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Campid1.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Atenção!!",
+					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campid1.getText()));
@@ -255,7 +255,7 @@ public class Editar extends JDialog {
 				if (Campo1.getText().equals("") || Campo2.getText().equals("") || Campo3.getText().equals("")
 						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
 
-					JOptionPane.showMessageDialog(null, "Sua Edição Está Incompleta", "Atenção!!",
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de editar!", "Campos Incompletos!",
 							JOptionPane.WARNING_MESSAGE);
 
 				} else {
@@ -279,7 +279,6 @@ public class Editar extends JDialog {
 							}
 
 							AtiradorDAO.EditarAtirador(atdr, Integer.parseInt(Campid1.getText())); // Edita Atirador
-							telaAtirador.alteracao = true;
 							
 							JOptionPane.showMessageDialog(null, "Edição Feita!", "Completa!!",
 									JOptionPane.INFORMATION_MESSAGE);

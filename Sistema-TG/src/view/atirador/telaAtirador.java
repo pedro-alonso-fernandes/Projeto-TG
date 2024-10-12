@@ -23,6 +23,8 @@ import view.escala.telaGerarEscala;
 
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -171,24 +173,24 @@ public class telaAtirador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
-				String[] opcoes = {"Ir para Gerar Escala", "Cancelar"};
+				
+				String[] opcoes = {"Ir para Gerar Escala"};
 				
 				if(telaAtirador.alteracao && existenciaEscala) {
-					// Usando html para centralizar uma parte da mensagem
+					
 					String texto = "Você fez alterações no registro de Atiradores, portanto é necessário gerar a escala novamente!";
 					
-					// Salva a decisão do usuário numa variável 
-					int decisao = JOptionPane.showOptionDialog(null, texto, "Gerar a escala novamente!",
-							JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
 					
-					if(decisao == JOptionPane.YES_OPTION) {
-						telaGerarEscala frame = new telaGerarEscala();
-						frame.setVisible(true);
-					}
-					else {
-						telaPrincipal principal = new telaPrincipal();
-						principal.setVisible(true);
-					}
+					JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
+					
+					JDialog tela = optionPane.createDialog("Gerar a escala novamente!");
+					tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+					tela.setVisible(true);
+					
+					dispose();
+					
+					telaGerarEscala frame = new telaGerarEscala();
+					frame.setVisible(true);
 					
 				}
 				else {

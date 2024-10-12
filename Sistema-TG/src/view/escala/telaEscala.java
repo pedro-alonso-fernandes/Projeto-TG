@@ -55,9 +55,6 @@ public class telaEscala extends JFrame {
 				try {
 					telaEscala frame = new telaEscala();
 					frame.setVisible(true);
-					if(aviso1 && aviso2) {
-						JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso", JOptionPane.WARNING_MESSAGE);
-					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -79,6 +80,9 @@ public class telaPrincipal extends JFrame {
 				dispose();
 				telaEscala frame = new telaEscala();
 				frame.setVisible(true);
+				if(telaEscala.aviso1 && telaEscala.aviso2) {
+					JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		

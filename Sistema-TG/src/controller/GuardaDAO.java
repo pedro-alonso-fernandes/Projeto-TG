@@ -104,8 +104,13 @@ public class GuardaDAO {
 			ps.setString(2, String.valueOf(atiradorId));
 			rs = ps.executeQuery();
 			
-			rs.next();
-			valor = rs.getInt("valor");
+			if(rs.next()) {
+				valor = rs.getInt("valor");
+			}
+			else {
+				valor = 0;
+			}
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Erro ao pegar o valor da Guarda " + cor + " de um Atirador: " + e.getMessage());

@@ -269,11 +269,11 @@ public class EscalaDAO {
 		return rs;
 	}
 	
-	// Retorna apenas as datas das Escalas
-	public static ResultSet getDatasEscalas(Date data) {
+	// Retorna todas as Escalas com data maior que a informada
+	public static ResultSet getEscalasDataMaior(Date data) {
 		BD.selecionarDatabase();
 		
-		String sql = "select data from Escala where data > ?;";
+		String sql = "select * from Escala where data > ?;";
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -284,7 +284,7 @@ public class EscalaDAO {
 			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar as datas das Escalas: " + e.getMessage());
+			System.out.println("Erro ao pegar Escalas com datas maiores do que a informada: " + e.getMessage());
 			return rs;
 		}
 	}

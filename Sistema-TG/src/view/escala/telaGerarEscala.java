@@ -226,6 +226,10 @@ public class telaGerarEscala extends JFrame {
 						
 						telaEscala tela = new telaEscala();
 						tela.setVisible(true);
+						
+						if(telaEscala.aviso1 && telaEscala.aviso2) {
+							JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 
 				} catch (NumberFormatException ey) {
