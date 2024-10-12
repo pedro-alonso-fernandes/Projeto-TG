@@ -22,19 +22,15 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
-<<<<<<< HEAD
 import view.atirador.Remover;
-import view.atirador.telaPrincipal;
-
+ 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
-=======
 import view.telaPrincipal;
->>>>>>> 5104d5aa31cbd4ddb209eb0af549ce529abc8f43
 
 public class Feriados_e_Folgas extends JFrame {
 
