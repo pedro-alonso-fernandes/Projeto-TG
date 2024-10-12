@@ -152,13 +152,12 @@ public class RemoverFF extends JDialog {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
+
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy");
 				SimpleDateFormat formato1 = new SimpleDateFormat("dd/MM/yyyy");
 				Date data = (Date) dataSpinner.getValue();
 				int ano = Integer.parseInt(formato.format(data));
-
-				ResultSet rs = FeriadoDAO.getFeriadoData(data);
-				ResultSet fr = FolgaDAO.getFolgaData(data);
 
 				table_1.setModel(new DefaultTableModel(new Object[][] {},
 						new String[] { "Nome", "Data", "Tipo", "Feriado/Folga" }));
@@ -175,33 +174,43 @@ public class RemoverFF extends JDialog {
 
 				DefaultTableModel modelo = (DefaultTableModel) table_1.getModel();
 
-				try {
-					boolean comp1 = rs.next();
-					boolean comp2 = fr.next();
-					if ((comp1 || comp2) == false) {
-						JOptionPane.showMessageDialog(null, "Não Existe Folga ou Feriado nessa data!", "Atenção!",
-								JOptionPane.WARNING_MESSAGE);
-						removerID = 0;
-						tipo = "";
-					} else if (comp1 == true) {
+				if (ano < anoModelo) {
+					JOptionPane.showMessageDialog(null,
+							"Não é possível Pesquisar datas inferiores a 01/01/" + anoModelo + "!", "Atenção!!",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
 
-						modelo.addRow(new Object[] { rs.getString("nome"), formato1.format(rs.getDate("data")),
-								rs.getString("tipo"), "Feriado" });
+					ResultSet rs = FeriadoDAO.getFeriadoData(data);
+					ResultSet fr = FolgaDAO.getFolgaData(data);
 
-						removerID = rs.getInt("id");
-						tipo = "Feriado";
-					} else if (comp2 == true) {
-						modelo.addRow(new Object[] { fr.getString("nome"), formato1.format(fr.getDate("data")), "X",
-								"Folga" });
+					try {
+						boolean comp1 = rs.next();
+						boolean comp2 = fr.next();
+						if ((comp1 || comp2) == false) {
+							JOptionPane.showMessageDialog(null, "Não Existe Folga ou Feriado nessa data!", "Atenção!",
+									JOptionPane.WARNING_MESSAGE);
+							removerID = 0;
+							tipo = "";
+						} else if (comp1 == true) {
 
-						removerID = fr.getInt("id");
-						tipo = "Folga";
+							modelo.addRow(new Object[] { rs.getString("nome"), formato1.format(rs.getDate("data")),
+									rs.getString("tipo"), "Feriado" });
 
+							removerID = rs.getInt("id");
+							tipo = "Feriado";
+						} else if (comp2 == true) {
+							modelo.addRow(new Object[] { fr.getString("nome"), formato1.format(fr.getDate("data")), "X",
+									"Folga" });
+
+							removerID = fr.getInt("id");
+							tipo = "Folga";
+
+						}
+					} catch (Exception e2) {
+						// TODO: handle exception
 					}
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
 
+				}
 			}
 		});
 		btnPesquisar.setFont(new Font("Arial Black", Font.BOLD, 15));

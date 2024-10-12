@@ -212,67 +212,70 @@ public class CadastroFeriados extends JFrame {
 		CadastrarFeriado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(FeriadoCHK.isSelected()) {
-					if (FieldGeral.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
+				    if (FieldGeral.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
 
-						JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
-								JOptionPane.WARNING_MESSAGE);
-					}
-					
-					else {
-						
-						int anoModelo = 2024;
-						
-						SimpleDateFormat formato = new SimpleDateFormat("yyyy");
-						Date data = (Date) dataSpinner.getValue();
-						int ano = Integer.parseInt(formato.format(data));
-						
-						if(ano < anoModelo) {
-							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
-						}
-						// Cadastra o Feriado                   
-						else {
-							Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
-							FeriadoDAO.cadastrarFeriado(feriado);
-							
-							FieldGeral.setText("");
-							comboBox.setSelectedItem(null);
-							
-							JOptionPane.showMessageDialog(null, "Feriado cadastrado com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
+				        JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+				                JOptionPane.WARNING_MESSAGE);
+				    }
+				    
+				    else {
+				        
+				        // Pegando o ano atual dinamicamente
+				        int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
+				        
+				        SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+				        Date data = (Date) dataSpinner.getValue();
+				        int ano = Integer.parseInt(formato.format(data));
+				        
+				        if(ano < anoModelo) {
+							JOptionPane.showMessageDialog(null,
+									"Não é possível cadastrar datas inferiores a 01/01/" + anoModelo + "!", "Atenção!!",
+									JOptionPane.WARNING_MESSAGE);
+				        }
+				        // Cadastra o Feriado                   
+				        else {
+				            Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
+				            FeriadoDAO.cadastrarFeriado(feriado);
+				            
+				            FieldGeral.setText("");
+				            comboBox.setSelectedItem(null);
+				            
+				            JOptionPane.showMessageDialog(null, "Feriado cadastrado com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				        }
+				    }
 				}
 				else if (FolgaCHK.isSelected()) {
-					if(FieldGeral.getText().equals("")) {
-						JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
-								JOptionPane.WARNING_MESSAGE);
-					}
-					else {
-						int anoModelo = 2024;
-						
-						SimpleDateFormat formato = new SimpleDateFormat("yyyy");
-						Date data = (Date) dataSpinner.getValue();
-						int ano = Integer.parseInt(formato.format(data));
-						
-						if(ano < anoModelo) {
-							JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/2024!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
-						}
-						// Cadastra a Folga
-						else {
-							Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
-							FolgaDAO.cadastrarFolga(folga);
-							
-							FieldGeral.setText("");
-							
-							JOptionPane.showMessageDialog(null, "Folga cadastrada com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
-						}
-						
-						
-					}
+				    if(FieldGeral.getText().equals("")) {
+				        JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
+				                JOptionPane.WARNING_MESSAGE);
+				    }
+				    else {
+				        // Pegando o ano atual dinamicamente
+				        int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
+				        
+				        SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+				        Date data = (Date) dataSpinner.getValue();
+				        int ano = Integer.parseInt(formato.format(data));
+				        
+				        if(ano < anoModelo) {
+				            JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/" + anoModelo + "!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
+				        }
+				        // Cadastra a Folga
+				        else {
+				            Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
+				            FolgaDAO.cadastrarFolga(folga);
+				            
+				            FieldGeral.setText("");
+				            
+				            JOptionPane.showMessageDialog(null, "Folga cadastrada com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				        }
+				        
+				        
+				    }
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Não há nada para cadastrar! Selecione \"Feriado\" ou \"Folga\".", "Atenção!", JOptionPane.WARNING_MESSAGE);
+				    JOptionPane.showMessageDialog(null, "Não há nada para cadastrar! Selecione \"Feriado\" ou \"Folga\".", "Atenção!", JOptionPane.WARNING_MESSAGE);
 				}
-			
 			}
 		});
 		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));

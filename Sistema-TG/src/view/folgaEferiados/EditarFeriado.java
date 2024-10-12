@@ -204,7 +204,7 @@ public class EditarFeriado extends JDialog {
 				int ano = Integer.parseInt(formato.format(data));
 
 				if ((ano < anoModelo)) {
-					JOptionPane.showMessageDialog(null, "Não é possível pesquisar datas inferiores a 01/01/2024!",
+					JOptionPane.showMessageDialog(null, "Não é possível pesquisar datas inferiores a 01/01/" + anoModelo + "!",
 							"Atenção!!", JOptionPane.WARNING_MESSAGE);
 				}
 				// Editar folga ou feriado
@@ -272,29 +272,42 @@ public class EditarFeriado extends JDialog {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
+
+				SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+				Date data = (Date) dataSpinner.getValue();
+				int ano = Integer.parseInt(formato.format(data));
+				
 				if(id2 == 2) {
 					if (textField.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
 					JOptionPane.showMessageDialog(null, "Insira ás informações para Editar",
 							"Atenção!!", JOptionPane.WARNING_MESSAGE);
 					
 				}
-				else {
+					else if (ano < anoModelo) {
+						JOptionPane.showMessageDialog(null, "Não é possível pesquisar datas inferiores a 01/01/" + anoModelo + "!",
+								"Atenção!!", JOptionPane.WARNING_MESSAGE);
+					}
+					else {
 				Feriado fr = new Feriado();
 				fr.setId(id);
 				fr.setNome(textField.getText());
 				fr.setData((Date)dataSpinner1.getValue());
 				fr.setTipo(String.valueOf(comboBox.getSelectedItem()));
-				
 				FeriadoDAO.editarFeriado(fr);
+					}
 				
 				textField.setText("");
 				comboBox.setSelectedItem(null);
 				}
 					
-				}
 				if (id2 == 1) {
 					if (textField.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Insira ás informações para Editar",
+								"Atenção!!", JOptionPane.WARNING_MESSAGE);
+					}
+					else if (ano < anoModelo) {
+						JOptionPane.showMessageDialog(null, "Não é possível Editar datas inferiores a 01/01/" + anoModelo + "!",
 								"Atenção!!", JOptionPane.WARNING_MESSAGE);
 					}
 					else {
