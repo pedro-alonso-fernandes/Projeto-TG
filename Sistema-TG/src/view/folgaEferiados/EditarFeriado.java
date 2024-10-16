@@ -77,9 +77,7 @@ public class EditarFeriado extends JDialog {
 		lblNewLabel.setBounds(158, 10, 273, 40);
 		contentPanel.add(lblNewLabel);
 
-		Calendar calendario = Calendar.getInstance();
-		calendario.set(2024, Calendar.JANUARY, 1);
-		Date dataInicial = calendario.getTime();
+		Date dataInicial = new Date();
 
 		SpinnerDateModel dateModel = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
 		JSpinner dataSpinner = new JSpinner(dateModel);
@@ -153,25 +151,11 @@ public class EditarFeriado extends JDialog {
 		comboBox.setSelectedItem(null);
 		comboBox.setVisible(false);
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		btnNewButton_1.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnNewButton_1.setBounds(85, 436, 206, 33);
-		contentPanel.add(btnNewButton_1);
-		btnNewButton_1.setVisible(false);
-
-		JButton btnNewButton_1_1 = new JButton("Menu");
-		btnNewButton_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				Feriados_e_Folgas FF = new Feriados_e_Folgas();
-				FF.setVisible(true);
-			}
-		});
-
-		btnNewButton_1_1.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnNewButton_1_1.setBounds(316, 436, 206, 33);
-		contentPanel.add(btnNewButton_1_1);
-		btnNewButton_1_1.setVisible(false);
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setFont(new Font("Arial Black", Font.BOLD, 15));
+		btnEditar.setBounds(197, 444, 206, 33);
+		contentPanel.add(btnEditar);
+		btnEditar.setVisible(false);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Insira as informações nos campos abaixo");
 		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 15));
@@ -183,18 +167,18 @@ public class EditarFeriado extends JDialog {
 		lblNewLabel_7.setBounds(169, 78, 221, 28);
 		contentPanel.add(lblNewLabel_7);
 		
-		JButton btnNewButton_2 = new JButton("");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				Feriados_e_Folgas FF  = new Feriados_e_Folgas();
 				FF.setVisible(true);
 			}
 		});
-		btnNewButton_2.setIcon(new ImageIcon(EditarFeriado.class.getResource("/model/images/desfazer.png")));
-		btnNewButton_2.setBounds(8, 10, 30, 30);
-		contentPanel.add(btnNewButton_2);
-		btnNewButton_2.setVisible(true);
+		btnVoltar.setIcon(new ImageIcon(EditarFeriado.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 30, 30);
+		contentPanel.add(btnVoltar);
+		btnVoltar.setVisible(true);
 		
 		
 		btnNewButton.addActionListener(new ActionListener() {
@@ -233,9 +217,8 @@ public class EditarFeriado extends JDialog {
 							
 							lblNewLabel_3_2.setVisible(false);
 							comboBox.setVisible(false);
-							btnNewButton_1.setVisible(true);
-							btnNewButton_1_1.setVisible(true);
-							btnNewButton_2.setVisible(false);
+							btnEditar.setVisible(true);
+							
 						}
 						if (comp2 == true) {
 							id = fr.getInt("id");
@@ -252,17 +235,13 @@ public class EditarFeriado extends JDialog {
 							lblNewLabel_3_2.setVisible(true);
 							comboBox.setVisible(true);
 							comboBox.setSelectedItem(fr.getString("tipo"));
-							btnNewButton_1.setVisible(true);
-							btnNewButton_1_1.setVisible(true);
-							btnNewButton_2.setVisible(false);
+							btnEditar.setVisible(true);
+							
 						}
 						if ((comp2 || comp1) == false) {
 							id = 0;
 							id2 = 0;
 							registroEscala = false;
-							
-							JOptionPane.showMessageDialog(null, "Não há nenhuma Folga ou Feriado cadastrado nesse dia!",
-									"Atenção!!", JOptionPane.WARNING_MESSAGE);
 							
 							lblNewLabel_3.setVisible(false);
 							lblNewLabel_3_1.setVisible(false);
@@ -270,9 +249,10 @@ public class EditarFeriado extends JDialog {
 							dataSpinner1.setVisible(false);
 							lblNewLabel_3_2.setVisible(false);
 							comboBox.setVisible(false);
-							btnNewButton_1.setVisible(false);
-							btnNewButton_1_1.setVisible(false);
-							btnNewButton_2.setVisible(true);
+							btnEditar.setVisible(false);
+
+							JOptionPane.showMessageDialog(null, "Não há nenhuma Folga ou Feriado cadastrado nesse dia!",
+									"Atenção!!", JOptionPane.WARNING_MESSAGE);
 						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -281,7 +261,7 @@ public class EditarFeriado extends JDialog {
 
 			}
 		});
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
@@ -339,10 +319,20 @@ public class EditarFeriado extends JDialog {
 				
 					textField.setText("");
 					comboBox.setSelectedItem(null);
+					
+					lblNewLabel_3.setVisible(false);
+					lblNewLabel_3_1.setVisible(false);
+					textField.setVisible(false);
+					dataSpinner1.setVisible(false);
+					lblNewLabel_3_2.setVisible(false);
+					comboBox.setVisible(false);
+					btnEditar.setVisible(false);
+					
+					JOptionPane.showMessageDialog(null, "Feriado editado com sucesso!", "Edição Concluída!", JOptionPane.INFORMATION_MESSAGE);
 				}
 					
 				// Se for folga
-				if (id2 == 1) {
+				else if (id2 == 1) {
 					
 					if (textField.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Insira as informações para Editar",
@@ -378,6 +368,18 @@ public class EditarFeriado extends JDialog {
 						
 						FolgaDAO.editarFolga(fg);
 					}
+					
+					textField.setText("");
+					
+					lblNewLabel_3.setVisible(false);
+					lblNewLabel_3_1.setVisible(false);
+					textField.setVisible(false);
+					dataSpinner1.setVisible(false);
+					lblNewLabel_3_2.setVisible(false);
+					comboBox.setVisible(false);
+					btnEditar.setVisible(false);
+					
+					JOptionPane.showMessageDialog(null, "Folga editada com sucesso!", "Edição Concluída!", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}
