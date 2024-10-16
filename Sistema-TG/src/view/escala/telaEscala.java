@@ -111,7 +111,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = Data.primeiroDiaSemana(formato.parse("14/10/2024"));
+//			data = Data.primeiroDiaSemana(formato.parse("13/11/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}
@@ -301,6 +301,10 @@ public class telaEscala extends JFrame {
 					break;	
 				}
 				
+				DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
+				
+				semanaAtual.setModel(modelo);
+				
 			}
 			else {
 				for(int i = 0; i < 7; i++) {
@@ -323,11 +327,6 @@ public class telaEscala extends JFrame {
 //		semanaAtual.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
-		
-		DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
-		
-		
-		semanaAtual.setModel(modelo);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(23, 272, 740, 22);
@@ -442,6 +441,11 @@ public class telaEscala extends JFrame {
 					proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
 				}
 			}
+			else {
+				DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
+				
+				proximaSemana.setModel(modelo2);
+			}
 			
 			
 		} catch (SQLException e) {
@@ -458,10 +462,6 @@ public class telaEscala extends JFrame {
 //		proximaSemana.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
-		
-		DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
-		
-		proximaSemana.setModel(modelo2);
 		
 		JLabel lblSemanaAtual = new JLabel("Semana Atual");
 		lblSemanaAtual.setFont(new Font("Dialog", Font.BOLD, 15));

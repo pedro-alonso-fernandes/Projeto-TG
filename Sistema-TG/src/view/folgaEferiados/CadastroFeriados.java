@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
+import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
 import model.Feriado;
@@ -235,8 +236,19 @@ public class CadastroFeriados extends JFrame {
 				        // Cadastra o Feriado                   
 				        else {
 				            Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
-				            FeriadoDAO.cadastrarFeriado(feriado);
 				            
+				            // Verifica se a data do feriado cadastrado é posterior a hoje
+				            if(feriado.getData().after(new Date())) {
+				            	
+				            	boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(feriado.getData());
+				            	
+				            	if(existenciaFeriado) {
+				            		Feriados_e_Folgas.alteracao = true;
+				            	}
+				            }
+				            
+				            
+				            FeriadoDAO.cadastrarFeriado(feriado);
 				            FieldGeral.setText("");
 				            comboBox.setSelectedItem(null);
 				            
@@ -263,6 +275,17 @@ public class CadastroFeriados extends JFrame {
 				        // Cadastra a Folga
 				        else {
 				            Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
+				            
+				            // Verifica se a data da folga cadastrado é posterior a hoje
+				            if(folga.getData().after(new Date())) {
+				            	
+				            	boolean existenciaFolga = EscalaDAO.verificarEscalaEmData(folga.getData());
+				            	
+				            	if(existenciaFolga) {
+				            		Feriados_e_Folgas.alteracao = true;
+				            	}
+				            }
+				            
 				            FolgaDAO.cadastrarFolga(folga);
 				            
 				            FieldGeral.setText("");

@@ -8,8 +8,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+import model.Data;
 import model.Feriado;
 import model.Folga;
 
@@ -42,6 +44,7 @@ public class EditarFeriado extends JDialog {
 	private JTextField textField;
 	private int id = 0;
 	private int id2 = 0;
+	private boolean registroEscala = false;
 
 	/**
 	 * Launch the application.
@@ -197,7 +200,7 @@ public class EditarFeriado extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int anoModelo = 2024;
+				int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
 
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy");
 				Date data = (Date) dataSpinner.getValue();
@@ -217,6 +220,7 @@ public class EditarFeriado extends JDialog {
 						if (comp1 == true) {
 							id = rs.getInt("id");
 							id2 = 1;
+
 							lblNewLabel_3.setVisible(true);
 							lblNewLabel_3.setText("Nome da Folga:");
 							lblNewLabel_3_1.setVisible(true);
@@ -224,6 +228,9 @@ public class EditarFeriado extends JDialog {
 							textField.setText(rs.getString("nome"));
 							dataSpinner1.setVisible(true);
 							dataSpinner1.setValue(rs.getDate("data"));
+							
+							registroEscala = rs.getInt("escala") == 1 ? true : false; // Se o valor do campo "escala" for 1, escala = true; se não (igual a 0) escala = false
+							
 							lblNewLabel_3_2.setVisible(false);
 							comboBox.setVisible(false);
 							btnNewButton_1.setVisible(true);
@@ -233,6 +240,7 @@ public class EditarFeriado extends JDialog {
 						if (comp2 == true) {
 							id = fr.getInt("id");
 							id2 = 2;
+							registroEscala = false;
 							lblNewLabel_3.setVisible(true);
 							lblNewLabel_3.setText("Nome do Feriado:");
 							lblNewLabel_3_1.setVisible(true);
@@ -240,6 +248,7 @@ public class EditarFeriado extends JDialog {
 							textField.setText(fr.getString("nome"));
 							dataSpinner1.setVisible(true);
 							dataSpinner1.setValue(fr.getDate("data"));
+							
 							lblNewLabel_3_2.setVisible(true);
 							comboBox.setVisible(true);
 							comboBox.setSelectedItem(fr.getString("tipo"));
@@ -250,8 +259,11 @@ public class EditarFeriado extends JDialog {
 						if ((comp2 || comp1) == false) {
 							id = 0;
 							id2 = 0;
+							registroEscala = false;
+							
 							JOptionPane.showMessageDialog(null, "Não há nenhuma Folga ou Feriado cadastrado nesse dia!",
 									"Atenção!!", JOptionPane.WARNING_MESSAGE);
+							
 							lblNewLabel_3.setVisible(false);
 							lblNewLabel_3_1.setVisible(false);
 							textField.setVisible(false);
@@ -278,32 +290,62 @@ public class EditarFeriado extends JDialog {
 				Date data = (Date) dataSpinner.getValue();
 				int ano = Integer.parseInt(formato.format(data));
 				
+				// Se for Feriado
 				if(id2 == 2) {
-					if (textField.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
-					JOptionPane.showMessageDialog(null, "Insira ás informações para Editar",
-							"Atenção!!", JOptionPane.WARNING_MESSAGE);
 					
-				}
+					if (textField.getText().equals("") ||  String.valueOf(comboBox.getSelectedItem()).equals("null")) {
+						JOptionPane.showMessageDialog(null, "Insira as informações para Editar",
+								"Atenção!!", JOptionPane.WARNING_MESSAGE);
+					
+					}
 					else if (ano < anoModelo) {
 						JOptionPane.showMessageDialog(null, "Não é possível pesquisar datas inferiores a 01/01/" + anoModelo + "!",
 								"Atenção!!", JOptionPane.WARNING_MESSAGE);
 					}
 					else {
-				Feriado fr = new Feriado();
-				fr.setId(id);
-				fr.setNome(textField.getText());
-				fr.setData((Date)dataSpinner1.getValue());
-				fr.setTipo(String.valueOf(comboBox.getSelectedItem()));
-				FeriadoDAO.editarFeriado(fr);
+						Feriado fr = new Feriado();
+						fr.setId(id);
+						fr.setNome(textField.getText());
+						fr.setData((Date)dataSpinner1.getValue());
+						fr.setTipo(String.valueOf(comboBox.getSelectedItem()));
+						
+						// Verifica se as datas são diferentes
+						if(!formato.format(fr.getData()).equals(formato.format(data))) {
+							
+							// Verifica se a data antiga ou a nova data são posteriores a hoje, ou seja, a escala só vai precisar ser alterada
+							// se houverem mudanças nas datas posteriores a hoje
+							if(fr.getData().after(new Date()) || data.after(new Date())) {
+								
+								boolean existenciaFeriadoAntigo = EscalaDAO.verificarEscalaEmData(data);
+								boolean existenciaFeriadoAtual = EscalaDAO.verificarEscalaEmData(fr.getData());
+								
+								String diaAntigo = Data.getDiaSemana(data);
+								String diaAtual = Data.getDiaSemana(fr.getData());
+								
+								if(existenciaFeriadoAntigo && (!diaAntigo.equals("DOM") && !diaAntigo.equals("SAB"))) {
+									Feriados_e_Folgas.alteracao = true;
+								}
+								
+								else if(existenciaFeriadoAtual && (!diaAtual.equals("DOM") && !diaAtual.equals("SAB"))) {
+									Feriados_e_Folgas.alteracao = true;
+								}
+							}
+						}
+						
+						
+						
+						FeriadoDAO.editarFeriado(fr);
 					}
 				
-				textField.setText("");
-				comboBox.setSelectedItem(null);
+					textField.setText("");
+					comboBox.setSelectedItem(null);
 				}
 					
+				// Se for folga
 				if (id2 == 1) {
+					
 					if (textField.getText().equals("")) {
-						JOptionPane.showMessageDialog(null, "Insira ás informações para Editar",
+						JOptionPane.showMessageDialog(null, "Insira as informações para Editar",
 								"Atenção!!", JOptionPane.WARNING_MESSAGE);
 					}
 					else if (ano < anoModelo) {
@@ -315,6 +357,24 @@ public class EditarFeriado extends JDialog {
 						fg.setId(id);
 						fg.setNome(textField.getText());
 						fg.setData((Date)dataSpinner1.getValue());
+						
+						// Verifica se as datas são diferentes
+						if(!formato.format(fg.getData()).equals(formato.format(data))) {
+							
+							if(fg.getData().after(new Date()) || data.after(new Date())) {
+								
+								boolean existenciaFolgaAtual = EscalaDAO.verificarEscalaEmData(fg.getData());
+								
+								if(existenciaFolgaAtual) {
+									Feriados_e_Folgas.alteracao = true;
+								}
+								else if(registroEscala) {
+									Feriados_e_Folgas.alteracao = true;
+								}
+								
+							}
+						}
+						
 						
 						FolgaDAO.editarFolga(fg);
 					}

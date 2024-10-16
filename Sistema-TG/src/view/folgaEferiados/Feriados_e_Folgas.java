@@ -37,6 +37,7 @@ public class Feriados_e_Folgas extends JFrame {
 	private JTable table_1;
 	private JLabel lblNewLabel;
 	private JLabel lblTabelaDeFolgas;
+	public static boolean alteracao = false;
 
 	/**
 	 * Launch the application.

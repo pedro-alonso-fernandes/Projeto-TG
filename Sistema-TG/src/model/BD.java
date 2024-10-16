@@ -73,7 +73,8 @@ public class BD {
 		sql = "create table if not exists `TG`.`Folga`(" 
 				+ "id int not null primary key auto_increment," 
 				+ "nome varchar(50) not null,"
-				+ "data date not null);";
+				+ "data date not null,"
+				+ "escala tinyint(1) not null default 0);";
 		
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);

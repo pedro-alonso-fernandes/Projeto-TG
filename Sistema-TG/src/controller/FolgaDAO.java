@@ -110,6 +110,7 @@ public class FolgaDAO {
 		}
 		
 	}
+	
 	public static void removerFolga(int id) {
 		BD.selecionarDatabase();
 		
@@ -127,6 +128,26 @@ public class FolgaDAO {
 			System.out.println("Erro ao remover Folga: " + e.getMessage());
 		}
 	
+	}
+	
+	public static void registrarEscala(Date data, boolean escala) {
+		BD.selecionarDatabase();
+		
+		String sql = "update Folga set escala = ? where data = ?;";
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		PreparedStatement ps = null;
+		
+		int valor = escala ? 1 : 0; // Se escala for true, valor = 1; se não, valor = 0;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(valor));
+			ps.setString(2, formato.format(data));
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao registrar que a Escala passou pela folga: " + e.getMessage());
+		}
+			
 	}
 	
 }
