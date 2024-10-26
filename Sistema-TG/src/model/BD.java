@@ -110,6 +110,17 @@ public class BD {
 		} catch (SQLException e) {
 			System.out.println("Erro ao criar tabela GuardaPreta: " + e.getMessage());
 		}
+		
+		sql = "create table if not exists `TG`.`Alteracao`("
+				+ "id int not null primary key auto_increment,"
+				+ "tipo varchar(50) not null);";
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao criar tabela Alteracao: " + e.getMessage());
+		}
 
 	}
 	
@@ -233,6 +244,36 @@ public class BD {
 		
 	}
 	
+	public static void apagarTabelaAlteracao() {
+		String sql = "drop table if exists TG.Alteracao;";
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao apagar tabela Alteracao: " + e.getMessage());;
+		}
+		
+	}
+	
+	public static void reiniciarTabelaAlteracao() {
+		apagarTabelaAlteracao();
+		
+		String sql = "create table if not exists `TG`.`Alteracao`("
+				+ "id int not null primary key auto_increment,"
+				+ "tipo varchar(50) not null);";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro ao reiniciar tabela Alteracao: " + e.getMessage());
+		}
+	}
+	
 	public static void reiniciarTabelaGuarda(String cor) {
 		String sql = "";
 		PreparedStatement ps = null;
@@ -268,6 +309,7 @@ public class BD {
 		apagarTabelaFolga();
 		apagarTabelaEscala();
 		apagarTabelaAtirador();
+		apagarTabelaAlteracao();
 		
 		String sql = "drop database if exists TG;";
 		PreparedStatement ps = null;

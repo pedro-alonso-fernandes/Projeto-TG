@@ -1422,13 +1422,34 @@ public class Escala {
 				break;
 
 			case "SEX":
+				// Monitores
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
+						continue;
+					} else if (monitores[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
-					} 
-					else if(monitores[i - 5] == 0) {
-						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1445,37 +1466,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
 					} else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 5]);
-						}
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 1
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					} 
-					else if(atiradores1[i - 5] == 0) {
+						continue;
+					} else if (atiradores1[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1492,38 +1529,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 2
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					}
-					else if(atiradores2[i - 5] == 0) {
+						continue;
+					} else if (atiradores2[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1540,38 +1592,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 3
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					} 
-					else if(atiradores3[i - 5] == 0) {
+						continue;
+					} else if (atiradores3[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1588,26 +1655,18 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);

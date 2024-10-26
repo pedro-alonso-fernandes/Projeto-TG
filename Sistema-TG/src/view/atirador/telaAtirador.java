@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
+import controller.AlteracaoDAO;
 import controller.AtiradorDAO;
 import controller.Conexao;
 import controller.EscalaDAO;
@@ -41,7 +42,6 @@ public class telaAtirador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	public static boolean alteracao = false;
 
 	/**
 	 * Launch the application.
@@ -172,31 +172,8 @@ public class telaAtirador extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
-				
-				String[] opcoes = {"Ir para Gerar Escala"};
-				
-				if(telaAtirador.alteracao && existenciaEscala) {
-					
-					String texto = "Você fez alterações no registro de Atiradores, portanto é necessário gerar a escala novamente!";
-					
-					
-					JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
-					
-					JDialog tela = optionPane.createDialog("Gerar a escala novamente!");
-					tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
-					tela.setVisible(true);
-					
-					dispose();
-					
-					telaGerarEscala frame = new telaGerarEscala();
-					frame.setVisible(true);
-					
-				}
-				else {
-					telaPrincipal principal = new telaPrincipal();
-					principal.setVisible(true);
-				} 
+				telaPrincipal principal = new telaPrincipal();
+				principal.setVisible(true);
 			}
 		});
 		btnNewButton_3.setFont(new Font("Arial Black", Font.BOLD, 12));

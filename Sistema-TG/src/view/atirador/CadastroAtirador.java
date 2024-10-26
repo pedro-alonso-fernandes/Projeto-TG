@@ -21,8 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
 import controller.AtiradorDAO;
 import controller.Conexao;
+import controller.EscalaDAO;
 import model.Atirador;
 import java.awt.Toolkit;
 import java.awt.Color;
@@ -202,7 +204,9 @@ public class CadastroAtirador extends JDialog {
 							}
 							
 							AtiradorDAO.cadastrarAtirador(atdr); // Cadastra o atirador no BD
-							telaAtirador.alteracao = true;
+							
+							AlteracaoDAO.cadastrarAlteracao("Atirador");	// Deixa registrado a necessidade de alterar escala
+							
 							JOptionPane.showMessageDialog(null, "Cadastro Feito" , "Realizado!" , JOptionPane.INFORMATION_MESSAGE);
 						
 							// Reseta os campos

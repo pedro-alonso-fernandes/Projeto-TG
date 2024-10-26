@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
@@ -85,24 +86,16 @@ public class EditarFeriado extends JDialog {
 		JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
 		dataSpinner.setEditor(dateEditor);
 
-		dataSpinner.setModel(
-				new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner.setBounds(252, 116, 120, 42);
 		contentPanel.add(dataSpinner);
 
-		Calendar calendario1 = Calendar.getInstance();
-		calendario1.set(2024, Calendar.JANUARY, 1);
-		Date dataInicial1 = calendario1.getTime();
-
-		SpinnerDateModel dateModel1 = new SpinnerDateModel(dataInicial1, null, null, Calendar.DAY_OF_MONTH);
+		SpinnerDateModel dateModel1 = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
 		JSpinner dataSpinner1 = new JSpinner(dateModel1);
 
 		JSpinner.DateEditor dateEditor1 = new JSpinner.DateEditor(dataSpinner1, "dd/MM/yyyy");
 		dataSpinner1.setEditor(dateEditor1);
 
-		dataSpinner1.setModel(
-				new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner1.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner1.setBounds(85, 281, 120, 42);
 		contentPanel.add(dataSpinner1);
@@ -224,6 +217,7 @@ public class EditarFeriado extends JDialog {
 							id = fr.getInt("id");
 							id2 = 2;
 							registroEscala = false;
+							
 							lblNewLabel_3.setVisible(true);
 							lblNewLabel_3.setText("Nome do Feriado:");
 							lblNewLabel_3_1.setVisible(true);
@@ -303,11 +297,11 @@ public class EditarFeriado extends JDialog {
 								String diaAtual = Data.getDiaSemana(fr.getData());
 								
 								if(existenciaFeriadoAntigo && (!diaAntigo.equals("DOM") && !diaAntigo.equals("SAB"))) {
-									Feriados_e_Folgas.alteracao = true;
+									AlteracaoDAO.cadastrarAlteracao("Feriado");
 								}
 								
 								else if(existenciaFeriadoAtual && (!diaAtual.equals("DOM") && !diaAtual.equals("SAB"))) {
-									Feriados_e_Folgas.alteracao = true;
+									AlteracaoDAO.cadastrarAlteracao("Feriado");
 								}
 							}
 						}
@@ -356,10 +350,10 @@ public class EditarFeriado extends JDialog {
 								boolean existenciaFolgaAtual = EscalaDAO.verificarEscalaEmData(fg.getData());
 								
 								if(existenciaFolgaAtual) {
-									Feriados_e_Folgas.alteracao = true;
+									AlteracaoDAO.cadastrarAlteracao("Folga");
 								}
-								else if(registroEscala) {
-									Feriados_e_Folgas.alteracao = true;
+								else if(registroEscala && data.after(new Date())) {
+									AlteracaoDAO.cadastrarAlteracao("Folga");
 								}
 								
 							}

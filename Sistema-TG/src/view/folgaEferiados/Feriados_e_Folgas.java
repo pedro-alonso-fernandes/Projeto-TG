@@ -11,8 +11,10 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,9 +23,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.AlteracaoDAO;
+import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
 import view.telaPrincipal;
+import view.atirador.telaAtirador;
+import view.escala.telaGerarEscala;
 
 public class Feriados_e_Folgas extends JFrame {
 
@@ -37,7 +43,6 @@ public class Feriados_e_Folgas extends JFrame {
 	private JTable table_1;
 	private JLabel lblNewLabel;
 	private JLabel lblTabelaDeFolgas;
-	public static boolean alteracao = false;
 
 	/**
 	 * Launch the application.
@@ -151,9 +156,9 @@ public class Feriados_e_Folgas extends JFrame {
 	        btnMenu = new JButton("Menu");
 	        btnMenu.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	                dispose();
-	                telaPrincipal tp = new telaPrincipal();
-	                tp.setVisible(true);
+	            	dispose();
+					telaPrincipal principal = new telaPrincipal();
+					principal.setVisible(true);
 	            }
 	        });
 	        btnMenu.setFont(new Font("Arial Black", Font.BOLD, 12));

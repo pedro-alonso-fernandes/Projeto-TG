@@ -30,6 +30,7 @@ import model.Escala;
 import view.telaPrincipal;
 import view.atirador.telaAtirador;
 import view.folgaEferiados.CadastroFeriados;
+import view.folgaEferiados.Feriados_e_Folgas;
 
 public class telaGerarEscala extends JFrame {
 
@@ -218,9 +219,7 @@ public class telaGerarEscala extends JFrame {
 						
 						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
 						
-						if(telaAtirador.alteracao) {
-							telaAtirador.alteracao = false;
-						}
+						BD.reiniciarTabelaAlteracao();
 						
 						dispose();
 						

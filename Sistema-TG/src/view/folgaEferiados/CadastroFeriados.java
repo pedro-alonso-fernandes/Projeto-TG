@@ -22,9 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
 import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+import model.Data;
 import model.Feriado;
 import model.Folga;
 import view.escala.telaGerarEscala;
@@ -92,9 +94,7 @@ public class CadastroFeriados extends JFrame {
 		NomeData.setBounds(10, 292, 51, 13);
 		contentPane.add(NomeData);
 
-		Calendar calendario = Calendar.getInstance();
-        calendario.set(2024, Calendar.JANUARY, 1);
-        Date dataInicial = calendario.getTime();
+        Date dataInicial = new Date();
 		
 		SpinnerDateModel dateModel = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
         JSpinner dataSpinner = new JSpinner(dateModel);
@@ -102,7 +102,6 @@ public class CadastroFeriados extends JFrame {
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
         dataSpinner.setEditor(dateEditor);
         
-		dataSpinner.setModel(new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner.setBounds(71, 277, 120, 42);
 		contentPane.add(dataSpinner);
@@ -242,8 +241,10 @@ public class CadastroFeriados extends JFrame {
 				            	
 				            	boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(feriado.getData());
 				            	
-				            	if(existenciaFeriado) {
-				            		Feriados_e_Folgas.alteracao = true;
+				            	String diaSemana = Data.getDiaSemana(feriado.getData());
+				            	
+				            	if(existenciaFeriado && (!diaSemana.equals("DOM") && !diaSemana.equals("SAB"))) {
+				            		AlteracaoDAO.cadastrarAlteracao("Feriado");
 				            	}
 				            }
 				            
@@ -282,7 +283,7 @@ public class CadastroFeriados extends JFrame {
 				            	boolean existenciaFolga = EscalaDAO.verificarEscalaEmData(folga.getData());
 				            	
 				            	if(existenciaFolga) {
-				            		Feriados_e_Folgas.alteracao = true;
+				            		AlteracaoDAO.cadastrarAlteracao("Folga");
 				            	}
 				            }
 				            

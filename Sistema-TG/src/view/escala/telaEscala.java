@@ -254,17 +254,21 @@ public class telaEscala extends JFrame {
 			}
 			
 			
-			if(dataEscala != null) {
+			if(dataEscala != null || dataFolga != null) {
 				
 				Date dataRecente = null;
 				if(dataEscala != null && dataFolga != null) {
 					dataRecente = Data.dataMaisRecente(dataEscala, dataFolga);
 				}
-				else {
+				else if (dataEscala != null){
 					dataRecente = dataEscala;
+				}
+				else if(dataFolga != null) {
+					dataRecente = dataFolga;
 				}
 				
 				
+				// Lógica para verificar qual dia a tabela tem que deixar em branco
 				switch (Data.getDiaSemana(dataRecente)) {
 				case "SEG":
 					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
@@ -301,9 +305,6 @@ public class telaEscala extends JFrame {
 					break;	
 				}
 				
-				DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
-				
-				semanaAtual.setModel(modelo);
 				
 			}
 			else {
@@ -312,6 +313,9 @@ public class telaEscala extends JFrame {
 				}
 			}
 			
+			DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
+			
+			semanaAtual.setModel(modelo);
 			
 			
 		} catch (SQLException e) {
@@ -410,6 +414,8 @@ public class telaEscala extends JFrame {
 		rsFeriado = FeriadoDAO.getFeriadosSemana(dataProximaSemana);
 		rsEscala = EscalaDAO.getEscalaSemana(dataProximaSemana);
 		
+		dataFolga = null;
+		
 		try {
 			
 			while(rsFeriado.next()) {
@@ -422,6 +428,8 @@ public class telaEscala extends JFrame {
 			}
 			
 			while(rsFolga.next()) {
+				dataFolga = dataFolga == null ? rsFolga.getDate("data") : dataFolga; // Pegará apenas a data da primeira folga
+				
 				for(int i = 0; i < colunasProxima.length; i++) {
 					// Se for folga
 					if(colunasProxima[i].equals(formato.format(rsFolga.getDate("data")))) {
@@ -435,17 +443,16 @@ public class telaEscala extends JFrame {
 			}
 			
 			
-			if(dataEscala == null) {
+			if(dataEscala == null && dataFolga == null) {
 				
 				for(int i = 0; i < 7; i++) {
 					proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
 				}
 			}
-			else {
-				DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
-				
-				proximaSemana.setModel(modelo2);
-			}
+			
+			DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
+			
+			proximaSemana.setModel(modelo2);
 			
 			
 		} catch (SQLException e) {

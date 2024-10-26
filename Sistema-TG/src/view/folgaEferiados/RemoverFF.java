@@ -12,8 +12,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.AlteracaoDAO;
+import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+import model.Data;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +45,7 @@ public class RemoverFF extends JDialog {
 	private JTable table_1;
 	private String tipo = "";
 	private int removerID = 0;
+	private boolean registroEscala = false;
 
 	/**
 	 * Launch the application.
@@ -132,9 +137,7 @@ public class RemoverFF extends JDialog {
 		lblNewLabel_2.setBounds(10, 143, 233, 16);
 		contentPanel.add(lblNewLabel_2);
 
-		Calendar calendario = Calendar.getInstance();
-		calendario.set(2024, Calendar.JANUARY, 1);
-		Date dataInicial = calendario.getTime();
+		Date dataInicial = new Date();
 
 		SpinnerDateModel dateModel = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
 		JSpinner dataSpinner = new JSpinner(dateModel);
@@ -142,11 +145,10 @@ public class RemoverFF extends JDialog {
 		JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
 		dataSpinner.setEditor(dateEditor);
 
-		dataSpinner.setModel(
-				new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner.setBounds(252, 116, 120, 42);
 		contentPanel.add(dataSpinner);
+		
 
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
@@ -171,6 +173,10 @@ public class RemoverFF extends JDialog {
 				table_1.getColumnModel().getColumn(1).setResizable(false);
 				table_1.getColumnModel().getColumn(2).setResizable(false);
 				table_1.getColumnModel().getColumn(3).setResizable(false);
+				table_1.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+				table_1.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+				table_1.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+				table_1.getColumnModel().getColumn(3).setCellRenderer(centralizado);
 
 				DefaultTableModel modelo = (DefaultTableModel) table_1.getModel();
 
@@ -180,30 +186,35 @@ public class RemoverFF extends JDialog {
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 
-					ResultSet rs = FeriadoDAO.getFeriadoData(data);
-					ResultSet fr = FolgaDAO.getFolgaData(data);
+					ResultSet rsFeriado = FeriadoDAO.getFeriadoData(data);
+					ResultSet rsFolga = FolgaDAO.getFolgaData(data);
 
 					try {
-						boolean comp1 = rs.next();
-						boolean comp2 = fr.next();
+						boolean comp1 = rsFeriado.next();
+						boolean comp2 = rsFolga.next();
 						if ((comp1 || comp2) == false) {
 							JOptionPane.showMessageDialog(null, "Não Existe Folga ou Feriado nessa data!", "Atenção!",
 									JOptionPane.WARNING_MESSAGE);
 							removerID = 0;
 							tipo = "";
+							registroEscala = false;
+							
 						} else if (comp1 == true) {
 
-							modelo.addRow(new Object[] { rs.getString("nome"), formato1.format(rs.getDate("data")),
-									rs.getString("tipo"), "Feriado" });
+							modelo.addRow(new Object[] { rsFeriado.getString("nome"), formato1.format(rsFeriado.getDate("data")),
+									rsFeriado.getString("tipo"), "Feriado" });
 
-							removerID = rs.getInt("id");
+							removerID = rsFeriado.getInt("id");
 							tipo = "Feriado";
+							registroEscala = false;
+							
 						} else if (comp2 == true) {
-							modelo.addRow(new Object[] { fr.getString("nome"), formato1.format(fr.getDate("data")), "X",
+							modelo.addRow(new Object[] { rsFolga.getString("nome"), formato1.format(rsFolga.getDate("data")), "X",
 									"Folga" });
 
-							removerID = fr.getInt("id");
+							removerID = rsFolga.getInt("id");
 							tipo = "Folga";
+							registroEscala = rsFolga.getInt("escala") == 1 ? true : false;	// Se o valor do campo "escala" for 1, escala = true; se não (igual a 0) escala = false
 
 						}
 					} catch (Exception e2) {
@@ -220,12 +231,25 @@ public class RemoverFF extends JDialog {
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				Date data = (Date) dataSpinner.getValue();
+				
 				if ((removerID == 0)) {
 					JOptionPane.showMessageDialog(null,
 							"Nenhum Feriado ou Folga selecionado! Por favor selecione uma data.", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);
 				} else if (tipo.equals("Feriado")) {
 					FeriadoDAO.removerFeriado(removerID);
+					
+					if(data.after(new Date())) {
+						boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(data);
+						
+						String diaSemana = Data.getDiaSemana(data);
+						
+						if(existenciaFeriado && (!diaSemana.equals("DOM") && !diaSemana.equals("SAB"))) {
+							AlteracaoDAO.cadastrarAlteracao("Feriado");
+						}
+					}
+					
 					JOptionPane.showMessageDialog(null, "O Feriado foi removido!", "Informação!",
 							JOptionPane.INFORMATION_MESSAGE);
 					table_1.setModel(new DefaultTableModel(new Object[][] {},
@@ -243,6 +267,15 @@ public class RemoverFF extends JDialog {
 
 				} else if (tipo.equals("Folga")) {
 					FolgaDAO.removerFolga(removerID);
+					
+					if(data.after(new Date())) {
+						
+						if(registroEscala) {
+							AlteracaoDAO.cadastrarAlteracao("Folga");
+						}
+						
+					}
+					
 					JOptionPane.showMessageDialog(null, "A Folga foi removida!", "Informação!",
 							JOptionPane.INFORMATION_MESSAGE);
 					table_1.setModel(new DefaultTableModel(new Object[][] {},
