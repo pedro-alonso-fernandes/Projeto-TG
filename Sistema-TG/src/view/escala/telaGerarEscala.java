@@ -5,17 +5,29 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -26,10 +38,13 @@ import controller.EscalaDAO;
 import controller.GuardaDAO;
 import model.Array;
 import model.BD;
+import model.Data;
 import model.Escala;
 import view.telaPrincipal;
 import view.atirador.telaAtirador;
 import view.folgaEferiados.CadastroFeriados;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
 
 public class telaGerarEscala extends JFrame {
 
@@ -40,6 +55,7 @@ public class telaGerarEscala extends JFrame {
 	private int[] guardaVermelha = new int[qtdAtiradoresGeral];
 	private int[] guardaPreta = new int[qtdAtiradoresGeral];
 	private int[] qtdGuarda = new int[qtdAtiradoresGeral];
+	private static List<Date> datasPermitidas = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -61,10 +77,11 @@ public class telaGerarEscala extends JFrame {
 	 * Create the frame.
 	 */
 	public telaGerarEscala() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(telaGerarEscala.class.getResource("/model/images/calendario.png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(telaGerarEscala.class.getResource("/model/images/calendario.png")));
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		setBounds(100, 100, 586, 544);
+		setBounds(100, 100, 586, 582);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -77,7 +94,7 @@ public class telaGerarEscala extends JFrame {
 		contentPane.add(lblTelaTitulo);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 76, 557, 340);
+		scrollPane.setBounds(15, 76, 557, 326);
 		contentPane.add(scrollPane);
 
 		JLabel lblCodigo = new JLabel("");
@@ -123,9 +140,9 @@ public class telaGerarEscala extends JFrame {
 
 		JButton btnEscala = new JButton("Gerar Escala");
 		btnEscala.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEscala.setBounds(68, 452, 156, 34);
+		btnEscala.setBounds(214, 481, 156, 34);
 		contentPane.add(btnEscala);
-		
+
 		JButton btnmenu = new JButton("Voltar ao Menu");
 		btnmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -135,52 +152,86 @@ public class telaGerarEscala extends JFrame {
 			}
 		});
 		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnmenu.setBounds(360, 452, 156, 34);
+		btnmenu.setBounds(406, 481, 156, 34);
 		contentPane.add(btnmenu);
-		
+
 		JLabel lblNewLabel = new JLabel("CLIQUE NOS CAMPOS E PREENCHA AS INFORMAÇÕES");
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 17));
 		lblNewLabel.setBounds(23, 41, 529, 13);
 		contentPane.add(lblNewLabel);
 
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+		
+
+		List<Date> datasPermitidas = gerarDatasPermitidas(formato);
+
+		SpinnerListModel modeloData = new SpinnerListModel(datasPermitidas);
+		JSpinner dataSpinner = new JSpinner(modeloData);
+
+		JSpinner.DefaultEditor editorData = (JSpinner.DefaultEditor) dataSpinner.getEditor();
+		JFormattedTextField textFieldData = editorData.getTextField();
+		textFieldData.setFormatterFactory(
+				new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(formato)));
+
+		// Configura evento Enter e FocusLost
+		textFieldData.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+					verificarDataSpinner(dataSpinner, textFieldData, formato, datasPermitidas);
+				}
+			}
+		});
+
+		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		dataSpinner.setBounds(45, 477, 120, 42);
+		contentPane.add(dataSpinner);
+
+		JLabel lblNewLabel_1 = new JLabel("Escolha a data que você");
+		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 10));
+		lblNewLabel_1.setBounds(30, 423, 165, 24);
+		contentPane.add(lblNewLabel_1);
+
+		JLabel lblNewLabel_1_1 = new JLabel("quer Gerar a Primeira Escala\r\n");
+		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 10));
+		lblNewLabel_1_1.setBounds(30, 444, 182, 24);
+		contentPane.add(lblNewLabel_1_1);
+
 		// Popular tabela inicial
 		ResultSet rs = AtiradorDAO.getAtiradoresByMonitores();
 		try {
 			boolean escala = EscalaDAO.verificarExistenciaEscala();
-			if(escala) {
-				
+			if (escala) {
+
 				Date dataGuardaPreta = GuardaDAO.getDataUltimaGuarda("Preta");
 				Date dataGuardaVermelha = GuardaDAO.getDataUltimaGuarda("Vermelha");
 				int i = 0;
 				while (rs.next()) {
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-							GuardaDAO.getValorGuardaPorAtirador("Preta", dataGuardaPreta, rs.getInt("id")), 
+							GuardaDAO.getValorGuardaPorAtirador("Preta", dataGuardaPreta, rs.getInt("id")),
 							GuardaDAO.getValorGuardaPorAtirador("Vermelha", dataGuardaVermelha, rs.getInt("id")),
 							"" + qtdGuarda[i] });
-							// Calcular qtdGuarda em algum lugar do código, buscar a qtdGuarda e mostrar aqui
+					// Calcular qtdGuarda em algum lugar do código, buscar a qtdGuarda e mostrar
+					// aqui
 					i++;
 				}
-				
-			}
-			else {
+
+			} else {
 				int i = 0;
 				while (rs.next()) {
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
 							"" + guardaPreta[i], "" + guardaVermelha[i], "" + qtdGuarda[i] });
-					
+
 					i++;
 				}
 			}
-			
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao preecher tabela guarda: " + e.getMessage());
 		}
-		
-		
-		
 
 		btnEscala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -211,24 +262,27 @@ public class telaGerarEscala extends JFrame {
 								"Um dos valores informados é muito grande para ser uma guarda!", "Erro!",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
-						
+
 						BD.reiniciarTabelaEscala();
 						BD.reiniciarTabelaGuarda("Preta");
 						BD.reiniciarTabelaGuarda("Vermelha");
-						
-						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
-						
-						if(telaAtirador.alteracao) {
+
+						Date data = (Date) dataSpinner.getValue();
+
+						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, data);
+
+						if (telaAtirador.alteracao) {
 							telaAtirador.alteracao = false;
 						}
-						
+
 						dispose();
-						
+
 						telaEscala tela = new telaEscala();
 						tela.setVisible(true);
-						
-						if(telaEscala.aviso1 && telaEscala.aviso2) {
-							JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!", JOptionPane.WARNING_MESSAGE);
+
+						if (telaEscala.aviso1 && telaEscala.aviso2) {
+							JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!",
+									JOptionPane.WARNING_MESSAGE);
 						}
 					}
 
@@ -241,5 +295,72 @@ public class telaGerarEscala extends JFrame {
 		});
 
 		this.setLocationRelativeTo(null);
+	}
+
+	private static List<Date> gerarDatasPermitidas(SimpleDateFormat formato) {
+
+		// Adiciona as datas de segunda a sábado
+		switch (Data.getDiaSemana(new Date())) {
+		case "DOM":
+			for (int i = 0; i < 7; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "SEG":
+			for (int i = 0; i < 6; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "TER":
+			for (int i = 0; i < 5; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "QUA":
+			for (int i = 0; i < 4; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "QUI":
+			for (int i = 0; i < 3; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "SEX":
+			for (int i = 0; i < 2; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		case "SAB":
+			for (int i = 0; i < 1; i++) {
+				datasPermitidas.add(Data.addDias(new Date(), i));
+			}
+			break;
+		}
+
+		return datasPermitidas;
+	}
+
+	private static void verificarDataSpinner(JSpinner spinner, JFormattedTextField textField, SimpleDateFormat formato,
+			List<Date> dataPermitida) {
+		try {
+			String text = textField.getText();
+			Date data = formato.parse(text);
+
+// Verifica se a data está na lista de datas permitidas
+			if (dataPermitida.contains(data)) {
+				spinner.setValue(data); // Define a data no spinner
+			} else {
+				textField.setValue(spinner.getValue());
+				JOptionPane.showMessageDialog(null, "Só é possível gerar Escala na Semana Atual", "Data Inválida!",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		} catch (ParseException ex) {
+// Reverte para o valor anterior se a data não for válida
+			textField.setValue(spinner.getValue());
+			JOptionPane.showMessageDialog(null, "A data digitada não é válida. Digite uma data no formato DD/MM/AAAA",
+					"Data Inválida!", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }
