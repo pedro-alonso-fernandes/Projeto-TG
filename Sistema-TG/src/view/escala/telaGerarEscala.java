@@ -43,8 +43,12 @@ import model.Escala;
 import view.telaPrincipal;
 import view.atirador.telaAtirador;
 import view.folgaEferiados.CadastroFeriados;
+<<<<<<< HEAD
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
+=======
+import view.folgaEferiados.Feriados_e_Folgas;
+>>>>>>> pedro
 
 public class telaGerarEscala extends JFrame {
 
@@ -266,6 +270,7 @@ public class telaGerarEscala extends JFrame {
 						BD.reiniciarTabelaEscala();
 						BD.reiniciarTabelaGuarda("Preta");
 						BD.reiniciarTabelaGuarda("Vermelha");
+<<<<<<< HEAD
 
 						Date data = (Date) dataSpinner.getValue();
 
@@ -275,6 +280,13 @@ public class telaGerarEscala extends JFrame {
 							telaAtirador.alteracao = false;
 						}
 
+=======
+						
+						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
+						
+						BD.reiniciarTabelaAlteracao();
+						
+>>>>>>> pedro
 						dispose();
 
 						telaEscala tela = new telaEscala();

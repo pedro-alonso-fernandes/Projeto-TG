@@ -112,7 +112,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = Data.primeiroDiaSemana(formato.parse("14/10/2024"));
+//			data = Data.primeiroDiaSemana(formato.parse("13/11/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}
@@ -255,17 +255,21 @@ public class telaEscala extends JFrame {
 			}
 			
 			
-			if(dataEscala != null) {
+			if(dataEscala != null || dataFolga != null) {
 				
 				Date dataRecente = null;
 				if(dataEscala != null && dataFolga != null) {
 					dataRecente = Data.dataMaisRecente(dataEscala, dataFolga);
 				}
-				else {
+				else if (dataEscala != null){
 					dataRecente = dataEscala;
+				}
+				else if(dataFolga != null) {
+					dataRecente = dataFolga;
 				}
 				
 				
+				// Lógica para verificar qual dia a tabela tem que deixar em branco
 				switch (Data.getDiaSemana(dataRecente)) {
 				case "SEG":
 					semanaAtual.getColumnModel().getColumn(0).setCellRenderer(normal);
@@ -302,6 +306,7 @@ public class telaEscala extends JFrame {
 					break;	
 				}
 				
+				
 			}
 			else {
 				for(int i = 0; i < 7; i++) {
@@ -309,6 +314,9 @@ public class telaEscala extends JFrame {
 				}
 			}
 			
+			DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
+			
+			semanaAtual.setModel(modelo);
 			
 			
 		} catch (SQLException e) {
@@ -324,11 +332,6 @@ public class telaEscala extends JFrame {
 //		semanaAtual.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		semanaAtual.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
-		
-		DefaultTableModel modelo = Escala.getModelSemanaAtual(data, colunasAtual);
-		
-		
-		semanaAtual.setModel(modelo);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(23, 272, 740, 22);
@@ -412,6 +415,8 @@ public class telaEscala extends JFrame {
 		rsFeriado = FeriadoDAO.getFeriadosSemana(dataProximaSemana);
 		rsEscala = EscalaDAO.getEscalaSemana(dataProximaSemana);
 		
+		dataFolga = null;
+		
 		try {
 			
 			while(rsFeriado.next()) {
@@ -424,6 +429,8 @@ public class telaEscala extends JFrame {
 			}
 			
 			while(rsFolga.next()) {
+				dataFolga = dataFolga == null ? rsFolga.getDate("data") : dataFolga; // Pegará apenas a data da primeira folga
+				
 				for(int i = 0; i < colunasProxima.length; i++) {
 					// Se for folga
 					if(colunasProxima[i].equals(formato.format(rsFolga.getDate("data")))) {
@@ -437,12 +444,16 @@ public class telaEscala extends JFrame {
 			}
 			
 			
-			if(dataEscala == null) {
+			if(dataEscala == null && dataFolga == null) {
 				
 				for(int i = 0; i < 7; i++) {
 					proximaSemana.getColumnModel().getColumn(i).setCellRenderer(normal);
 				}
 			}
+			
+			DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
+			
+			proximaSemana.setModel(modelo2);
 			
 			
 		} catch (SQLException e) {
@@ -459,10 +470,6 @@ public class telaEscala extends JFrame {
 //		proximaSemana.getColumnModel().getColumn(6).setCellRenderer(centralizado);
 		
 		proximaSemana.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova as colunas
-		
-		DefaultTableModel modelo2 = Escala.getModelProximaSemana(dataProximaSemana, colunasProxima);
-		
-		proximaSemana.setModel(modelo2);
 		
 		JLabel lblSemanaAtual = new JLabel("Semana Atual");
 		lblSemanaAtual.setFont(new Font("Dialog", Font.BOLD, 15));

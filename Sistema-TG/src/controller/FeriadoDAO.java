@@ -134,6 +134,7 @@ public class FeriadoDAO {
 			return rs;
 		}
 	}
+	
 	public static ResultSet getFeriadoData(Date data) {
 		BD.selecionarDatabase();
 		

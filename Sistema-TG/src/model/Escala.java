@@ -1422,13 +1422,34 @@ public class Escala {
 				break;
 
 			case "SEX":
+				// Monitores
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
+						continue;
+					} else if (monitores[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
-					} 
-					else if(monitores[i - 5] == 0) {
-						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1445,37 +1466,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(monitores[correcao]);
+						correcao = 0;
+						j++;
+						continue;
 					} else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(monitores[i - 5]);
-						}
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 1
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					} 
-					else if(atiradores1[i - 5] == 0) {
+						continue;
+					} else if (atiradores1[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1492,38 +1529,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores1[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 2
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					}
-					else if(atiradores2[i - 5] == 0) {
+						continue;
+					} else if (atiradores2[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1540,38 +1592,53 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores2[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
 
 				// Atiradores 3
+				correcao = 0;
+				j = 0;
 				f = 0;
 				for (int i = 0; i < 7; i++) {
 					if (i < 5) {
 						linha[i] = "";
-					} 
-					else if(atiradores3[i - 5] == 0) {
+						continue;
+					} else if (atiradores3[j] == 0) {
+						folga = false;
+						f = 0;
+						while(datasFolga[f] != null) {
+							if(formato.format(datasFolga[f]).equals(colunas[i])) {
+								folga = true;
+								break;
+							}
+							f++;
+						}
 						
+						if(folga) {
+							linha[i] = "X";
+							j++;
+						}
+						else {
+							linha[i] = "";
+							j++;
+						}
+						continue;
+					} else if (!formato.format(datas[j]).equals(colunas[i]) && correcao == 0) {
+						correcao = j;
+						// J vai continuar com o seu valor
 						folga = false;
 						f = 0;
 						while(datasFolga[f] != null) {
@@ -1588,26 +1655,18 @@ public class Escala {
 						else {
 							linha[i] = "";
 						}
-						
-						
-					}
-					else {
-						folga = false;
-						f = 0;
-						while(datasFolga[f] != null) {
-							if(formato.format(datasFolga[f]).equals(colunas[i])) {
-								folga = true;
-								break;
-							}
-							f++;
-						}
-						
-						if(folga) {
-							linha[i] = "X";
-						}
-						else {
-							linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[i - 5]);
-						}
+						continue;
+					} else if (correcao == 0) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[j]);
+						j++;
+						continue;
+					} else if (correcao > 0 && formato.format(datas[j]).equals(colunas[i])) {
+						linha[i] = AtiradorDAO.getGuerraAtirador(atiradores3[correcao]);
+						correcao = 0;
+						j++;
+						continue;
+					} else {
+						linha[i] = "";
 					}
 				}
 				modelo.addRow(linha);
@@ -1889,29 +1948,25 @@ public class Escala {
 		
 		boolean feriado = false;
 		boolean folga = false;
-		ResultSet rsFeriado = FeriadoDAO.getFeriados();
-		ResultSet rsFolga = FolgaDAO.getFolgas();
+		ResultSet rsFeriado = FeriadoDAO.getFeriadoData(data);
+		ResultSet rsFolga = FolgaDAO.getFolgaData(data);
 		
 		try {
 			
-			while(rsFolga.next()) {
-				if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-					folga = true;
-					break;
-				}
+			
+			if(rsFolga.next()) {
+				folga = true;
+				
 			}
+			
 			
 			if(!folga) {
 				
-				while(rsFeriado.next()) {
-					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-						break;
-					}
+				if(rsFeriado.next()) {
+					feriado = true;
 					
 				}
-				
+					
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
@@ -2206,6 +2261,9 @@ public class Escala {
 					contador = 7;
 					break;	
 				}
+				
+				FolgaDAO.registrarEscala(data, true); // Registra que a escala passou por essa Folga
+				
 			}
 			
 			data = Data.addDias(data, 1);
@@ -2214,31 +2272,29 @@ public class Escala {
 		
 		
 		
-		
-		// Próximas escalas
-		externo: for(int j = 0; j < contador; j++) {
-			feriado = false;
 			folga = false;
-			rsFeriado = FeriadoDAO.getFeriados();
-			rsFolga = FolgaDAO.getFolgas();
+		
+			// Próximas escalas
+			externo: for(int j = 0; j < contador; j++) {
+			feriado = false;
+			rsFeriado = FeriadoDAO.getFeriadoData(data);
+			rsFolga = FolgaDAO.getFolgaData(data);
 			
 			try {
 				
-				while(rsFolga.next()) {
-					if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-						folga = true;
-						data = Data.addDias(data, 1);
-						continue externo;
-					}
+				if(rsFolga.next()) {
+					FolgaDAO.registrarEscala(data, true); // Registra que a escala passou por essa Folga
+					
+					data = Data.addDias(data, 1);
+					continue externo;
 				}
 				
-				while(rsFeriado.next()) {
 					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-					}
+				if(rsFeriado.next()) {
+					feriado = true;
 					
 				}
+					
 			} catch (SQLException e) {
 				System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 			}
@@ -2329,36 +2385,6 @@ public class Escala {
 //		}
 		
 		
-		boolean feriado = false;
-		boolean folga = false;
-		ResultSet rsFeriado = FeriadoDAO.getFeriados();
-		ResultSet rsFolga = FolgaDAO.getFolgas();
-		
-		try {
-			
-			while(rsFolga.next()) {
-				if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-					folga = true;
-					break;
-				}
-			}
-			
-			if(!folga) {
-				
-				while(rsFeriado.next()) {
-					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-						break;
-					}
-					
-				}
-				
-			}
-		} catch (SQLException e) {
-			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
-		}
-		
 		int contador = 0;
 		
 		switch (Data.getDiaSemana(data)) {
@@ -2391,28 +2417,25 @@ public class Escala {
 		
 		// Próximas escalas
 		externo: for(int j = 0; j < contador; j++) {
-			feriado = false;
-			folga = false;
-			rsFeriado = FeriadoDAO.getFeriados();
-			rsFolga = FolgaDAO.getFolgas();
+			boolean feriado = false;
+			ResultSet rsFeriado = FeriadoDAO.getFeriadoData(data);
+			ResultSet rsFolga = FolgaDAO.getFolgaData(data);
 			
 			try {
 				
-				while(rsFolga.next()) {
-					if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-						folga = true;
-						data = Data.addDias(data, 1);
-						continue externo;
-					}
+				if(rsFolga.next()) {
+					FolgaDAO.registrarEscala(data, true); // Registra que a escala passou por essa Folga
+					
+					data = Data.addDias(data, 1);
+					continue externo;
 				}
 				
-				while(rsFeriado.next()) {
 					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-					}
+				if(rsFeriado.next()) {
+					feriado = true;
 					
 				}
+					
 			} catch (SQLException e) {
 				System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 			}
@@ -2501,64 +2524,31 @@ public class Escala {
 //		}
 		
 		
-		boolean feriado = false;
-		boolean folga = false;
-		ResultSet rsFeriado = FeriadoDAO.getFeriados();
-		ResultSet rsFolga = FolgaDAO.getFolgas();
-		
-		try {
-			
-			while(rsFolga.next()) {
-				if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-					folga = true;
-					break;
-				}
-			}
-			
-			if(!folga) {
-				
-				while(rsFeriado.next()) {
-					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-						break;
-					}
-					
-				}
-				
-			}
-		} catch (SQLException e) {
-			System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
-		}
-		
 		dataLimite = Data.addDias(dataLimite, 1);
 		
 		Escala escala = null;
 		
 		// Próximas escalas
 		externo: while(dataLimite.after(data)) {
-			feriado = false;
-			folga = false;
-			rsFeriado = FeriadoDAO.getFeriados();
-			rsFolga = FolgaDAO.getFolgas();
+			boolean feriado = false;
+			ResultSet rsFeriado = FeriadoDAO.getFeriadoData(data);
+			ResultSet rsFolga = FolgaDAO.getFolgaData(data);
 			
 			try {
 				
-				while(rsFolga.next()) {
-					if(formato.format(rsFolga.getDate("data")).equals(formato.format(data))) {
-						folga = true;
-						data = Data.addDias(data, 1);
-						continue externo;
-					}
+				if(rsFolga.next()) {
+					FolgaDAO.registrarEscala(data, true); // Registra que a escala passou por essa Folga
+					
+					data = Data.addDias(data, 1);
+					continue externo;
 				}
 				
-				while(rsFeriado.next()) {
 					
-					if(formato.format(rsFeriado.getDate("data")).equals(formato.format(data))) {
-						feriado = true;
-					}
+				if(rsFeriado.next()) {
+					feriado = true;
 					
 				}
+					
 			} catch (SQLException e) {
 				System.out.println("Erro ao percorrer pelos Feriados e Folgas do BD: " + e.getMessage());
 			}

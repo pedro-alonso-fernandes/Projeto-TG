@@ -22,8 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
+import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
+import model.Data;
 import model.Feriado;
 import model.Folga;
 import view.escala.telaGerarEscala;
@@ -91,9 +94,7 @@ public class CadastroFeriados extends JFrame {
 		NomeData.setBounds(10, 292, 51, 13);
 		contentPane.add(NomeData);
 
-		Calendar calendario = Calendar.getInstance();
-        calendario.set(2024, Calendar.JANUARY, 1);
-        Date dataInicial = calendario.getTime();
+        Date dataInicial = new Date();
 		
 		SpinnerDateModel dateModel = new SpinnerDateModel(dataInicial, null, null, Calendar.DAY_OF_MONTH);
         JSpinner dataSpinner = new JSpinner(dateModel);
@@ -101,7 +102,6 @@ public class CadastroFeriados extends JFrame {
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dataSpinner, "dd/MM/yyyy");
         dataSpinner.setEditor(dateEditor);
         
-		dataSpinner.setModel(new SpinnerDateModel(new Date(1704078000000L), new Date(1704078000000L), null, Calendar.DAY_OF_YEAR));
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
 		dataSpinner.setBounds(71, 277, 120, 42);
 		contentPane.add(dataSpinner);
@@ -235,8 +235,21 @@ public class CadastroFeriados extends JFrame {
 				        // Cadastra o Feriado                   
 				        else {
 				            Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
-				            FeriadoDAO.cadastrarFeriado(feriado);
 				            
+				            // Verifica se a data do feriado cadastrado é posterior a hoje
+				            if(feriado.getData().after(new Date())) {
+				            	
+				            	boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(feriado.getData());
+				            	
+				            	String diaSemana = Data.getDiaSemana(feriado.getData());
+				            	
+				            	if(existenciaFeriado && (!diaSemana.equals("DOM") && !diaSemana.equals("SAB"))) {
+				            		AlteracaoDAO.cadastrarAlteracao("Feriado");
+				            	}
+				            }
+				            
+				            
+				            FeriadoDAO.cadastrarFeriado(feriado);
 				            FieldGeral.setText("");
 				            comboBox.setSelectedItem(null);
 				            
@@ -263,6 +276,17 @@ public class CadastroFeriados extends JFrame {
 				        // Cadastra a Folga
 				        else {
 				            Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
+				            
+				            // Verifica se a data da folga cadastrado é posterior a hoje
+				            if(folga.getData().after(new Date())) {
+				            	
+				            	boolean existenciaFolga = EscalaDAO.verificarEscalaEmData(folga.getData());
+				            	
+				            	if(existenciaFolga) {
+				            		AlteracaoDAO.cadastrarAlteracao("Folga");
+				            	}
+				            }
+				            
 				            FolgaDAO.cadastrarFolga(folga);
 				            
 				            FieldGeral.setText("");

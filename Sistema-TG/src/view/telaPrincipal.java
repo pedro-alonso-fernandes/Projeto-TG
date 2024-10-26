@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
+import controller.EscalaDAO;
 import model.BD;
 import view.atirador.telaAtirador;
 import view.escala.telaEscala;
@@ -45,8 +49,9 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
+
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		BD.criarBanco();
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -56,12 +61,12 @@ public class telaPrincipal extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblTelaPrincipal = new JLabel("TIRO DE GUERRA");
 		lblTelaPrincipal.setFont(new Font("Arial Black", Font.BOLD, 20));
 		lblTelaPrincipal.setBounds(115, 10, 210, 24);
 		contentPane.add(lblTelaPrincipal);
-		
+
 		JButton btnRegistroDeAtiradores = new JButton("Atiradores");
 		btnRegistroDeAtiradores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,11 +78,12 @@ public class telaPrincipal extends JFrame {
 		btnRegistroDeAtiradores.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnRegistroDeAtiradores.setBounds(122, 72, 187, 39);
 		contentPane.add(btnRegistroDeAtiradores);
-		
+
 		JButton btnEscalaDeGuarda = new JButton("Escala");
-		
+
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				dispose();
 				telaEscala frame = new telaEscala();
 				frame.setVisible(true);
@@ -102,14 +108,64 @@ public class telaPrincipal extends JFrame {
 						
 						telaEscala.aviso1 = false;
 						telaEscala.aviso2 = false;
+=======
+
+				boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
+
+				ResultSet rsAlteracao = AlteracaoDAO.getAlteracao();
+				boolean alteracao = false;
+				try {
+					alteracao = rsAlteracao.next();
+				} catch (SQLException e1) {
+					System.out.println("Erro ao percorrer tabela Alteracao: " + e1.getMessage());
+>>>>>>> pedro
 				}
+
+
+				if (alteracao && existenciaEscala) {
+					dispose();
+
+					String[] opcoes = { "Ir para Gerar Escala" };
+					
+					String tipoAlteracao = "";
+					try {
+						tipoAlteracao = rsAlteracao.getString("tipo").equals("Atirador") ? "Atiradores" : "Feriados e Folgas";
+					} catch (SQLException e1) {
+						System.out.println("Erro ao pegar tipo de Alteracao: " + e1.getMessage());
+					}
+					
+					String texto = "Você fez alterações no registro de " + tipoAlteracao + ", portanto é necessário gerar a escala novamente!";
+
+					JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE,
+							JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
+
+					JDialog tela = optionPane.createDialog("Gerar a escala novamente!");
+					tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+					tela.setVisible(true);
+
+					dispose();
+
+					telaGerarEscala frame = new telaGerarEscala();
+					frame.setVisible(true);
+
+				} else {
+
+					dispose();
+					telaEscala frame = new telaEscala();
+					frame.setVisible(true);
+					if (telaEscala.aviso1 && telaEscala.aviso2) {
+						JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
+
 			}
 		});
-		
+
 		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnEscalaDeGuarda.setBounds(122, 134, 187, 34);
 		contentPane.add(btnEscalaDeGuarda);
-		
+
 		JButton btnFeriadosEFolgas = new JButton("Feriados e Folgas");
 		btnFeriadosEFolgas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,7 +177,7 @@ public class telaPrincipal extends JFrame {
 		btnFeriadosEFolgas.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnFeriadosEFolgas.setBounds(122, 188, 187, 39);
 		contentPane.add(btnFeriadosEFolgas);
-		
+
 		this.setLocationRelativeTo(null);
 	}
 }

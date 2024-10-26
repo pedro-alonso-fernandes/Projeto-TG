@@ -9,6 +9,8 @@ import java.util.Date;
 import model.BD;
 import model.Data;
 import model.Escala;
+import model.Feriado;
+import model.Folga;
 
 public class EscalaDAO {
 
@@ -321,5 +323,46 @@ public class EscalaDAO {
 		
 		return escala;
 	}
+	
+	public static boolean verificarEscalaEmData(Date data) {
+		BD.selecionarDatabase();
 		
+		String sql = "select * from Escala where data = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy");
+		boolean escala = false;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+			escala = rs.next();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se tem Escala na data "+ formato2.format(data) + ": " + e.getMessage());
+		}
+		
+		return escala;
+	}
+	
+	public static boolean verificarEscalaNaSemana(Date data) {
+		BD.selecionarDatabase();
+		
+		boolean escala = false;
+		SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy");
+		
+		ResultSet rs = getEscalaSemana(data);
+		
+		try {
+			escala = rs.next();
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se a semana da data " + formato2.format(data) + " possui escala: " + e.getMessage());
+		}
+		
+		return escala;
+	}
+	
 }

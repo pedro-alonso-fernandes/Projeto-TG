@@ -8,7 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.AlteracaoDAO;
 import controller.AtiradorDAO;
+import controller.EscalaDAO;
 import model.BD;
 
 import javax.swing.JLabel;
@@ -226,7 +228,9 @@ public class Remover extends JDialog {
 
 				} else {
 					AtiradorDAO.RemoverAtirador(removerId); // Removendo Atirador
-					telaAtirador.alteracao = true;
+					
+					AlteracaoDAO.cadastrarAlteracao("Atirador"); // Deixa registrado a necessidade de alterar escala
+				
 					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Realizado!!",
 							JOptionPane.INFORMATION_MESSAGE);
 					
