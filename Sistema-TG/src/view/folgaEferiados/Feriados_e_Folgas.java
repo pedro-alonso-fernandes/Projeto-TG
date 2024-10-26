@@ -79,7 +79,7 @@ public class Feriados_e_Folgas extends JFrame {
 
 	        table = new JTable();
 	        table.setBackground(new Color(255, 255, 255));
-	        table.setFont(new Font("Arial Black", Font.BOLD, 12));
+	        table.setFont(new Font("Arial", Font.BOLD, 12));
 	        table.setModel(new DefaultTableModel(
 	            new Object[][] {},
 	            new String[] { "Nome", "Data", "Tipo", "Feriados" }
@@ -171,7 +171,7 @@ public class Feriados_e_Folgas extends JFrame {
 
 	        table_1 = new JTable();
 	        table_1.setBackground(new Color(255, 255, 255));
-	        table_1.setFont(new Font("Arial Black", Font.BOLD, 12));
+	        table_1.setFont(new Font("Arial", Font.BOLD, 12));
 	        table_1.setModel(new DefaultTableModel(
 	            new Object[][] {},
 	            new String[] { "Nome", "Data", "Folgas" }

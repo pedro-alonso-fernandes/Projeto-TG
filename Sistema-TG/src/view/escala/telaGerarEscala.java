@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -14,7 +12,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
-import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -41,14 +38,6 @@ import model.BD;
 import model.Data;
 import model.Escala;
 import view.telaPrincipal;
-import view.atirador.telaAtirador;
-import view.folgaEferiados.CadastroFeriados;
-<<<<<<< HEAD
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-=======
-import view.folgaEferiados.Feriados_e_Folgas;
->>>>>>> pedro
 
 public class telaGerarEscala extends JFrame {
 
@@ -270,32 +259,18 @@ public class telaGerarEscala extends JFrame {
 						BD.reiniciarTabelaEscala();
 						BD.reiniciarTabelaGuarda("Preta");
 						BD.reiniciarTabelaGuarda("Vermelha");
-<<<<<<< HEAD
 
 						Date data = (Date) dataSpinner.getValue();
 
 						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, data);
-
-						if (telaAtirador.alteracao) {
-							telaAtirador.alteracao = false;
-						}
-
-=======
-						
-						Escala.gerarPrimeiraEscala(guardaPreta, guardaVermelha, qtdGuarda, new Date());
 						
 						BD.reiniciarTabelaAlteracao();
 						
->>>>>>> pedro
 						dispose();
 
 						telaEscala tela = new telaEscala();
 						tela.setVisible(true);
 
-						if (telaEscala.aviso1 && telaEscala.aviso2) {
-							JOptionPane.showMessageDialog(null, "Nenhuma escala encontrada!", "Aviso!",
-									JOptionPane.WARNING_MESSAGE);
-						}
 					}
 
 				} catch (NumberFormatException ey) {

@@ -82,7 +82,7 @@ public class telaAtirador extends JFrame {
 
 		table = new JTable();
 		table.setBackground(new Color(255, 255, 255));
-		table.setFont(new Font("Arial Black", Font.BOLD, 15));
+		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		table.setModel(
 				new DefaultTableModel(
 			new Object[][] {
