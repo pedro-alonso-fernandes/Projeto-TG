@@ -260,9 +260,11 @@ public class EditarFeriado extends JDialog {
 				
 				int anoModelo = Calendar.getInstance().get(Calendar.YEAR);
 
-				SimpleDateFormat formato = new SimpleDateFormat("yyyy");
+				SimpleDateFormat formatoAno = new SimpleDateFormat("yyyy");
 				Date data = (Date) dataSpinner.getValue();
-				int ano = Integer.parseInt(formato.format(data));
+				int ano = Integer.parseInt(formatoAno.format(data));
+				
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 				
 				// Se for Feriado
 				if(id2 == 2) {

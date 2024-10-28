@@ -291,7 +291,7 @@ public class EscalaDAO {
 		}
 	}
 	
-	public static void apagarEscalasData(Date data) {
+	public static void apagarEscalasDataMaior(Date data) {
 		BD.selecionarDatabase();
 		
 		String sql = "delete from Escala where data >= ?;";
