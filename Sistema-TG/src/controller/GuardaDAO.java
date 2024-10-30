@@ -165,4 +165,28 @@ public class GuardaDAO {
 		
 	}
 	
+	public static Date getDataGuardaMaisProxima(String cor, Date data) {
+		BD.selecionarDatabase();
+		
+		String sql = "select data from Guarda" + cor + " where data <= ? order by data desc limit 1;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Date dataGuarda = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, formato.format(data));
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				dataGuarda = rs.getDate("data");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a data da última Guarda " + cor + ": " + e.getMessage());
+		}
+		
+		return dataGuarda;
+	}
+	
 }

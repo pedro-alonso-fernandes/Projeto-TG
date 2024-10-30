@@ -2001,6 +2001,10 @@ public class Escala {
 						}
 					}
 					
+					
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+					
 					contador = 13;
 					
 					break;
@@ -2022,6 +2026,10 @@ public class Escala {
 							}
 						}
 						
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+						
 					}
 					else {
 						
@@ -2039,6 +2047,10 @@ public class Escala {
 								guardaVermelha[i] = 0;
 							}
 						}
+						
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 						
 					}
 					
@@ -2063,6 +2075,10 @@ public class Escala {
 							}
 						}
 						
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+						
 					}
 					else {
 						
@@ -2080,6 +2096,9 @@ public class Escala {
 								guardaVermelha[i] = 0;
 							}
 						}
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 						
 					}
 					
@@ -2104,6 +2123,9 @@ public class Escala {
 							}
 						}
 						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+						
 					}
 					else {
 						
@@ -2121,6 +2143,9 @@ public class Escala {
 								guardaVermelha[i] = 0;
 							}
 						}
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 						
 					}
 					
@@ -2145,6 +2170,9 @@ public class Escala {
 							}
 						}
 						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+						
 					}
 					else {
 						
@@ -2162,6 +2190,9 @@ public class Escala {
 								guardaVermelha[i] = 0;
 							}
 						}
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 						
 					}
 					
@@ -2186,6 +2217,9 @@ public class Escala {
 							}
 						}
 						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+						
 					}
 					else {
 						
@@ -2203,6 +2237,9 @@ public class Escala {
 								guardaVermelha[i] = 0;
 							}
 						}
+						
+						IDs = AtiradorDAO.getArrayIdAtiradores();
+						GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 						
 					}
 					
@@ -2226,15 +2263,13 @@ public class Escala {
 						}
 					}
 					
+					IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+					
 					contador = 7;
 					
 					break;	
 				}
-				
-				int[] IDs = AtiradorDAO.getArrayIdAtiradores();
-				
-				GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
-				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 				
 			}
 			else {
@@ -2319,6 +2354,9 @@ public class Escala {
 					}
 				}
 				
+				int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+				
 			}
 			else if(diaDaSemana.equals("SEG") || diaDaSemana.equals("TER") || diaDaSemana.equals("QUA") 
 					|| diaDaSemana.equals("QUI") || diaDaSemana.equals("SEX")) {
@@ -2340,6 +2378,9 @@ public class Escala {
 						}
 					}
 					
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+					
 				}
 				else {
 					
@@ -2358,14 +2399,12 @@ public class Escala {
 						}
 					}
 					
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+					
 				}
 				
 			}
-			
-			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
-			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}
@@ -2460,6 +2499,10 @@ public class Escala {
 					}
 				}
 				
+				
+				int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+				
 			}
 			else if(diaDaSemana.equals("SEG") || diaDaSemana.equals("TER") || diaDaSemana.equals("QUA") 
 					|| diaDaSemana.equals("QUI") || diaDaSemana.equals("SEX")) {
@@ -2481,6 +2524,10 @@ public class Escala {
 						}
 					}
 					
+					
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+					
 				}
 				else {
 					
@@ -2499,14 +2546,13 @@ public class Escala {
 						}
 					}
 					
+					
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+					
 				}
 				
 			}
-			
-			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
-			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}
@@ -2573,6 +2619,10 @@ public class Escala {
 					}
 				}
 				
+				// Salva as guardas no BD
+				int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+				GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+				
 			}
 			else if(diaDaSemana.equals("SEG") || diaDaSemana.equals("TER") || diaDaSemana.equals("QUA") 
 					|| diaDaSemana.equals("QUI") || diaDaSemana.equals("SEX")) {
@@ -2594,6 +2644,10 @@ public class Escala {
 						}
 					}
 					
+					// Salva as guardas no BD
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
+					
 				}
 				else {
 					
@@ -2612,14 +2666,13 @@ public class Escala {
 						}
 					}
 					
+					// Salva as guardas no BD
+					int[] IDs = AtiradorDAO.getArrayIdAtiradores();
+					GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
+					
 				}
 				
 			}
-			
-			int[] IDs = AtiradorDAO.getArrayIdAtiradores();
-			
-			GuardaDAO.cadastrarGuarda(guardaPreta, "Preta", data, IDs);
-			GuardaDAO.cadastrarGuarda(guardaVermelha, "Vermelha", data, IDs);
 			
 			data = Data.addDias(data, 1);
 		}

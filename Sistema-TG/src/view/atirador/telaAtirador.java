@@ -29,6 +29,7 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -68,7 +69,7 @@ public class telaAtirador extends JFrame {
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		setBounds(100, 100, 586, 544);
+		setBounds(100, 100, 677, 544);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,7 +78,7 @@ public class telaAtirador extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 552, 426);
+		scrollPane.setBounds(10, 10, 643, 426);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
@@ -88,13 +89,14 @@ public class telaAtirador extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"ID", "Nome", "Nome de Guerra", "Cargo"
+				"ID", "Nome", "Nome de Guerra", "Cargo", "Qtd Guarda"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(48);
-		table.getColumnModel().getColumn(1).setPreferredWidth(411);
+		table.getColumnModel().getColumn(0).setPreferredWidth(35);
+		table.getColumnModel().getColumn(1).setPreferredWidth(520);
 		table.getColumnModel().getColumn(2).setPreferredWidth(130);
 		table.getColumnModel().getColumn(3).setPreferredWidth(105);
+		table.getColumnModel().getColumn(4).setPreferredWidth(94);
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setEnabled(false);
@@ -105,11 +107,13 @@ public class telaAtirador extends JFrame {
         table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
         table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+        table.getColumnModel().getColumn(4).setCellRenderer(centralizado);
         
         table.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
         table.getColumnModel().getColumn(1).setResizable(false); // Impede que o usuário mude o tamanho da coluna
         table.getColumnModel().getColumn(2).setResizable(false); // Impede que o usuário mude o tamanho da coluna
         table.getColumnModel().getColumn(3).setResizable(false); // Impede que o usuário mude o tamanho da coluna
+        table.getColumnModel().getColumn(4).setResizable(false); // Impede que o usuário mude o tamanho da coluna
 
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
@@ -117,12 +121,13 @@ public class telaAtirador extends JFrame {
 		String id = "0";
 		try {
 			while (rs.next()) {
+				int qtdGuarda = rs.getInt("qtdGuarda") + EscalaDAO.getQtdGuardaAtirador(rs.getInt("id"), new Date());
 				if (rs.getInt("id") < 10) {
-					modelo.addRow(new Object[] { id = "0" + rs.getInt("id"), rs.getString("nome"),
-							rs.getString("guerra"), rs.getString("cargo") });
+					modelo.addRow(new Object[] { id + rs.getInt("id"), rs.getString("nome"),
+							rs.getString("guerra"), rs.getString("cargo"), "" + qtdGuarda });
 				} else {
 					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("nome"),
-							rs.getString("guerra"), rs.getString("cargo") });
+							rs.getString("guerra"), rs.getString("cargo"), "" + qtdGuarda });
 				}
 
 			}
@@ -141,7 +146,7 @@ public class telaAtirador extends JFrame {
 				Cadastro.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(10, 465, 114, 21);
+		btnNewButton.setBounds(20, 455, 114, 26);
 		contentPane.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Editar");
@@ -153,7 +158,7 @@ public class telaAtirador extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(136, 465, 114, 21);
+		btnNewButton_1.setBounds(163, 455, 114, 26);
 		contentPane.add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("Remover");
@@ -165,7 +170,7 @@ public class telaAtirador extends JFrame {
 			}
 		});
 		btnNewButton_2.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnNewButton_2.setBounds(260, 465, 114, 21);
+		btnNewButton_2.setBounds(313, 455, 114, 26);
 		contentPane.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Menu");
@@ -177,7 +182,7 @@ public class telaAtirador extends JFrame {
 			}
 		});
 		btnNewButton_3.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnNewButton_3.setBounds(384, 465, 114, 21);
+		btnNewButton_3.setBounds(465, 455, 114, 26);
 		contentPane.add(btnNewButton_3);
 		
 		JButton PDF = new JButton("");
@@ -188,7 +193,7 @@ public class telaAtirador extends JFrame {
 		});
 		PDF.setToolTipText("Gerar Pdf");
 		PDF.setIcon(new ImageIcon(telaAtirador.class.getResource("/model/images/business (1).png")));
-		PDF.setBounds(508, 446, 40, 40);
+		PDF.setBounds(600, 446, 40, 40);
 		contentPane.add(PDF);
 
 		this.setLocationRelativeTo(null);

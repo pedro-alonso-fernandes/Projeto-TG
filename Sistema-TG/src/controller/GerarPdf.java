@@ -86,6 +86,8 @@ public class GerarPdf {
 			try {
 
 				while (rs.next()) {
+					int qtdGuarda = rs.getInt("qtdGuarda") + EscalaDAO.getQtdGuardaAtirador(rs.getInt("id"), new Date());
+					
 					if (rs.getInt("id") < 10) {
 						PdfPCell colid = new PdfPCell(new Paragraph(String.valueOf(id + rs.getInt("id"))));
 						tabela.addCell(colid).setHorizontalAlignment(1);
@@ -95,7 +97,7 @@ public class GerarPdf {
 						tabela.addCell(colguerra).setHorizontalAlignment(1);
 						PdfPCell colcargo = new PdfPCell(new Paragraph(rs.getString("cargo")));
 						tabela.addCell(colcargo).setHorizontalAlignment(1);
-						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("qtdGuarda"))));
+						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(qtdGuarda)));
 						tabela.addCell(colqtd).setHorizontalAlignment(1);
 					} else {
 						PdfPCell colid = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("id"))));
@@ -106,7 +108,7 @@ public class GerarPdf {
 						tabela.addCell(colguerra).setHorizontalAlignment(1);
 						PdfPCell colcargo = new PdfPCell(new Paragraph(rs.getString("cargo")));
 						tabela.addCell(colcargo).setHorizontalAlignment(1);
-						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(rs.getInt("qtdGuarda"))));
+						PdfPCell colqtd = new PdfPCell(new Paragraph(String.valueOf(qtdGuarda)));
 						tabela.addCell(colqtd).setHorizontalAlignment(1);
 					}
 

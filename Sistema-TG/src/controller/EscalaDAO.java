@@ -291,7 +291,7 @@ public class EscalaDAO {
 		}
 	}
 	
-	public static void apagarEscalasData(Date data) {
+	public static void apagarEscalasDataMaior(Date data) {
 		BD.selecionarDatabase();
 		
 		String sql = "delete from Escala where data >= ?;";
@@ -363,6 +363,34 @@ public class EscalaDAO {
 		}
 		
 		return escala;
+	}
+	
+	public static int getQtdGuardaAtirador(int atiradorId, Date data) {
+		BD.selecionarDatabase();
+		
+		int qtdGuarda = Integer.MIN_VALUE;
+		
+		String sql = "select count(*) from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ? and data <= ?;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(atiradorId));
+			ps.setString(2, String.valueOf(atiradorId));
+			ps.setString(3, String.valueOf(atiradorId));
+			ps.setString(4, formato.format(data));
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				qtdGuarda = rs.getInt("count(*)");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar a quantidades de guardas do");
+		}
+		
+		return qtdGuarda;
 	}
 	
 }
