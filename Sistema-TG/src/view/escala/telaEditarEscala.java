@@ -460,22 +460,25 @@ public class telaEditarEscala extends JFrame {
 					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador1Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador2Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador3Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
 				colorirTabela();
@@ -496,29 +499,31 @@ public class telaEditarEscala extends JFrame {
 				atirador2Id = (Integer) atirador2Spinner.getValue();
 				atirador3Id = (Integer) atirador3Spinner.getValue();
 
-
 				if (monitorId > 0) {
 					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 				} else {
-					modelo.addRow(new String[] { "Multiplos" });
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador1Id > 0) {
+						modelo.addRow(
+								new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador2Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador3Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
 				colorirTabela();
@@ -539,29 +544,31 @@ public class telaEditarEscala extends JFrame {
 				atirador2Id = (Integer) atirador2Spinner.getValue();
 				atirador3Id = (Integer) atirador3Spinner.getValue();
 
-
 				if (monitorId > 0) {
 					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
 				} else {
 					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador1Id > 0) {
+						modelo.addRow(
+								new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador2Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
+				if (atirador3Id > 0) {
+					modelo.addRow(
+							new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+				} else {
+					modelo.addRow(new String[] { "" });
 				}
 
 				colorirTabela();
@@ -662,8 +669,8 @@ public class telaEditarEscala extends JFrame {
 					frame.setVisible(true);
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "Verifique novamente os dados da Edição!",
-							"Atenção!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Verifique novamente os dados da Edição!", "Atenção!",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
