@@ -68,7 +68,7 @@ public class telaEscala extends JFrame {
 	 */
 	public telaEscala() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(telaEscala.class.getResource("/model/images/calendario.png")));
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 803, 508);
 		contentPane = new JPanel();

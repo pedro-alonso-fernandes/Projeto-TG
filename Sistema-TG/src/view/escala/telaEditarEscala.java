@@ -83,7 +83,7 @@ public class telaEditarEscala extends JFrame {
 	public telaEditarEscala() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(telaEditarEscala.class.getResource("/model/images/calendario.png")));
 		this.setResizable(false);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 586, 608);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

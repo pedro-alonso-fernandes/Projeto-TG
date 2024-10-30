@@ -126,7 +126,7 @@ public class Feriados_e_Folgas extends JFrame {
 	            }
 	        });
 	        btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 12));
-	        btnNewButton.setBounds(10, 465, 114, 21);
+	        btnNewButton.setBounds(10, 460, 114, 26);
 	        contentPane.add(btnNewButton);
 
 	        btnEditar = new JButton("Editar");
@@ -138,7 +138,7 @@ public class Feriados_e_Folgas extends JFrame {
 	            }
 	        });
 	        btnEditar.setFont(new Font("Arial Black", Font.BOLD, 12));
-	        btnEditar.setBounds(148, 465, 114, 21);
+	        btnEditar.setBounds(148, 460, 114, 26);
 	        contentPane.add(btnEditar);
 
 	        btnRemover = new JButton("Remover");
@@ -150,7 +150,7 @@ public class Feriados_e_Folgas extends JFrame {
 	            }
 	        });
 	        btnRemover.setFont(new Font("Arial Black", Font.BOLD, 12));
-	        btnRemover.setBounds(289, 465, 114, 21);
+	        btnRemover.setBounds(289, 460, 114, 26);
 	        contentPane.add(btnRemover);
 
 	        btnMenu = new JButton("Menu");
@@ -162,7 +162,7 @@ public class Feriados_e_Folgas extends JFrame {
 	            }
 	        });
 	        btnMenu.setFont(new Font("Arial Black", Font.BOLD, 12));
-	        btnMenu.setBounds(437, 465, 114, 21);
+	        btnMenu.setBounds(437, 460, 114, 26);
 	        contentPane.add(btnMenu);
 
 	        JScrollPane scrollPane_1 = new JScrollPane();
