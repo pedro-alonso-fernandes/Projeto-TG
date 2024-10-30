@@ -84,11 +84,7 @@ public class telaEditarEscala extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(telaEditarEscala.class.getResource("/model/images/calendario.png")));
 		this.setResizable(false);
-<<<<<<< HEAD
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-=======
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
->>>>>>> gabriel
 		setBounds(100, 100, 586, 608);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -176,7 +172,7 @@ public class telaEditarEscala extends JFrame {
 			}
 		});
 
-		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		dataSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		dataSpinner.setBounds(181, 122, 106, 42);
 		contentPane.add(dataSpinner);
 
@@ -230,7 +226,7 @@ public class telaEditarEscala extends JFrame {
 		contentPane.add(scrollPane_1);
 
 		novaEscala = new JTable();
-		novaEscala.setFont(new Font("Arial Black", Font.BOLD, 13));
+		novaEscala.setFont(new Font("Arial", Font.BOLD, 13));
 		novaEscala.setModel(new DefaultTableModel(new Object[][] {}, new String[] { formato.format(data) }));
 		novaEscala.getColumnModel().getColumn(0).setResizable(false); // Impede que o usuário mude o tamanho da coluna
 		novaEscala.getTableHeader().setReorderingAllowed(false); // Impede que o usuário mova a coluna
@@ -256,7 +252,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(monitorSpinner, monitorIdPermitido);
 
 		monitorSpinner.setName("Monitor");
-		monitorSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		monitorSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		monitorSpinner.setBounds(151, 201, 40, 26);
 		contentPane.add(monitorSpinner);
 
@@ -271,7 +267,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador1Spinner, atiradorIdPermitido);
 
 		atirador1Spinner.setName("Atirador 1");
-		atirador1Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		atirador1Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		atirador1Spinner.setBounds(507, 195, 40, 26);
 		contentPane.add(atirador1Spinner);
 
@@ -281,7 +277,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador2Spinner, atiradorIdPermitido);
 
 		atirador2Spinner.setName("Atirador 2");
-		atirador2Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		atirador2Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		atirador2Spinner.setBounds(176, 255, 40, 26);
 		contentPane.add(atirador2Spinner);
 
@@ -291,7 +287,7 @@ public class telaEditarEscala extends JFrame {
 		configurarSpinner(atirador3Spinner, atiradorIdPermitido);
 
 		atirador3Spinner.setName("Atirador 3");
-		atirador3Spinner.setFont(new Font("Arial Black", Font.BOLD, 15));
+		atirador3Spinner.setFont(new Font("Arial", Font.PLAIN, 16));
 		atirador3Spinner.setBounds(507, 255, 40, 26);
 		contentPane.add(atirador3Spinner);
 
@@ -652,13 +648,8 @@ public class telaEditarEscala extends JFrame {
 							}
 
 						}
-<<<<<<< HEAD
 						
 						EscalaDAO.apagarEscalasDataMaior(data);
-=======
-
-						EscalaDAO.apagarEscalasData(data);
->>>>>>> gabriel
 						GuardaDAO.apagarGuardasDataMaior("Preta", data);
 						GuardaDAO.apagarGuardasDataMaior("Vermelha", data);
 						Escala.gerarEscala(guardaPreta, guardaVermelha, 1, data);
