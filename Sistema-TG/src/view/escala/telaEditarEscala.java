@@ -59,7 +59,7 @@ public class telaEditarEscala extends JFrame {
 	private List<Date> datasPermitidas = new ArrayList<>();
 	private List<Integer> monitorIdPermitido = new ArrayList<>();
 	private List<Integer> atiradorIdPermitido = new ArrayList<>();
-	boolean fechar = false;
+	static boolean fechar = false;
 
 	/**
 	 * Launch the application.
@@ -137,9 +137,6 @@ public class telaEditarEscala extends JFrame {
 
 		// Mudar como essa tela vai ser exibida
 		if (datasPermitidas.size() == 0) {
-			JOptionPane.showMessageDialog(null,
-					"Não há nenhuma escala cadastrada!\nCadastre uma Escala antes de editá-la.", "Erro!",
-					JOptionPane.ERROR_MESSAGE);
 			fechar = true;
 			return;
 		}

@@ -507,9 +507,18 @@ public class telaEscala extends JFrame {
 		JButton btnEditarEscala = new JButton("Editar Escala");
 		btnEditarEscala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				telaEditarEscala TEE = new telaEditarEscala();
-				TEE.setVisible(true);
+				
+				if(telaEditarEscala.fechar) {
+					JOptionPane.showMessageDialog(null,
+							"Não há nenhuma escala cadastrada!\nCadastre uma Escala antes de editá-la.", "Erro!",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					dispose();
+					TEE.setVisible(true);
+				}
+				
 			}
 		});
 		btnEditarEscala.setFont(new Font("Dialog", Font.BOLD, 14));
