@@ -2,9 +2,12 @@ package view.folgaEferiados;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +32,6 @@ import controller.FolgaDAO;
 import model.Data;
 import model.Feriado;
 import model.Folga;
-import view.escala.telaGerarEscala;
 
 public class CadastroFeriados extends JFrame {
 
@@ -232,28 +234,44 @@ public class CadastroFeriados extends JFrame {
 									"Não é possível cadastrar datas inferiores a 01/01/" + anoModelo + "!", "Atenção!!",
 									JOptionPane.WARNING_MESSAGE);
 				        }
-				        // Cadastra o Feriado                   
 				        else {
-				            Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
-				            
-				            // Verifica se a data do feriado cadastrado é posterior a hoje
-				            if(feriado.getData().after(new Date())) {
-				            	
-				            	boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(feriado.getData());
-				            	
-				            	String diaSemana = Data.getDiaSemana(feriado.getData());
-				            	
-				            	if(existenciaFeriado && (!diaSemana.equals("DOM") && !diaSemana.equals("SAB"))) {
-				            		AlteracaoDAO.cadastrarAlteracao("Feriado");
-				            	}
-				            }
-				            
-				            
-				            FeriadoDAO.cadastrarFeriado(feriado);
-				            FieldGeral.setText("");
-				            comboBox.setSelectedItem(null);
-				            
-				            JOptionPane.showMessageDialog(null, "Feriado cadastrado com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				        	ResultSet rsFeriado = FeriadoDAO.getFeriadoData(data);
+				        	
+				        	try {
+				        		// Se já existir um feriado na data informada
+								if(rsFeriado.next()) {
+									JOptionPane.showMessageDialog(null, "Já existe um feriado cadastrado nessa data!", "Feriado Existente!", JOptionPane.WARNING_MESSAGE);
+								}
+								// Cadastra o Feriado                   
+								else {
+									
+									Feriado feriado = new Feriado(FieldGeral.getText(), (Date) dataSpinner.getValue(), String.valueOf(comboBox.getSelectedItem()));
+									
+									// Verifica se a data do feriado cadastrado é posterior a hoje
+									if(feriado.getData().after(new Date())) {
+										
+										boolean existenciaFeriado = EscalaDAO.verificarEscalaEmData(feriado.getData());
+										
+										String diaSemana = Data.getDiaSemana(feriado.getData());
+										
+										if(existenciaFeriado && (!diaSemana.equals("DOM") && !diaSemana.equals("SAB"))) {
+											AlteracaoDAO.cadastrarAlteracao("Feriado");
+										}
+									}
+									
+									
+									FeriadoDAO.cadastrarFeriado(feriado);
+									FieldGeral.setText("");
+									comboBox.setSelectedItem(null);
+									
+									JOptionPane.showMessageDialog(null, "Feriado cadastrado com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+								}
+							} catch (HeadlessException e1) {
+								System.out.println("Erro! Ambiente Headless (Feriado) na tela CadastroFeriado: " + e1.getMessage());
+							} catch (SQLException e1) {
+								System.out.println("Erro ao buscar feriado por data na tela CadastroFeriado: " + e1.getMessage());
+							}
+				        	
 				        }
 				    }
 				}
@@ -273,27 +291,42 @@ public class CadastroFeriados extends JFrame {
 				        if(ano < anoModelo) {
 				            JOptionPane.showMessageDialog(null, "Não é possível cadastrar datas inferiores a 01/01/" + anoModelo + "!", "Atenção!!", JOptionPane.WARNING_MESSAGE);
 				        }
-				        // Cadastra a Folga
 				        else {
-				            Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
-				            
-				            // Verifica se a data da folga cadastrado é posterior a hoje
-				            if(folga.getData().after(new Date())) {
-				            	
-				            	boolean existenciaFolga = EscalaDAO.verificarEscalaEmData(folga.getData());
-				            	
-				            	if(existenciaFolga) {
-				            		AlteracaoDAO.cadastrarAlteracao("Folga");
-				            	}
-				            }
-				            
-				            FolgaDAO.cadastrarFolga(folga);
-				            
-				            FieldGeral.setText("");
-				            
-				            JOptionPane.showMessageDialog(null, "Folga cadastrada com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				        	ResultSet rsFolga = FolgaDAO.getFolgaData(data);
+				        	
+				        	try {
+				        		// Se já existir uma folga na data informada
+								if(rsFolga.next()) {
+									JOptionPane.showMessageDialog(null, "Já existe uma folga cadastrada nessa data!", "Folga Existente!", JOptionPane.WARNING_MESSAGE);
+								}
+								// Cadastra a Folga
+								else {
+									Folga folga = new Folga(FieldGeral.getText(), (Date) dataSpinner.getValue());
+									
+									// Verifica se a data da folga cadastrado é posterior a hoje
+									if(folga.getData().after(new Date())) {
+										
+										boolean existenciaFolga = EscalaDAO.verificarEscalaEmData(folga.getData());
+										
+										if(existenciaFolga) {
+											AlteracaoDAO.cadastrarAlteracao("Folga");
+										}
+									}
+									
+									FolgaDAO.cadastrarFolga(folga);
+									
+									FieldGeral.setText("");
+									
+									JOptionPane.showMessageDialog(null, "Folga cadastrada com sucesso!", "Info", JOptionPane.INFORMATION_MESSAGE);
+								}
+								
+							} catch (HeadlessException e1) {
+								System.out.println("Erro! Ambiente Headless (Folga) na tela CadastroFeriado: " + e1.getMessage());
+							} catch (SQLException e1) {
+								System.out.println("Erro ao buscar folga por data na tela CadastroFeriado: " + e1.getMessage());
+							}
+				        	
 				        }
-				        
 				        
 				    }
 				}

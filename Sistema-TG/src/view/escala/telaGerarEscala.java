@@ -171,6 +171,7 @@ public class telaGerarEscala extends JFrame {
 		escala = EscalaDAO.verificarExistenciaEscala();
 		
 		if(escala) {
+			datasPermitidas.clear();
 			datasPermitidas.add(Data.addDias(new Date(), 1));
 			btnEscala.setText("Regerar Escala");
 			lblSpinner1.setText("A escala vai ser regerada");
@@ -178,7 +179,12 @@ public class telaGerarEscala extends JFrame {
 			lblSpinner2.setBounds(32, 447, 216, 24);
 		}
 		else {
+			datasPermitidas.clear();
 			datasPermitidas = gerarDatasPermitidas(formato);
+		}
+		
+		for(Date data: datasPermitidas) {
+			System.out.println(formato.format(data));
 		}
 
 		SpinnerListModel modeloData = new SpinnerListModel(datasPermitidas);
@@ -237,15 +243,15 @@ public class telaGerarEscala extends JFrame {
 				
 				
 				while (rs.next()) {
+					int qtdGuarda = rs.getInt("qtdGuarda") + EscalaDAO.getQtdGuardaAtirador(rs.getInt("id"), new Date());
 					
 					String linhaPreta = dataGuardaPreta == null ? "0" : "" + GuardaDAO.getValorGuardaPorAtirador("Preta", dataGuardaPreta, rs.getInt("id"));
 					String linhaVermelha = dataGuardaVermelha == null ? "0" : "" + GuardaDAO.getValorGuardaPorAtirador("Vermelha", dataGuardaVermelha, rs.getInt("id"));
 							
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
-							linhaPreta, linhaVermelha, "" + qtdGuarda[i] });
-					// Calcular qtdGuarda em algum lugar do código, buscar a qtdGuarda e mostrar
-					// aqui
+							linhaPreta, linhaVermelha, "" + qtdGuarda });
+					
 					i++;
 				}
 
