@@ -183,10 +183,6 @@ public class telaGerarEscala extends JFrame {
 			datasPermitidas = gerarDatasPermitidas(formato);
 		}
 		
-		for(Date data: datasPermitidas) {
-			System.out.println(formato.format(data));
-		}
-
 		SpinnerListModel modeloData = new SpinnerListModel(datasPermitidas);
 		JSpinner dataSpinner = new JSpinner(modeloData);
 		dataSpinner.setFont(new Font("Arial Black", Font.BOLD, 15));

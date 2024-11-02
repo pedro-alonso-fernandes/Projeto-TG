@@ -60,6 +60,9 @@ public class telaEditarEscala extends JFrame {
 	private List<Integer> monitorIdPermitido = new ArrayList<>();
 	private List<Integer> atiradorIdPermitido = new ArrayList<>();
 	static boolean fechar = false;
+	private boolean atirador1 = false;
+	private boolean atirador2 = false;
+	private boolean atirador3 = false; 
 
 	/**
 	 * Launch the application.
@@ -442,225 +445,246 @@ public class telaEditarEscala extends JFrame {
 
 		atirador1Spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
-				novaEscala.setModel(new DefaultTableModel(new Object[][] {}, new String[] { formato.format(data) }));
-
-				DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
-				monitorId = (Integer) monitorSpinner.getValue();
-				atirador1Id = (Integer) atirador1Spinner.getValue();
-				atirador2Id = (Integer) atirador2Spinner.getValue();
-				atirador3Id = (Integer) atirador3Spinner.getValue();
-
-				if (monitorId > 0) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
-				} else {
-					modelo.addRow(new String[] { "" });
-				}
-
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				colorirTabela();
-
-				novaEscala.setModel(modelo);
-
+				
+				novaEscala.setModel(new DefaultTableModel(new Object[][] {},
+        				new String[] { formato.format(data)}));
+        		
+        		DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
+        		monitorId = (Integer) monitorSpinner.getValue();
+        		atirador1Id = (Integer) atirador1Spinner.getValue();
+        		atirador2Id = (Integer) atirador2Spinner.getValue();
+        		atirador3Id = (Integer) atirador3Spinner.getValue();
+        		
+        		if(monitorId > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador1Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador2Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador3Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		colorirTabela();
+        		
+        		novaEscala.setModel(modelo);
+				
 			}
 		});
-
-		atirador2Spinner.addChangeListener(new ChangeListener() {
+	 
+	 atirador2Spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
-				novaEscala.setModel(new DefaultTableModel(new Object[][] {}, new String[] { formato.format(data) }));
-
-				DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
-				monitorId = (Integer) monitorSpinner.getValue();
-				atirador1Id = (Integer) atirador1Spinner.getValue();
-				atirador2Id = (Integer) atirador2Spinner.getValue();
-				atirador3Id = (Integer) atirador3Spinner.getValue();
-
-
-				if (monitorId > 0) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
-				} else {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				colorirTabela();
-
-				novaEscala.setModel(modelo);
-
+				
+				novaEscala.setModel(new DefaultTableModel(new Object[][] {},
+        				new String[] { formato.format(data)}));
+        		
+        		DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
+        		monitorId = (Integer) monitorSpinner.getValue();
+        		atirador1Id = (Integer) atirador1Spinner.getValue();
+        		atirador2Id = (Integer) atirador2Spinner.getValue();
+        		atirador3Id = (Integer) atirador3Spinner.getValue();
+        		
+        		if(monitorId > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador1Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador2Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador3Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		colorirTabela();
+        		
+        		novaEscala.setModel(modelo);
+				
 			}
 		});
-
-		atirador3Spinner.addChangeListener(new ChangeListener() {
+	 
+	 atirador3Spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
-				novaEscala.setModel(new DefaultTableModel(new Object[][] {}, new String[] { formato.format(data) }));
-
-				DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
-				monitorId = (Integer) monitorSpinner.getValue();
-				atirador1Id = (Integer) atirador1Spinner.getValue();
-				atirador2Id = (Integer) atirador2Spinner.getValue();
-				atirador3Id = (Integer) atirador3Spinner.getValue();
-
-
-				if (monitorId > 0) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
-				} else {
-					modelo.addRow(new String[] { "" });
-				}
-
-				if (atirador1Id > 0 && atirador1Id != atirador2Id && atirador1Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador1Id) });
-				} else if ((atirador1Id > 0)) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador2Id > 0 && atirador2Id != atirador1Id && atirador2Id != atirador3Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador2Id) });
-				} else if (atirador2Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				if (atirador3Id > 0 && atirador3Id != atirador1Id && atirador3Id != atirador2Id) {
-					modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador(atirador3Id) });
-				} else if (atirador3Id > 0) {
-					modelo.addRow(new String[] { "Multiplos" });
-				}
-
-				colorirTabela();
-
-				novaEscala.setModel(modelo);
-
+				
+				novaEscala.setModel(new DefaultTableModel(new Object[][] {},
+        				new String[] { formato.format(data)}));
+        		
+        		DefaultTableModel modelo = (DefaultTableModel) novaEscala.getModel();
+        		monitorId = (Integer) monitorSpinner.getValue();
+        		atirador1Id = (Integer) atirador1Spinner.getValue();
+        		atirador2Id = (Integer) atirador2Spinner.getValue();
+        		atirador3Id = (Integer) atirador3Spinner.getValue();
+        		
+        		if(monitorId > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) monitorSpinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador1Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador1Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador2Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador2Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		if(atirador3Id > 0) {
+        			modelo.addRow(new String[] { AtiradorDAO.getGuerraAtirador((Integer) atirador3Spinner.getValue()) });
+        		}
+        		else {
+        			modelo.addRow(new String[] { "" });
+        		}
+        		
+        		colorirTabela();
+        		
+        		novaEscala.setModel(modelo);
+				
 			}
 		});
 
 		btnEditarEscala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if ((monitorId > 0 && atirador1Id > 0 && atirador2Id > 0 && atirador3Id > 0)
-						&& (atirador1Id != atirador2Id && atirador1Id != atirador3Id)
-						&& (atirador2Id != atirador1Id && atirador2Id != atirador3Id)
-						&& (atirador3Id != atirador1Id && atirador3Id != atirador2Id)) {
-
-					data = Data.addDias(data, -1);
-					try {
-
-						ResultSet resultSet = GuardaDAO.getGuardaPorData("Preta", data);
-						int i = 0;
-						int[] guardaPreta = new int[qtdAtiradores];
-
-						while (resultSet.next()) {
-							guardaPreta[i] = resultSet.getInt("valor");
-							i++;
-						}
-
-						resultSet = GuardaDAO.getGuardaPorData("Vermelha", data);
-						i = 0;
-						int[] guardaVermelha = new int[qtdAtiradores];
-
-						while (resultSet.next()) {
-							guardaVermelha[i] = resultSet.getInt("valor");
-							i++;
-						}
-
-						data = Data.addDias(data, 1);
-						String diaSemana = Data.getDiaSemana(data);
-
-						// Fim de Semana
-						if (diaSemana.equals("DOM") || diaSemana.equals("SAB")) {
-							for (int j = 0; j < guardaVermelha.length; j++) {
-								if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
-										|| j == atirador3Id - 1) {
-									guardaVermelha[j] = 370;
+				// Se os campos estão preenchidos
+				if (monitorId > 0 && atirador1Id > 0 && atirador2Id > 0 && atirador3Id > 0) {
+					// Se não tem nenhum atirador repetido
+					if(atirador1Id != atirador2Id && atirador1Id != atirador3Id && atirador2Id != atirador3Id) {
+						
+						data = Data.addDias(data, -1);
+						try {
+							
+							ResultSet resultSet = GuardaDAO.getGuardaPorData("Preta", data);
+							int i = 0;
+							int[] guardaPreta = new int[qtdAtiradores];
+							
+							while (resultSet.next()) {
+								guardaPreta[i] = resultSet.getInt("valor");
+								i++;
+							}
+							
+							resultSet = GuardaDAO.getGuardaPorData("Vermelha", data);
+							i = 0;
+							int[] guardaVermelha = new int[qtdAtiradores];
+							
+							while (resultSet.next()) {
+								guardaVermelha[i] = resultSet.getInt("valor");
+								i++;
+							}
+							
+							data = Data.addDias(data, 1);
+							String diaSemana = Data.getDiaSemana(data);
+							
+							// Fim de Semana
+							if (diaSemana.equals("DOM") || diaSemana.equals("SAB")) {
+								for (int j = 0; j < guardaVermelha.length; j++) {
+									if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
+											|| j == atirador3Id - 1) {
+										guardaVermelha[j] = 370;
+									}
 								}
 							}
-						}
-						// Dia da Semana
-						else {
-
-							ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
-							boolean feriado = false;
-							try {
-								while (rsFeriado.next()) {
-									if (formato.format(data).equals(formato.format(rsFeriado.getDate("data")))) {
-										feriado = true;
-
-									}
-								}
-
-								if (feriado) {
-
-									for (int j = 0; j < guardaVermelha.length; j++) {
-										if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
-												|| j == atirador3Id - 1) {
-											guardaVermelha[j] = 370;
+							// Dia da Semana
+							else {
+								
+								ResultSet rsFeriado = FeriadoDAO.getFeriadosSemana(data);
+								boolean feriado = false;
+								try {
+									while (rsFeriado.next()) {
+										if (formato.format(data).equals(formato.format(rsFeriado.getDate("data")))) {
+											feriado = true;
+											
 										}
 									}
-
-								} else {
-
-									for (int j = 0; j < guardaPreta.length; j++) {
-										if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
-												|| j == atirador3Id - 1) {
-											guardaPreta[j] = 370;
+									
+									if (feriado) {
+										
+										for (int j = 0; j < guardaVermelha.length; j++) {
+											if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
+													|| j == atirador3Id - 1) {
+												guardaVermelha[j] = 370;
+											}
+										}
+										
+									} else {
+										
+										for (int j = 0; j < guardaPreta.length; j++) {
+											if (j == monitorId - 1 || j == atirador1Id - 1 || j == atirador2Id - 1
+													|| j == atirador3Id - 1) {
+												guardaPreta[j] = 370;
+											}
 										}
 									}
+								} catch (SQLException ex) {
+									System.out.println("Erro ao buscar feriados da semana: " + ex.getMessage());
 								}
-							} catch (SQLException ex) {
-								System.out.println("Erro ao buscar feriados da semana: " + ex.getMessage());
+								
 							}
+							
+							EscalaDAO.apagarEscalasDataMaior(data);
+							GuardaDAO.apagarGuardasDataMaior("Preta", data);
+							GuardaDAO.apagarGuardasDataMaior("Vermelha", data);
+							Escala.gerarEscala(guardaPreta, guardaVermelha, 1, data);
 
+							
+						} catch (SQLException e1) {
+							System.out.println("Erro ao buscar Guardas Pretas e Guardas Vermelhas: " + e1.getMessage());
 						}
 						
-						EscalaDAO.apagarEscalasDataMaior(data);
-						GuardaDAO.apagarGuardasDataMaior("Preta", data);
-						GuardaDAO.apagarGuardasDataMaior("Vermelha", data);
-						Escala.gerarEscala(guardaPreta, guardaVermelha, 1, data);
-
-					} catch (SQLException e1) {
-						System.out.println("Erro ao buscar Guardas Pretas e Guardas Vermelhas: " + e1.getMessage());
+						telaEscala frame = new telaEscala();
+						frame.setVisible(true);
+						dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Você colocou o mesmo atirador mais de uma vez na escala! Selecione outro atirador.",
+								"Atirador Repetido!", JOptionPane.WARNING_MESSAGE);
 					}
 
-					telaEscala frame = new telaEscala();
-					frame.setVisible(true);
-					dispose();
+
 				} else {
-					JOptionPane.showMessageDialog(null, "Verifique novamente os dados da Edição!",
-							"Atenção!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de editar escala!",
+							"Campos Incompletos!", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
