@@ -3,6 +3,7 @@ package view.atirador;
 import java.awt.BorderLayout;
 
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -16,6 +17,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
@@ -25,16 +27,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.SpinnerModel;
 
 public class Editar extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField Campo1;
-	private JTextField Campo2;
-	private JTextField Campid1;
-	private JTextField Campo3;
-
+	private int idAntigo = 0;
+	private JTextField txtNome;
+	private JTextField txtGuerra;
+	private JSpinner idNovoSpinner;
+	private JRadioButton rdbtnMonitor;
+	private JRadioButton rdbtnAtirador;
+	private JLabel lblTitulo1;
+	private JLabel lblTitulo2;
+	private JLabel lblNome;
+	private JLabel lblGuerra;
+	private JLabel lblID;
+	private JLabel lblCargo;
+	private JLabel lblConfiraOsCampos;
+	private JButton btnEditar;
 	/**
 	 * Launch the application.
 	 */
@@ -64,56 +76,44 @@ public class Editar extends JDialog {
 		lblEditar.setBounds(232, 10, 158, 40);
 		contentPanel.add(lblEditar);
 
-		JLabel lblNewLabel_1 = new JLabel("Nome");
-		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1.setBounds(26, 225, 86, 21);
-		contentPanel.add(lblNewLabel_1);
+		lblNome = new JLabel("Nome:");
+		lblNome.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNome.setBounds(37, 239, 86, 21);
+		lblNome.setVisible(false);
+		contentPanel.add(lblNome);
 
-		Campo1 = new JTextField();
-		Campo1.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		Campo1.setColumns(10);
-		Campo1.setBounds(122, 221, 345, 25);
-		contentPanel.add(Campo1);
+		txtNome = new JTextField();
+		txtNome.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		txtNome.setColumns(10);
+		txtNome.setBounds(122, 239, 406, 25);
+		txtNome.setVisible(false);
+		contentPanel.add(txtNome);
 
-		Campo2 = new JTextField();
-		Campo2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		Campo2.setColumns(10);
-		Campo2.setBounds(122, 263, 345, 25);
-		contentPanel.add(Campo2);
+		lblID = new JLabel("ID:");
+		lblID.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblID.setBounds(37, 327, 46, 21);
+		lblID.setVisible(false);
+		contentPanel.add(lblID);
 
-		Campo2.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				int codigo = e.getKeyChar();
-
-				if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
-						&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
-						&& codigo != 65535 && codigo != 10) {
-					Campo2.setText("");
-				}
-			}
-		});
-
-		JLabel ID = new JLabel("ID");
-		ID.setFont(new Font("Arial Black", Font.BOLD, 22));
-		ID.setBounds(26, 267, 46, 21);
-		contentPanel.add(ID);
-
-		JLabel lblCargo = new JLabel("Cargo");
-		lblCargo.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblCargo.setBounds(26, 351, 86, 25);
+		lblCargo = new JLabel("Cargo:");
+		lblCargo.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblCargo.setBounds(37, 369, 86, 25);
+		lblCargo.setVisible(false);
 		contentPanel.add(lblCargo);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Atirador");
-		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnNewRadioButton.setBounds(122, 353, 151, 21);
-		contentPanel.add(rdbtnNewRadioButton);
+		rdbtnAtirador = new JRadioButton("Atirador");
+		rdbtnAtirador.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		rdbtnAtirador.setBounds(133, 371, 109, 21);
+		rdbtnAtirador.setVisible(false);
+		contentPanel.add(rdbtnAtirador);
 
-		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
-		rdbtnMonitor.setFont(new Font("Arial Black", Font.BOLD, 22));
-		rdbtnMonitor.setBounds(275, 353, 123, 21);
+		rdbtnMonitor = new JRadioButton("Monitor");
+		rdbtnMonitor.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		rdbtnMonitor.setBounds(244, 372, 123, 21);
+		rdbtnMonitor.setVisible(false);
 		contentPanel.add(rdbtnMonitor);
 
-		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+		rdbtnAtirador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnMonitor.isSelected()) {
 					rdbtnMonitor.setSelected(false);
@@ -125,81 +125,147 @@ public class Editar extends JDialog {
 
 			public void actionPerformed(ActionEvent e) {
 
-				if (rdbtnNewRadioButton.isSelected()) {
-					rdbtnNewRadioButton.setSelected(false);
+				if (rdbtnAtirador.isSelected()) {
+					rdbtnAtirador.setSelected(false);
 				}
 
 			}
 		});
 
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnEditar.setBounds(65, 408, 178, 40);
+		btnEditar.setBounds(200, 427, 178, 40);
+		btnEditar.setVisible(false);
 		contentPanel.add(btnEditar);
 
-		JButton btnVoltarAoMenu = new JButton("Menu Atirador");
-		btnVoltarAoMenu.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				telaAtirador Atirador = new telaAtirador();
-				Atirador.setVisible(true);
 				dispose();
+				telaAtirador tela  = new telaAtirador();
+				tela.setVisible(true);
 			}
 		});
-		btnVoltarAoMenu.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnVoltarAoMenu.setBounds(318, 408, 178, 40);
-		contentPanel.add(btnVoltarAoMenu);
+		btnVoltar.setIcon(new ImageIcon(Editar.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPanel.add(btnVoltar);
+		btnVoltar.setVisible(true);
 
-		JLabel lblNewLabel_1_3_2 = new JLabel("ID");
-		lblNewLabel_1_3_2.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_3_2.setBounds(26, 139, 41, 21);
+		JLabel lblNewLabel_1_3_2 = new JLabel("ID:");
+		lblNewLabel_1_3_2.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNewLabel_1_3_2.setBounds(232, 143, 41, 21);
 		contentPanel.add(lblNewLabel_1_3_2);
 
-		Campid1 = new JTextField();
-		Campid1.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				int codigo = e.getKeyChar();
-				if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
-						&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
-						&& codigo != 65535 && codigo != 10) {
-					Campid1.setText("");
-				}
+		SpinnerNumberModel modeloIdAntigoSpinner = new SpinnerNumberModel(0, 0, 99, 1); // Valor inicial: 0, Mínimo: 0, Máximo: 99, Passo: de 1 em 1
+		JSpinner idAntigoSpinner = new JSpinner(modeloIdAntigoSpinner);
+		JSpinner.NumberEditor editorIdAntigo = new JSpinner.NumberEditor(idAntigoSpinner, "00");
+        idAntigoSpinner.setEditor(editorIdAntigo);
+		idAntigoSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		idAntigoSpinner.setBounds(278, 143, 40, 26);
+		contentPanel.add(idAntigoSpinner);
+		
+		 // Pega o campo de texto do editor para capturar eventos de tecla
+        JFormattedTextField textFieldIdAntigo = editorIdAntigo.getTextField();
 
-			}
-		});
-		Campid1.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		Campid1.setColumns(10);
-		Campid1.setBounds(122, 141, 217, 25);
-		contentPanel.add(Campid1);
+        // Adiciona um KeyListener para detectar a tecla Enter
+        textFieldIdAntigo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        int valor = Integer.parseInt(textFieldIdAntigo.getText());
+                        
+                        if(valor >= 0 && valor < 100) {
+                        	idAntigoSpinner.setValue(valor);
+                        }
+                        else {
+                        	textFieldIdAntigo.setText(idAntigoSpinner.getValue().toString());
+                        	
+                    		JOptionPane.showMessageDialog(null, "O ID deve estar entre 1 e 99", "ID Inválido!", JOptionPane.WARNING_MESSAGE);
+                        	
+                        }
+                        
+                    } catch (NumberFormatException ex) {
+                    	textFieldIdAntigo.setText(idAntigoSpinner.getValue().toString());
+                        JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Valor Inválido!", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
+        
+        SpinnerNumberModel modeloIdNovoSpinner = new SpinnerNumberModel(0, 0, 99, 1); // Valor inicial: 0, Mínimo: 0, Máximo: 99, Passo: de 1 em 1
+		idNovoSpinner = new JSpinner(modeloIdNovoSpinner);
+		JSpinner.NumberEditor editorIdNovo = new JSpinner.NumberEditor(idNovoSpinner, "00");
+        idNovoSpinner.setEditor(editorIdNovo);
+		idNovoSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		idNovoSpinner.setBounds(83, 326, 40, 26);
+		idNovoSpinner.setVisible(false);
+		contentPanel.add(idNovoSpinner);
+        
+		 // Pega o campo de texto do editor para capturar eventos de tecla
+        JFormattedTextField textFieldIdNovo = editorIdNovo.getTextField();
 
+        // Adiciona um KeyListener para detectar a tecla Enter
+        textFieldIdNovo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        int valor = Integer.parseInt(textFieldIdNovo.getText());
+                        
+                        if(valor >= 0 && valor < 100) {
+                        	idNovoSpinner.setValue(valor);
+                        }
+                        else {
+                        	textFieldIdNovo.setText(idNovoSpinner.getValue().toString());
+                        	
+                    		JOptionPane.showMessageDialog(null, "O ID deve estar entre 1 e 99", "ID Inválido!", JOptionPane.WARNING_MESSAGE);
+                        	
+                        }
+                        
+                    } catch (NumberFormatException ex) {
+                    	textFieldIdNovo.setText(idNovoSpinner.getValue().toString());
+                        JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Valor Inválido!", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
+		
+        
+        
 		JButton Pesquisar = new JButton("Pesquisar");
 		Pesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Campid1.getText().equals("")) {
+				int valorIdAntigo = (int) idAntigoSpinner.getValue();
+				
+				if (valorIdAntigo == 0) {
+					setVisibilidadeCampos(false);
+					idAntigo = 0;
 					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
-					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campid1.getText()));
+					ResultSet rs = AtiradorDAO.getAtirador(valorIdAntigo);
 
 					try {
 						if (rs.next() == false) {
+							setVisibilidadeCampos(false);
+							idAntigo = 0;
 							JOptionPane.showMessageDialog(null, "Esse ID não Existe!", "Erro!!",
 									JOptionPane.ERROR_MESSAGE);
 						} else {
-							Campo1.setText(rs.getString("nome"));
-							if (rs.getInt("id") < 10) {
-								Campo2.setText("0" + String.valueOf(rs.getInt("id")));
-							} else {
-								Campo2.setText(String.valueOf(rs.getInt("id")));
-							}
-
-							Campo3.setText(rs.getString("guerra"));
+							setVisibilidadeCampos(true);
+							idAntigo = valorIdAntigo;
+							
+							txtNome.setText(rs.getString("nome"));
+							idNovoSpinner.setValue(rs.getInt("id"));
+							txtGuerra.setText(rs.getString("guerra"));
 
 							if (rs.getString("cargo").equalsIgnoreCase("Atirador")) {
-								rdbtnNewRadioButton.setSelected(true);
+								rdbtnAtirador.setSelected(true);
 								rdbtnMonitor.setSelected(false);
 							} else if (rs.getString("cargo").equalsIgnoreCase("Monitor")) {
 								rdbtnMonitor.setSelected(true);
-								rdbtnNewRadioButton.setSelected(false);
+								rdbtnAtirador.setSelected(false);
 							}
 
 						}
@@ -213,8 +279,8 @@ public class Editar extends JDialog {
 
 			}
 		});
-		Pesquisar.setFont(new Font("Arial Black", Font.BOLD, 10));
-		Pesquisar.setBounds(349, 142, 109, 25);
+		Pesquisar.setFont(new Font("Arial Black", Font.BOLD, 12));
+		Pesquisar.setBounds(353, 144, 109, 25);
 		contentPanel.add(Pesquisar);
 
 		JLabel texto = new JLabel("Pesquise o Atirador ou Monitor pelo ID!");
@@ -222,79 +288,90 @@ public class Editar extends JDialog {
 		texto.setBounds(76, 54, 420, 48);
 		contentPanel.add(texto);
 
-		JLabel lblConfiraOsCampos = new JLabel("Confira os campos e Edite o Atirador ou Monitor");
+		lblConfiraOsCampos = new JLabel("Confira os campos e Edite o Atirador ou Monitor");
 		lblConfiraOsCampos.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblConfiraOsCampos.setBounds(86, 97, 395, 21);
+		lblConfiraOsCampos.setVisible(false);
 		contentPanel.add(lblConfiraOsCampos);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Informações do Atirador ou Monitor ");
-		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(132, 176, 324, 13);
-		contentPanel.add(lblNewLabel_1_1);
+		lblTitulo1 = new JLabel("Informações do Atirador ou Monitor ");
+		lblTitulo1.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblTitulo1.setBounds(166, 190, 324, 13);
+		lblTitulo1.setVisible(false);
+		contentPanel.add(lblTitulo1);
 
-		JLabel lblNewLabel_2 = new JLabel("Pesquisado!");
-		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 15));
-		lblNewLabel_2.setBounds(217, 194, 114, 17);
-		contentPanel.add(lblNewLabel_2);
+		lblTitulo2 = new JLabel("Pesquisado!");
+		lblTitulo2.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblTitulo2.setBounds(251, 208, 114, 17);
+		lblTitulo2.setVisible(false);
+		contentPanel.add(lblTitulo2);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Nome de Guerra");
-		lblNewLabel_1_1_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_1_1.setBounds(26, 312, 219, 21);
-		contentPanel.add(lblNewLabel_1_1_1);
+		lblGuerra = new JLabel("Nome de Guerra:");
+		lblGuerra.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblGuerra.setBounds(37, 281, 219, 21);
+		lblGuerra.setVisible(false);
+		contentPanel.add(lblGuerra);
 
-		Campo3 = new JTextField();
-		Campo3.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		Campo3.setColumns(10);
-		Campo3.setBounds(244, 314, 223, 25);
-		contentPanel.add(Campo3);
-		this.setLocationRelativeTo(null);
+		txtGuerra = new JTextField();
+		txtGuerra.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		txtGuerra.setColumns(10);
+		txtGuerra.setBounds(218, 281, 310, 25);
+		txtGuerra.setVisible(false);
+		contentPanel.add(txtGuerra);
+		
 
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				if (Campo1.getText().equals("") || Campo2.getText().equals("") || Campo3.getText().equals("")
-						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
+				int valorIdAntigo = idAntigo;
+				int valorIdNovo = (int) idNovoSpinner.getValue();
+				
+				if (txtNome.getText().equals("") || valorIdNovo == 0 || txtGuerra.getText().equals("")
+						|| (rdbtnMonitor.isSelected() == false && rdbtnAtirador.isSelected() == false)) {
 
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de editar!", "Campos Incompletos!",
 							JOptionPane.WARNING_MESSAGE);
 
 				} else {
 					
-					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campo2.getText()));
+					ResultSet rs = AtiradorDAO.getAtirador(valorIdNovo);
 					Atirador atdr = new Atirador();
 				
 					try {
 						boolean comp = rs.next();
-						if ((comp == false && !Campid1.getText().equals(Campo2.getText())) || (comp == true && Campid1.getText().equals(Campo2.getText()))) {
-							atdr.setNome(Campo1.getText());
-							atdr.setID(Integer.parseInt(Campo2.getText()));
-							atdr.setGuerra(Campo3.getText());
+						// Primeira comparação: Se não existe atirador com o Id novo, e o Id antigo e novo são diferentes
+						// Segunda comparação: Se existe atirador com o Id novo, e o Id antigo e novo são iguais
+						if ((comp == false && valorIdAntigo != valorIdNovo) || (comp == true && valorIdAntigo == valorIdNovo)) {
+							atdr.setNome(txtNome.getText());
+							atdr.setID(valorIdNovo);
+							atdr.setGuerra(txtGuerra.getText());
 
 							if (rdbtnMonitor.isSelected() == true) {
 								atdr.setCargo(rdbtnMonitor.getText());
 							}
 
-							else if (rdbtnNewRadioButton.isSelected() == true) {
-								atdr.setCargo(rdbtnNewRadioButton.getText());
+							else if (rdbtnAtirador.isSelected() == true) {
+								atdr.setCargo(rdbtnAtirador.getText());
 							}
 
-							AtiradorDAO.EditarAtirador(atdr, Integer.parseInt(Campid1.getText())); // Edita Atirador
+							AtiradorDAO.EditarAtirador(atdr, valorIdNovo); // Edita Atirador
 							
 							JOptionPane.showMessageDialog(null, "Edição Feita!", "Completa!!",
 									JOptionPane.INFORMATION_MESSAGE);
-							Campid1.setText("");
-							Campo1.setText("");
-							Campo2.setText("");
-							Campo3.setText("");
+							
+							setVisibilidadeCampos(false);
+							idAntigoSpinner.setValue(0);
+							txtNome.setText("");
+							idNovoSpinner.setValue(0);
+							txtGuerra.setText("");
 							if (rdbtnMonitor.isSelected() == true) {
 								rdbtnMonitor.setSelected(false);
-							} else if (rdbtnNewRadioButton.isSelected() == true) {
-								rdbtnNewRadioButton.setSelected(false);
+							} else if (rdbtnAtirador.isSelected() == true) {
+								rdbtnAtirador.setSelected(false);
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Esse ID já Existe", "Erro!!",
 									JOptionPane.ERROR_MESSAGE);
-							Campo2.setText("");
+							idNovoSpinner.setValue(0);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -305,5 +382,22 @@ public class Editar extends JDialog {
 			}
 		});
 
+		this.setLocationRelativeTo(null);
+	}
+	
+	private void setVisibilidadeCampos(boolean booleano) {
+		txtNome.setVisible(booleano);
+		txtGuerra.setVisible(booleano);
+		idNovoSpinner.setVisible(booleano);
+		rdbtnMonitor.setVisible(booleano);
+		rdbtnAtirador.setVisible(booleano);
+		lblTitulo1.setVisible(booleano);
+		lblTitulo2.setVisible(booleano);
+		lblConfiraOsCampos.setVisible(booleano);
+		lblNome.setVisible(booleano);
+		lblGuerra.setVisible(booleano);
+		lblID.setVisible(booleano);
+		lblCargo.setVisible(booleano);
+		btnEditar.setVisible(booleano);
 	}
 }

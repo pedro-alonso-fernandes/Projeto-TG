@@ -52,7 +52,6 @@ public class telaPrincipal extends JFrame {
 
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
-		BD.criarBanco();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(100, 100, 450, 300);
@@ -84,83 +83,84 @@ public class telaPrincipal extends JFrame {
 		btnEscalaDeGuarda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaEscala frame = new telaEscala();
 				
-				// Se não tiver escala
-				if (telaEscala.aviso1 && telaEscala.aviso2) {
+				boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
+
+				ResultSet rsAlteracao = AlteracaoDAO.getAlteracao();
+				boolean alteracao = false;
+				try {
+					alteracao = rsAlteracao.next();
+				} catch (SQLException e1) {
+					System.out.println("Erro ao percorrer tabela Alteracao: " + e1.getMessage());
+				}
+
+				// Se for necessário alterar a escala
+				if (alteracao && existenciaEscala) {
+
 					String[] opcoes = { "Ir para Gerar Escala" };
 
-					String texto = "Não há nenhuma Escala registrada! É necessário gerar uma escala primeiro!";
+					String tipoAlteracao = "";
+					try {
+						tipoAlteracao = rsAlteracao.getString("tipo").equals("Atirador") ? "Atiradores"
+								: "Feriados e Folgas";
+					} catch (SQLException e1) {
+						System.out.println("Erro ao pegar tipo de Alteracao: " + e1.getMessage());
+					}
+
+					String texto = "Você fez alterações no registro de " + tipoAlteracao
+							+ ", portanto é necessário gerar a escala novamente!";
 
 					JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE,
 							JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
 
-					JDialog tela = optionPane.createDialog("Nenhuma Escala encontrada!");
+					JDialog tela = optionPane.createDialog("Gerar a Escala Novamente!");
 					tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
 					tela.setIconImage(Toolkit.getDefaultToolkit()
 							.getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
 					tela.setVisible(true);
 
 					dispose();
-					frame.dispose();
 
-					telaGerarEscala frame1 = new telaGerarEscala();
-					frame1.setVisible(true);
-
-					telaEscala.aviso1 = false;
-					telaEscala.aviso2 = false;
-
-					
+					telaGerarEscala frameGerarEscala = new telaGerarEscala();
+					frameGerarEscala.setVisible(true);
+				
 				}
 				else {
-					
-					boolean existenciaEscala = EscalaDAO.verificarExistenciaEscala();
-
-					ResultSet rsAlteracao = AlteracaoDAO.getAlteracao();
-					boolean alteracao = false;
-					try {
-						alteracao = rsAlteracao.next();
-					} catch (SQLException e1) {
-						System.out.println("Erro ao percorrer tabela Alteracao: " + e1.getMessage());
-					}
-
-					// Se for necessário alterar a escala
-					if (alteracao && existenciaEscala) {
-
+					telaEscala frame = new telaEscala();
+					// Se não tiver escala
+					if (telaEscala.aviso1 && telaEscala.aviso2) {
 						String[] opcoes = { "Ir para Gerar Escala" };
 
-						String tipoAlteracao = "";
-						try {
-							tipoAlteracao = rsAlteracao.getString("tipo").equals("Atirador") ? "Atiradores"
-									: "Feriados e Folgas";
-						} catch (SQLException e1) {
-							System.out.println("Erro ao pegar tipo de Alteracao: " + e1.getMessage());
-						}
-
-						String texto = "Você fez alterações no registro de " + tipoAlteracao
-								+ ", portanto é necessário gerar a escala novamente!";
+						String texto = "Não há nenhuma Escala registrada! É necessário gerar uma escala primeiro!";
 
 						JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE,
 								JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
 
-						JDialog tela = optionPane.createDialog("Gerar a escala novamente!");
-						tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a
-																					// janela
+						JDialog tela = optionPane.createDialog("Nenhuma Escala encontrada!");
+						tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+						tela.setIconImage(Toolkit.getDefaultToolkit()
+								.getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
 						tela.setVisible(true);
 
 						dispose();
+						frame.dispose();
 
-						telaGerarEscala frameGerarEscala = new telaGerarEscala();
-						frameGerarEscala.setVisible(true);
+						telaGerarEscala frame1 = new telaGerarEscala();
+						frame1.setVisible(true);
 
-					} else {
+						telaEscala.aviso1 = false;
+						telaEscala.aviso2 = false;
+
+
+					} 
+					else {
 
 						telaEscala frameEscala = new telaEscala();
 						frameEscala.setVisible(true);
 						
 					}
 				}
-			}
+			}		
 		});
 
 		btnEscalaDeGuarda.setFont(new Font("Arial Black", Font.PLAIN, 15));

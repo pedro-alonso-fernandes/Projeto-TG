@@ -3,8 +3,10 @@ package view.atirador;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -12,6 +14,7 @@ import controller.AlteracaoDAO;
 import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import model.BD;
+import model.Escala;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,7 +42,6 @@ public class Remover extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField Campid;
 	private JTable table;
 	private int removerId = 0;
 
@@ -75,20 +77,21 @@ public class Remover extends JDialog {
 
 		JButton Remover = new JButton("Remover");
 		Remover.setFont(new Font("Arial Black", Font.BOLD, 15));
-		Remover.setBounds(65, 421, 178, 40);
+		Remover.setBounds(198, 438, 178, 40);
 		contentPanel.add(Remover);
 
-		JButton Menu = new JButton("Menu Atirador");
-		Menu.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaAtirador Atirador = new telaAtirador();
-				Atirador.setVisible(true);
+				telaAtirador tela  = new telaAtirador();
+				tela.setVisible(true);
 			}
 		});
-		Menu.setFont(new Font("Arial Black", Font.BOLD, 15));
-		Menu.setBounds(317, 421, 178, 40);
-		contentPanel.add(Menu);
+		btnVoltar.setIcon(new ImageIcon(Remover.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPanel.add(btnVoltar);
+		btnVoltar.setVisible(true);
 
 		JLabel texto = new JLabel("Pesquise o Atirador ou Monitor pelo ID!");
 		texto.setFont(new Font("Arial Black", Font.BOLD, 19));
@@ -100,27 +103,10 @@ public class Remover extends JDialog {
 		texto2.setBounds(75, 94, 420, 21);
 		contentPanel.add(texto2);
 
-		JLabel lblNewLabel_1_3_2 = new JLabel("ID");
-		lblNewLabel_1_3_2.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_3_2.setBounds(37, 165, 41, 21);
+		JLabel lblNewLabel_1_3_2 = new JLabel("ID:");
+		lblNewLabel_1_3_2.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNewLabel_1_3_2.setBounds(198, 155, 41, 21);
 		contentPanel.add(lblNewLabel_1_3_2);
-
-		Campid = new JTextField();
-		Campid.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				int codigo = e.getKeyChar();
-				if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
-						&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
-						&& codigo != 65535 && codigo != 10) {
-					Campid.setText("");
-				}
-
-			}
-		});
-		Campid.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		Campid.setColumns(10);
-		Campid.setBounds(102, 167, 217, 25);
-		contentPanel.add(Campid);
 
 		JLabel lblNewLabel_1 = new JLabel("Informações do Atirador ou Monitor ");
 		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 15));
@@ -131,52 +117,73 @@ public class Remover extends JDialog {
 		lblNewLabel_2.setFont(new Font("Arial Black", Font.BOLD, 15));
 		lblNewLabel_2.setBounds(221, 225, 114, 17);
 		contentPanel.add(lblNewLabel_2);
+		
+		SpinnerNumberModel modeloSpinner = new SpinnerNumberModel(0, 0, 99, 1); // Valor inicial: 0, Mínimo: 0, Máximo: 99, Passo: de 1 em 1
+		JSpinner idSpinner = new JSpinner(modeloSpinner);
+		JSpinner.NumberEditor editorId = new JSpinner.NumberEditor(idSpinner, "00");
+        idSpinner.setEditor(editorId);
+		idSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		idSpinner.setBounds(242, 154, 40, 26);
+		contentPanel.add(idSpinner);
+		
+		 // Pega o campo de texto do editor para capturar eventos de tecla
+        JFormattedTextField textFieldSpinner = editorId.getTextField();
+
+        // Adiciona um KeyListener para detectar a tecla Enter
+        textFieldSpinner.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        int valor = Integer.parseInt(textFieldSpinner.getText());
+                        
+                        if(valor >= 0 && valor < 100) {
+                        	idSpinner.setValue(valor);
+                        }
+                        else {
+                        	textFieldSpinner.setText(idSpinner.getValue().toString());
+                        	
+                    		JOptionPane.showMessageDialog(null, "O ID deve estar entre 1 e 99", "ID Inválido!", JOptionPane.WARNING_MESSAGE);
+                        	
+                        }
+                        
+                    } catch (NumberFormatException ex) {
+                    	textFieldSpinner.setText(idSpinner.getValue().toString());
+                        JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Valor Inválido!", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
 
 		JButton Pesquisar = new JButton("Pesquisar");
 		Pesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Campid.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Incompleto",
+				int valorSpinner = (int) idSpinner.getValue();
+				
+				if (valorSpinner == 0) {
+					limparTabela();
+					JOptionPane.showMessageDialog(null, "Informe um ID antes de Pesquisar!", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 
-					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(Campid.getText()));
+					ResultSet rs = AtiradorDAO.getAtirador(valorSpinner);
 					String id = "0";
 
 					try {
 						if (rs.next() == false) {
-							Campid.setText("");
+							idSpinner.setValue(0);
+							limparTabela();
+							
 							JOptionPane.showMessageDialog(null, "O Atirador não Existe!", "Erro!!",
 									JOptionPane.ERROR_MESSAGE);
 						} else {
-							removerId = Integer.parseInt(Campid.getText());
-							;
-							table.setModel(new DefaultTableModel(new Object[][] {},
-									new String[] { "ID", "Nome", "Nome de Guerra", "Cargo" }));
-
-							table.getColumnModel().getColumn(1).setPreferredWidth(330);
-							table.getColumnModel().getColumn(2).setPreferredWidth(124);
-							table.getColumnModel().getColumn(3).setPreferredWidth(106);
-							table.getTableHeader().setReorderingAllowed(false);
-							table.setEnabled(false);
+							removerId = valorSpinner;
+							
+							limparTabela();
 
 							modelo = (DefaultTableModel) table.getModel();
 
-							DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
-							centralizado.setHorizontalAlignment(SwingConstants.CENTER);
-
-							table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-							table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-							table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
-							table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
-							table.getTableHeader().setReorderingAllowed(false);
-							table.setEnabled(false);
-							table.getTableHeader().setReorderingAllowed(false);
-							table.getColumnModel().getColumn(0).setResizable(false);
-							table.getColumnModel().getColumn(1).setResizable(false);
-							table.getColumnModel().getColumn(2).setResizable(false);
-							table.getColumnModel().getColumn(3).setResizable(false);
 							if (rs.getInt("id") < 10) {
 								modelo.addRow(new Object[] { id = "0" + rs.getInt("id"), rs.getString("nome"),
 										rs.getString("guerra"), rs.getString("cargo") });
@@ -194,12 +201,12 @@ public class Remover extends JDialog {
 			}
 		});
 
-		Pesquisar.setFont(new Font("Arial Black", Font.BOLD, 10));
-		Pesquisar.setBounds(329, 166, 109, 25);
+		Pesquisar.setFont(new Font("Arial Black", Font.BOLD, 12));
+		Pesquisar.setBounds(329, 155, 109, 25);
 		contentPanel.add(Pesquisar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 260, 552, 151);
+		scrollPane.setBounds(10, 260, 552, 81);
 		contentPanel.add(scrollPane);
 
 		table = new JTable();
@@ -211,11 +218,13 @@ public class Remover extends JDialog {
 		table.getColumnModel().getColumn(3).setPreferredWidth(106);
 		scrollPane.setViewportView(table);
 		table.setEnabled(false);
+		
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
+
 
 		Remover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -227,10 +236,15 @@ public class Remover extends JDialog {
 							JOptionPane.ERROR_MESSAGE);
 
 				} else {
-					AtiradorDAO.RemoverAtirador(removerId); // Removendo Atirador
 					
-					AlteracaoDAO.cadastrarAlteracao("Atirador"); // Deixa registrado a necessidade de alterar escala
+					boolean atiradorEmEscala = EscalaDAO.verificarAtiradorEmEscala(removerId);
+					
+					if(atiradorEmEscala) {
+						AlteracaoDAO.cadastrarAlteracao("Atirador"); // Deixa registrado a necessidade de alterar escala
+					}
 				
+					AtiradorDAO.RemoverAtirador(removerId); // Removendo Atirador
+
 					JOptionPane.showMessageDialog(null, "Remoção Feita!", "Realizado!!",
 							JOptionPane.INFORMATION_MESSAGE);
 					
@@ -238,11 +252,37 @@ public class Remover extends JDialog {
 					modelo = (DefaultTableModel) table.getModel();
 					modelo.removeRow(0);
 					table.setModel(modelo);
-					Campid.setText("");
+					idSpinner.setValue(0);
 				}
 
 			}
 		});
 		this.setLocationRelativeTo(null);
+	}
+	
+	private void limparTabela() {
+		table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "Nome", "Nome de Guerra", "Cargo" }));
+
+		table.getColumnModel().getColumn(1).setPreferredWidth(330);
+		table.getColumnModel().getColumn(2).setPreferredWidth(124);
+		table.getColumnModel().getColumn(3).setPreferredWidth(106);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setEnabled(false);
+
+		DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+
+		table.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+		table.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setEnabled(false);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
 	}
 }

@@ -1,13 +1,26 @@
 package view.folgaEferiados;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -17,26 +30,6 @@ import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
 import model.Data;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import javax.swing.SpinnerDateModel;
-import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.awt.event.ActionEvent;
-import java.awt.Toolkit;
 
 public class RemoverFF extends JDialog {
 
@@ -107,20 +100,21 @@ public class RemoverFF extends JDialog {
 
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnRemover.setBounds(79, 431, 140, 32);
+		btnRemover.setBounds(204, 429, 140, 32);
 		contentPanel.add(btnRemover);
-
-		JButton btnMenu = new JButton("Menu");
-		btnMenu.addActionListener(new ActionListener() {
+		
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Feriados_e_Folgas FF = new Feriados_e_Folgas();
+				Feriados_e_Folgas FF  = new Feriados_e_Folgas();
 				FF.setVisible(true);
 			}
 		});
-		btnMenu.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnMenu.setBounds(348, 431, 140, 32);
-		contentPanel.add(btnMenu);
+		btnVoltar.setIcon(new ImageIcon(RemoverFF.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPanel.add(btnVoltar);
+		btnVoltar.setVisible(true);
 
 		JLabel lblPesquiseAFolga = new JLabel("Pesquise a Folga ou Feriado pela Data!");
 		lblPesquiseAFolga.setFont(new Font("Arial Black", Font.BOLD, 19));

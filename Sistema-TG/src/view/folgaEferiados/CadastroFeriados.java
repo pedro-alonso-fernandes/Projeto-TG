@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -120,18 +121,18 @@ public class CadastroFeriados extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(null);
 
-
-		JButton Menu = new JButton("Voltar ao Menu");
-		Menu.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Feriados_e_Folgas fg = new Feriados_e_Folgas();
-				fg.setVisible(true);
+				Feriados_e_Folgas FF  = new Feriados_e_Folgas();
+				FF.setVisible(true);
 			}
 		});
-		Menu.setFont(new Font("Arial Black", Font.BOLD, 15));
-		Menu.setBounds(304, 436, 206, 33);
-		contentPane.add(Menu);
+		btnVoltar.setIcon(new ImageIcon(CadastroFeriados.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPane.add(btnVoltar);
+		btnVoltar.setVisible(true);
 		
 		JCheckBox FeriadoCHK = new JCheckBox("Feriado");
 		FeriadoCHK.setFont(new Font("Arial Black", Font.BOLD, 15));
@@ -240,7 +241,7 @@ public class CadastroFeriados extends JFrame {
 				        	try {
 				        		// Se já existir um feriado na data informada
 								if(rsFeriado.next()) {
-									JOptionPane.showMessageDialog(null, "Já existe um feriado cadastrado nessa data!", "Feriado Existente!", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Já existe um feriado cadastrado nessa data!", "Feriado Existente!", JOptionPane.ERROR_MESSAGE);
 								}
 								// Cadastra o Feriado                   
 								else {
@@ -336,7 +337,7 @@ public class CadastroFeriados extends JFrame {
 			}
 		});
 		CadastrarFeriado.setFont(new Font("Arial Black", Font.BOLD, 15));
-		CadastrarFeriado.setBounds(63, 436, 206, 33);
+		CadastrarFeriado.setBounds(178, 444, 206, 33);
 		contentPane.add(CadastrarFeriado);
 		this.setLocationRelativeTo(null);
 	}

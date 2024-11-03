@@ -163,8 +163,11 @@ public class Escala {
 			else if(datas[0] != null) {
 				dataRecente = datas[0];
 			}
-			else {
+			else if(datasFolga[0] != null){
 				dataRecente = datasFolga[0];
+			}
+			else {
+				dataRecente = new Date();
 			}
 			
 			

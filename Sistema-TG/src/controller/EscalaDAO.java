@@ -213,6 +213,32 @@ public class EscalaDAO {
 		}
 	}
 	
+	public static boolean verificarAtiradorEmEscala(int atiradorId) {
+		BD.selecionarDatabase();
+		
+		String sql = "select * from Escala where monitorId = ? or atirador1Id = ? or atirador2Id = ? or atirador3Id = ?;";
+		
+		boolean existencia = false;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			ps.setString(1, String.valueOf(atiradorId));
+			ps.setString(2, String.valueOf(atiradorId));
+			ps.setString(3, String.valueOf(atiradorId));
+			ps.setString(4, String.valueOf(atiradorId));
+			rs = ps.executeQuery();
+			existencia = rs.next();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se o Atirador " + atiradorId + " está em alguma escala: " + e.getMessage());
+			
+		}
+		
+		return existencia;
+	}
+	
 	//Pega escala por Data
 	public static ResultSet getEscalaDataCor(Date data, String cor) {
 		BD.selecionarDatabase();
@@ -370,7 +396,11 @@ public class EscalaDAO {
 		
 		int qtdGuarda = Integer.MIN_VALUE;
 		
-		String sql = "select count(*) from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ? and data <= ?;";
+//		String sql = "select count(*) from Escala where atirador1Id = ? or atirador2Id = ? or atirador3Id = ? and data <= ?;";
+		String sql = "select  (select count(*) from Escala where monitorId = ? and data <= ?)"
+				+ "    + (select count(*) from Escala where atirador1Id = ? and data <= ?)"
+				+ "    + (select count(*) from Escala where atirador2Id = ? and data <= ?)"
+				+ "    + (select count(*) from Escala where atirador3Id = ? and data <= ?) as total_ocorrencias;";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -378,16 +408,20 @@ public class EscalaDAO {
 		try {
 			ps = Conexao.getConexao().prepareStatement(sql);
 			ps.setString(1, String.valueOf(atiradorId));
-			ps.setString(2, String.valueOf(atiradorId));
+			ps.setString(2, formato.format(data));
 			ps.setString(3, String.valueOf(atiradorId));
 			ps.setString(4, formato.format(data));
+			ps.setString(5, String.valueOf(atiradorId));
+			ps.setString(6, formato.format(data));
+			ps.setString(7, String.valueOf(atiradorId));
+			ps.setString(8, formato.format(data));
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				qtdGuarda = rs.getInt("count(*)");
+				qtdGuarda = rs.getInt("total_ocorrencias");
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar a quantidades de guardas do");
+			System.out.println("Erro ao pegar a quantidades de guardas do Atirador: " + e.getMessage());
 		}
 		
 		return qtdGuarda;

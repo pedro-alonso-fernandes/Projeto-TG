@@ -169,7 +169,7 @@ public class EditarFeriado extends JDialog {
 			}
 		});
 		btnVoltar.setIcon(new ImageIcon(EditarFeriado.class.getResource("/model/images/desfazer.png")));
-		btnVoltar.setBounds(8, 10, 30, 30);
+		btnVoltar.setBounds(8, 10, 35, 35);
 		contentPanel.add(btnVoltar);
 		btnVoltar.setVisible(true);
 		

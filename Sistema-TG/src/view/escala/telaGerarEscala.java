@@ -139,21 +139,21 @@ public class telaGerarEscala extends JFrame {
 		btnEscala.setBounds(214, 481, 156, 34);
 		contentPane.add(btnEscala);
 
-		JButton btnmenu = new JButton("Voltar ao Menu");
-		btnmenu.addActionListener(new ActionListener() {
+		JButton btnMenu = new JButton("Voltar ao Menu");
+		btnMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				telaPrincipal principal = new telaPrincipal();
 				principal.setVisible(true);
 			}
 		});
-		btnmenu.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnmenu.setBounds(406, 481, 156, 34);
-		contentPane.add(btnmenu);
+		btnMenu.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnMenu.setBounds(406, 481, 156, 34);
+		contentPane.add(btnMenu);
 
 		JLabel lblNewLabel = new JLabel("CLIQUE NOS CAMPOS E PREENCHA AS INFORMAÇÕES");
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 17));
-		lblNewLabel.setBounds(23, 41, 529, 13);
+		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 15));
+		lblNewLabel.setBounds(40, 44, 479, 13);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblSpinner1 = new JLabel("Escolha a data do primeiro");
@@ -177,6 +177,7 @@ public class telaGerarEscala extends JFrame {
 			lblSpinner1.setText("A escala vai ser regerada");
 			lblSpinner2.setText("a partir de amanhã:");
 			lblSpinner2.setBounds(32, 447, 216, 24);
+			btnMenu.setVisible(false);
 		}
 		else {
 			datasPermitidas.clear();

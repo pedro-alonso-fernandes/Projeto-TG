@@ -3,6 +3,7 @@ package view.escala;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -42,7 +44,7 @@ import controller.FeriadoDAO;
 import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
-import java.awt.Toolkit;
+import view.folgaEferiados.EditarFeriado;
 
 public class telaEditarEscala extends JFrame {
 
@@ -300,20 +302,21 @@ public class telaEditarEscala extends JFrame {
 
 		JButton btnEditarEscala = new JButton("Editar Escala");
 		btnEditarEscala.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnEditarEscala.setBounds(71, 509, 162, 34);
+		btnEditarEscala.setBounds(201, 502, 162, 34);
 		contentPane.add(btnEditarEscala);
 
-		JButton btnVoltarAEscala = new JButton("Voltar a Escala");
-		btnVoltarAEscala.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaEscala TE = new telaEscala();
-				TE.setVisible(true);
+				telaEscala tela = new telaEscala();
+				tela.setVisible(true);
 			}
 		});
-		btnVoltarAEscala.setFont(new Font("Arial Black", Font.BOLD, 12));
-		btnVoltarAEscala.setBounds(336, 509, 162, 34);
-		contentPane.add(btnVoltarAEscala);
+		btnVoltar.setIcon(new ImageIcon(telaEditarEscala.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPane.add(btnVoltar);
+		btnVoltar.setVisible(true);
 
 		colorirTabela();
 
@@ -763,7 +766,7 @@ public class telaEditarEscala extends JFrame {
 			// Se o valor não for um número, volta para o valor anterior
 			textField.setText(spinner.getValue().toString());
 			JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!",
-					"Parâmetro Incorreto", JOptionPane.WARNING_MESSAGE);
+					"Valor Inválido", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 

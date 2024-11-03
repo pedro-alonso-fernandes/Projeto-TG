@@ -1,18 +1,20 @@
 package view.atirador;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,18 +26,13 @@ import javax.swing.border.EmptyBorder;
 
 import controller.AlteracaoDAO;
 import controller.AtiradorDAO;
-import controller.Conexao;
-import controller.EscalaDAO;
 import model.Atirador;
-import java.awt.Toolkit;
-import java.awt.Color;
 
 public class CadastroAtirador extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
-	private JTextField textField_2;
 	private JTextField Cguerra;
 
 	/**
@@ -70,18 +67,18 @@ public class CadastroAtirador extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 
-		JLabel lblNewLabel_1 = new JLabel("Nome");
-		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 22));
+		JLabel lblNewLabel_1 = new JLabel("Nome:");
+		lblNewLabel_1.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		lblNewLabel_1.setBounds(34, 139, 86, 21);
 		contentPanel.add(lblNewLabel_1);
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Atirador");
-		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.BOLD, 22));
+		rdbtnNewRadioButton.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		rdbtnNewRadioButton.setBounds(130, 299, 151, 21);
 		contentPanel.add(rdbtnNewRadioButton);
 
 		JRadioButton rdbtnMonitor = new JRadioButton("Monitor");
-		rdbtnMonitor.setFont(new Font("Arial Black", Font.BOLD, 22));
+		rdbtnMonitor.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		rdbtnMonitor.setBounds(284, 299, 123, 21);
 		contentPanel.add(rdbtnMonitor);
 
@@ -106,65 +103,47 @@ public class CadastroAtirador extends JDialog {
 
 		textField = new JTextField();
 		textField.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		textField.setBounds(130, 141, 421, 25);
+		textField.setBounds(117, 139, 421, 25);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 
-		JLabel lblNewLabel_1_3 = new JLabel("ID");
-		lblNewLabel_1_3.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_3.setBounds(34, 189, 86, 21);
+		JLabel lblNewLabel_1_3 = new JLabel("ID:");
+		lblNewLabel_1_3.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNewLabel_1_3.setBounds(34, 247, 86, 21);
 		contentPanel.add(lblNewLabel_1_3);
 
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		textField_2.setColumns(10);
-		textField_2.setBounds(130, 191, 421, 25);
-		contentPanel.add(textField_2);
-
-		textField_2.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				int codigo = e.getKeyChar();
-
-				if (codigo != 48 && codigo != 49 && codigo != 50 && codigo != 51 && codigo != 52 && codigo != 53
-						&& codigo != 54 && codigo != 55 && codigo != 56 && codigo != 57 && codigo != 8
-						&& codigo != 65535 && codigo != 10) {
-					textField_2.setText("");
-				}
-			}
-		});
-
-		JLabel lblNewLabel_1_3_1 = new JLabel("Cargo");
-		lblNewLabel_1_3_1.setFont(new Font("Arial Black", Font.BOLD, 22));
+		JLabel lblNewLabel_1_3_1 = new JLabel("Cargo:");
+		lblNewLabel_1_3_1.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		lblNewLabel_1_3_1.setBounds(34, 297, 86, 25);
 		contentPanel.add(lblNewLabel_1_3_1);
 
 		JButton btnNewButton = new JButton("Cadastrar ");
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnNewButton.setBounds(75, 359, 178, 40);
+		btnNewButton.setBounds(207, 429, 178, 40);
 		contentPanel.add(btnNewButton);
 
-		JButton btnVoltarAoMenu = new JButton("Menu Atirador");
-		btnVoltarAoMenu.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaAtirador Atirador = new telaAtirador();
-				Atirador.setVisible(true);
+				telaAtirador tela  = new telaAtirador();
+				tela.setVisible(true);
 			}
 		});
-
-		btnVoltarAoMenu.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnVoltarAoMenu.setBounds(283, 359, 178, 40);
-		contentPanel.add(btnVoltarAoMenu);
+		btnVoltar.setIcon(new ImageIcon(CadastroAtirador.class.getResource("/model/images/desfazer.png")));
+		btnVoltar.setBounds(8, 10, 35, 35);
+		contentPanel.add(btnVoltar);
+		btnVoltar.setVisible(true);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Nome de Guerra");
-		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.BOLD, 22));
-		lblNewLabel_1_1.setBounds(34, 243, 219, 21);
+		JLabel lblNewLabel_1_1 = new JLabel("Nome de Guerra:");
+		lblNewLabel_1_1.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNewLabel_1_1.setBounds(34, 193, 219, 21);
 		contentPanel.add(lblNewLabel_1_1);
 		
 		Cguerra = new JTextField();
 		Cguerra.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		Cguerra.setColumns(10);
-		Cguerra.setBounds(273, 245, 278, 25);
+		Cguerra.setBounds(228, 193, 312, 25);
 		contentPanel.add(Cguerra);
 		
 		JLabel lblPreenchaAsInformaes = new JLabel("Preencha as informações ");
@@ -176,10 +155,49 @@ public class CadastroAtirador extends JDialog {
 		lblConfiraOsCampos.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblConfiraOsCampos.setBounds(83, 89, 427, 21);
 		contentPanel.add(lblConfiraOsCampos);
+		
+		SpinnerNumberModel modeloIdSpinner = new SpinnerNumberModel(0, 0, 99, 1); // Valor inicial: 0, Mínimo: 0, Máximo: 99, Passo: de 1 em 1
+		JSpinner idSpinner = new JSpinner(modeloIdSpinner);
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(idSpinner, "00");
+        idSpinner.setEditor(editor);
+		idSpinner.setFont(new Font("Arial", Font.PLAIN, 16));
+		idSpinner.setBounds(117, 247, 40, 26);
+		contentPanel.add(idSpinner);
+		
+		 // Pega o campo de texto do editor para capturar eventos de tecla
+        JFormattedTextField textFieldSpinner = editor.getTextField();
+
+        // Adiciona um KeyListener para detectar a tecla Enter
+        textFieldSpinner.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        int valor = Integer.parseInt(textFieldSpinner.getText());
+                        
+                        if(valor >= 0 && valor < 100) {
+                        	idSpinner.setValue(valor);
+                        }
+                        else {
+                        	textFieldSpinner.setText(idSpinner.getValue().toString());
+                        	
+                    		JOptionPane.showMessageDialog(null, "O ID deve estar entre 1 e 99", "ID Inválido!", JOptionPane.WARNING_MESSAGE);
+                        	
+                        }
+                        
+                    } catch (NumberFormatException ex) {
+                    	textFieldSpinner.setText(idSpinner.getValue().toString());
+                        JOptionPane.showMessageDialog(null, "O valor digitado não é um número ou contém espaços!", "Valor Inválido!", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (textField.getText().equals("") || textField_2.getText().equals("") || Cguerra.getText().equals("")
+				int valorIdSpinner = (int) idSpinner.getValue();
+				
+				if (textField.getText().equals("") || valorIdSpinner == 0 || Cguerra.getText().equals("")
 						|| (rdbtnMonitor.isSelected() == false && rdbtnNewRadioButton.isSelected() == false)) {
 
 					JOptionPane.showMessageDialog(null, "Seu Cadastro Está Incompleto!!", "Atenção!!",
@@ -187,13 +205,13 @@ public class CadastroAtirador extends JDialog {
 
 				} else {
 
-					ResultSet rs = AtiradorDAO.getAtirador(Integer.parseInt(textField_2.getText()));	
+					ResultSet rs = AtiradorDAO.getAtirador(valorIdSpinner);	
 					try {
 						if(rs.next() == false) {
 							
 							Atirador atdr = new Atirador();
 							atdr.setNome(textField.getText());
-							atdr.setID(Integer.parseInt(textField_2.getText()));
+							atdr.setID(valorIdSpinner);
 							atdr.setGuerra(Cguerra.getText());
 							
 							if(rdbtnMonitor.isSelected() == true) {
@@ -212,7 +230,7 @@ public class CadastroAtirador extends JDialog {
 						
 							// Reseta os campos
 							textField.setText("");
-							textField_2.setText("");
+							idSpinner.setValue(0);
 							Cguerra.setText("");
 							if(rdbtnMonitor.isSelected() == true) {
 								rdbtnMonitor.setSelected(false);
@@ -224,7 +242,7 @@ public class CadastroAtirador extends JDialog {
 						else {
 							JOptionPane.showMessageDialog(null, "Esse ID já Existe!", "Erro!",
 									JOptionPane.ERROR_MESSAGE);
-							textField_2.setText("");
+							idSpinner.setValue(0);
 						}
 					} catch (SQLException e1) {
 						System.out.println("Erro ao buscar Atirador na tela CadastroAtirador: " + e1.getMessage());
