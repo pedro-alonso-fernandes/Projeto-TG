@@ -23,6 +23,7 @@ import view.atirador.telaAtirador;
 import view.escala.telaEscala;
 import view.escala.telaGerarEscala;
 import view.folgaEferiados.Feriados_e_Folgas;
+import javax.swing.ImageIcon;
 
 public class telaPrincipal extends JFrame {
 
@@ -178,6 +179,28 @@ public class telaPrincipal extends JFrame {
 		btnFeriadosEFolgas.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		btnFeriadosEFolgas.setBounds(122, 188, 187, 39);
 		contentPane.add(btnFeriadosEFolgas);
+		
+		JButton Apagartudo = new JButton("");
+		Apagartudo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent arg0) {
+		        int resposta = JOptionPane.showConfirmDialog(
+		            null, 
+		            "Deseja realmente apagar tudo?", 
+		            "Atenção!", 
+		            JOptionPane.YES_NO_OPTION, 
+		            JOptionPane.WARNING_MESSAGE
+		        );
+		        
+		        if (resposta == JOptionPane.YES_OPTION) {
+		            BD.apagarDatabase();
+		            BD.criarBanco();
+		        }
+		        // Caso contrário, não faz nada
+		    }
+		});
+		Apagartudo.setIcon(new ImageIcon(telaPrincipal.class.getResource("/model/images/bin (1).png")));
+		Apagartudo.setBounds(385, 188, 41, 40);
+		contentPane.add(Apagartudo);
 
 		this.setLocationRelativeTo(null);
 	}
