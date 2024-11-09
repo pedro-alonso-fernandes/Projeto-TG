@@ -112,7 +112,7 @@ public class telaEscala extends JFrame {
 		Date data = Data.primeiroDiaSemana(new Date()); // Pega a data do primeiro dia da semana atual
 //		Date data = null;
 //		try {
-//			data = Data.primeiroDiaSemana(formato.parse("13/11/2024"));
+//			data = Data.primeiroDiaSemana(formato.parse("17/11/2024"));
 //		} catch (ParseException e) {
 //			System.out.println("Erro ao salvar data literal em telaEscala.java: " + e.getMessage());
 //		}

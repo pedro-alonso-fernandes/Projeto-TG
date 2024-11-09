@@ -8,7 +8,6 @@ import java.util.Date;
 
 import model.BD;
 import model.Data;
-import model.Feriado;
 import model.Folga;
 
 public class FolgaDAO {

@@ -232,12 +232,10 @@ public class telaGerarEscala extends JFrame {
 		try {
 			if (escala) {
 
-				Date data = (Date) dataSpinner.getValue();
+				Date data = new Date(); // Usa a data de hoje para pegar as guardas de hoje para trás, pois a escala será regerada no dia de amanhã
 				
 				Date dataGuardaPreta = GuardaDAO.getDataGuardaMaisProxima("Preta", data);
 				Date dataGuardaVermelha = GuardaDAO.getDataGuardaMaisProxima("Vermelha", data);
-				int i = 0;
-				
 				
 				while (rs.next()) {
 					int qtdGuarda = rs.getInt("qtdGuarda") + EscalaDAO.getQtdGuardaAtirador(rs.getInt("id"), new Date());
@@ -249,7 +247,6 @@ public class telaGerarEscala extends JFrame {
 					modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("guerra"), rs.getString("cargo"),
 							linhaPreta, linhaVermelha, "" + qtdGuarda });
 					
-					i++;
 				}
 
 			} else {

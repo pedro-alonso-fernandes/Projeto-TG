@@ -1,11 +1,27 @@
 package view.folgaEferiados;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AlteracaoDAO;
@@ -15,28 +31,6 @@ import controller.FolgaDAO;
 import model.Data;
 import model.Feriado;
 import model.Folga;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.lang.model.util.SimpleAnnotationValueVisitor14;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
 
 public class EditarFeriado extends JDialog {
 
@@ -136,8 +130,8 @@ public class EditarFeriado extends JDialog {
 		contentPanel.add(lblNewLabel_3_2);
 		lblNewLabel_3_2.setVisible(false);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Nacional", "Estadual", "Municipal" }));
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Nacional", "Estadual", "Municipal" }));
 		comboBox.setFont(new Font("Arial Black", Font.BOLD, 15));
 		comboBox.setBounds(158, 367, 114, 28);
 		contentPanel.add(comboBox);

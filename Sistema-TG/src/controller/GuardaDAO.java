@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.BD;
-import model.Data;
 
 public class GuardaDAO {
 

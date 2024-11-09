@@ -44,7 +44,6 @@ import controller.FeriadoDAO;
 import controller.GuardaDAO;
 import model.Data;
 import model.Escala;
-import view.folgaEferiados.EditarFeriado;
 
 public class telaEditarEscala extends JFrame {
 

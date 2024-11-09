@@ -11,10 +11,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,13 +21,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AlteracaoDAO;
-import controller.EscalaDAO;
 import controller.FeriadoDAO;
 import controller.FolgaDAO;
 import view.telaPrincipal;
-import view.atirador.telaAtirador;
-import view.escala.telaGerarEscala;
 
 public class Feriados_e_Folgas extends JFrame {
 

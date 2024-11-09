@@ -1,42 +1,34 @@
 package view.atirador;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import controller.AlteracaoDAO;
-import controller.AtiradorDAO;
-import controller.EscalaDAO;
-import model.BD;
-import model.Escala;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.JRadioButton;
-import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import java.awt.Toolkit;
+
+import controller.AlteracaoDAO;
+import controller.AtiradorDAO;
+import controller.EscalaDAO;
 
 public class Remover extends JDialog {
 
@@ -185,7 +177,7 @@ public class Remover extends JDialog {
 							modelo = (DefaultTableModel) table.getModel();
 
 							if (rs.getInt("id") < 10) {
-								modelo.addRow(new Object[] { id = "0" + rs.getInt("id"), rs.getString("nome"),
+								modelo.addRow(new Object[] { id + rs.getInt("id"), rs.getString("nome"),
 										rs.getString("guerra"), rs.getString("cargo") });
 							} else {
 								modelo.addRow(new Object[] { rs.getInt("id"), rs.getString("nome"),

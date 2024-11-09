@@ -114,9 +114,9 @@ public class CadastroFeriados extends JFrame {
 		TipoFeriado.setBounds(10, 358, 154, 21);
 		contentPane.add(TipoFeriado);
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setFont(new Font("Arial Black", Font.BOLD, 15));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nacional", "Estadual", "Municipal"}));
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Nacional", "Estadual", "Municipal"}));
 		comboBox.setBounds(166, 354, 114, 28);
 		contentPane.add(comboBox);
 		comboBox.setSelectedItem(null);

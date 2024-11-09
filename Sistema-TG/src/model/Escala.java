@@ -2,7 +2,6 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -1937,7 +1936,7 @@ public class Escala {
 
 	
 	public static void gerarPrimeiraEscala(int[] guardaPreta, int[] guardaVermelha, int[] qtdGuarda, Date dataEscala) {
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
 //		Date data = null;
@@ -2416,7 +2415,7 @@ public class Escala {
 	}
 	
 	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, int qtdSemana, Date dataEscala) {
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
 //		Date data = null;
@@ -2562,7 +2561,7 @@ public class Escala {
 	}
 	
 	public static void gerarEscala(int[] guardaPreta, int[] guardaVermelha, Date dataEscala, Date dataLimite) {
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = dataEscala;
 		
 //		Date data = null;

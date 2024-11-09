@@ -50,6 +50,8 @@ public class telaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public telaPrincipal() {
+		
+		BD.criarBanco();
 
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
@@ -183,17 +185,43 @@ public class telaPrincipal extends JFrame {
 		JButton Apagartudo = new JButton("");
 		Apagartudo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent arg0) {
-		        int resposta = JOptionPane.showConfirmDialog(
-		            null, 
-		            "Deseja realmente apagar tudo?", 
-		            "Atenção!", 
-		            JOptionPane.YES_NO_OPTION, 
-		            JOptionPane.WARNING_MESSAGE
-		        );
+		        // Define as mensagens dos botões
+		        Object[] opcoes = {"Sim", "Não"};
 		        
-		        if (resposta == JOptionPane.YES_OPTION) {
-		            BD.apagarDatabase();
-		            BD.criarBanco();
+		        // Cria o diálogo de confirmação com os botões customizadosx'
+		        int escolha = JOptionPane.showOptionDialog(
+		            null,
+		            "Isso apagará todos os dados salvos no programa. Deseja APAGAR TODOS os dados?",    // Mensagem do diálogo
+		            "Atenção!",               		// Título do diálogo
+		            JOptionPane.YES_NO_OPTION,   // Tipo de opções (Sim/Não)
+		            JOptionPane.WARNING_MESSAGE, // Ícone do diálogo
+		            null,                        // Ícone personalizado (null para o padrão)
+		            opcoes,                     // Botões customizados
+		            opcoes[0]                   // Botão padrão (selecionado inicialmente)
+        		);
+		        
+		        if (escolha == JOptionPane.YES_OPTION) {
+		        	
+			        // Cria o diálogo de confirmação com os botões customizados
+			        escolha = JOptionPane.showOptionDialog(
+			            null,
+			            "Realmente deseja APAGAR TODOS os dados salvos?",    
+			            "Atenção!",               							
+			            JOptionPane.YES_NO_OPTION,   
+			            JOptionPane.WARNING_MESSAGE, 
+			            null,                        
+			            opcoes,                     
+			            opcoes[0]                   
+	        		);
+			        
+			        if(escolha == JOptionPane.YES_OPTION) {
+			        	BD.apagarDatabase();
+			        	BD.criarBanco();
+			        	
+			        	JOptionPane.showMessageDialog(null, "Banco de Dados apagado com sucesso!", "Exclusão Concluída!", JOptionPane.INFORMATION_MESSAGE);
+			        	
+			        }
+		        	
 		        }
 		        // Caso contrário, não faz nada
 		    }

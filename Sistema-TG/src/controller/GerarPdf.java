@@ -9,12 +9,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
-import javax.swing.text.StyleConstants.ColorConstants;
-
-import org.w3c.dom.html.HTMLFieldSetElement;
-
-import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -23,16 +17,11 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.TabStop;
-import com.itextpdf.text.TabStop.Alignment;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import model.Data;
-
-import com.itextpdf.text.PageSize;
 
 public class GerarPdf {
 	public GerarPdf() {
@@ -226,7 +215,7 @@ public class GerarPdf {
 			document.add(paragrafo3);
 			document.add(new Paragraph("     "));
 			
-			float[] colsWidth3 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+//			float[] colsWidth3 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
 			PdfPTable tabela3 = new PdfPTable(colsWidth);
 			Paragraph Dia3 = new Paragraph("Domingo", font2);
 			PdfPCell colun1 = new PdfPCell(Dia3);
@@ -247,7 +236,7 @@ public class GerarPdf {
 			data2 = Data.diaProximaSemana(data2);
 
 			
-			float[] colsWidth4 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+//			float[] colsWidth4 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
 			PdfPTable tabela4 = new PdfPTable(colsWidth1);
 			PdfPCell di1 = new PdfPCell(new Paragraph(formato.format(data2), font2));
 			tabela4.addCell(di1).setHorizontalAlignment(1);
@@ -265,7 +254,7 @@ public class GerarPdf {
 			tabela4.addCell(di7).setHorizontalAlignment(1);
 			
 			
-			float[] colsWidth5 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+//			float[] colsWidth5 = { 1f, 1f, 1f, 1f, 1f, 1f, 1f };
 			PdfPTable tabela5 = new PdfPTable(colsWidth2);
 			String[] colunas5 = { formato.format(data2), formato.format(Data.addDias(data2, 1)),
 					formato.format(Data.addDias(data2, 2)), formato.format(Data.addDias(data2, 3)),

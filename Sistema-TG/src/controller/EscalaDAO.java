@@ -9,8 +9,6 @@ import java.util.Date;
 import model.BD;
 import model.Data;
 import model.Escala;
-import model.Feriado;
-import model.Folga;
 
 public class EscalaDAO {
 

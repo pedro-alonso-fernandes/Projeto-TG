@@ -1,42 +1,30 @@
 package view.atirador;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-
-import controller.AlteracaoDAO;
-import controller.AtiradorDAO;
-import controller.Conexao;
-import controller.EscalaDAO;
-import controller.GerarPdf;
-import model.BD;
-import view.telaPrincipal;
-import view.escala.telaGerarEscala;
-
-import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.AncestorEvent;
-import java.awt.Toolkit;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import controller.AtiradorDAO;
+import controller.EscalaDAO;
+import controller.GerarPdf;
+import view.telaPrincipal;
 
 public class telaAtirador extends JFrame {
 
