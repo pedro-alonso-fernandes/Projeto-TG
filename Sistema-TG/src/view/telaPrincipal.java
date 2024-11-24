@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.AlteracaoDAO;
+import controller.AtiradorDAO;
 import controller.EscalaDAO;
 import model.BD;
 import view.atirador.telaAtirador;
@@ -51,8 +52,6 @@ public class telaPrincipal extends JFrame {
 	 */
 	public telaPrincipal() {
 		
-		BD.criarBanco();
-
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,29 +129,60 @@ public class telaPrincipal extends JFrame {
 				}
 				else {
 					telaEscala frame = new telaEscala();
+					
 					// Se não tiver escala
 					if (telaEscala.aviso1 && telaEscala.aviso2) {
-						String[] opcoes = { "Ir para Gerar Escala" };
-
-						String texto = "Não há nenhuma Escala registrada! É necessário gerar uma escala primeiro!";
-
-						JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE,
-								JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
-
-						JDialog tela = optionPane.createDialog("Nenhuma Escala encontrada!");
-						tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
-						tela.setIconImage(Toolkit.getDefaultToolkit()
-								.getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
-						tela.setVisible(true);
-
-						dispose();
-						frame.dispose();
-
-						telaGerarEscala frame1 = new telaGerarEscala();
-						frame1.setVisible(true);
-
-						telaEscala.aviso1 = false;
-						telaEscala.aviso2 = false;
+						int qtdAtiradores = AtiradorDAO.getQtdAtiradores();
+						int qtdMonitores = AtiradorDAO.getQtdMonitores();
+						
+						// Se tiver atiradores cadastrados no BD
+						if(qtdAtiradores > 2 && qtdMonitores > 0) {
+						
+							String[] opcoes = { "Ir para Gerar Escala" };
+	
+							String texto = "Não há nenhuma Escala registrada! É necessário gerar uma escala primeiro!";
+	
+							JOptionPane optionPane = new JOptionPane(texto, JOptionPane.INFORMATION_MESSAGE,
+									JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
+	
+							JDialog tela = optionPane.createDialog("Nenhuma Escala encontrada!");
+							tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+							tela.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
+							tela.setVisible(true);
+	
+							dispose();
+							frame.dispose();
+	
+							telaGerarEscala frame1 = new telaGerarEscala();
+							frame1.setVisible(true);
+	
+							telaEscala.aviso1 = false;
+							telaEscala.aviso2 = false;
+						
+						}
+						else {
+							
+							String[] opcoes = { "Ok" };
+							
+							String texto = "<html><div style='text-align: center;'>Não há atiradores suficientes! É necessário cadastrar pelo menos<br>3 atiradores e 1 monitor antes de gerar uma escala!</div></html>";
+	
+							JOptionPane optionPane = new JOptionPane(texto, JOptionPane.WARNING_MESSAGE,
+									JOptionPane.DEFAULT_OPTION, null, opcoes, opcoes[0]);
+	
+							JDialog tela = optionPane.createDialog("Atiradores Insuficientes!");
+							tela.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede que o usuário feche a janela
+							tela.setIconImage(Toolkit.getDefaultToolkit()
+									.getImage(telaPrincipal.class.getResource("/model/images/calendario.png")));
+							tela.setVisible(true);
+	
+							dispose();
+							frame.dispose();
+							
+							telaPrincipal framePrincipal = new telaPrincipal();
+							framePrincipal.setVisible(true);
+							
+						}
 
 
 					} 

@@ -24,13 +24,27 @@ import com.itextpdf.text.pdf.PdfWriter;
 import model.Data;
 
 public class GerarPdf {
+	
 	public GerarPdf() {
 
 		Document document = new Document();
-		// gera o pdf
-		try {
+		 // Obtém o diretório de documentos do usuário
+        String userHome = System.getProperty("user.home");
+        String documentosPath = userHome + File.separator + "Documents"; // Caminho para a pasta Documentos
+        String tgPdfPath = documentosPath + File.separator + "TG - PDF"; // Caminho para a pasta TG - PDFs
+        
+        // Verifica se a pasta "TG - PDF" existe, se não, cria ela
+        File tgPdfDir = new File(tgPdfPath);
+        if (!tgPdfDir.exists()) {
+            tgPdfDir.mkdirs(); // Cria a pasta se ela não existir
+        }
+        
+        String pdfPath = tgPdfPath + File.separator + "Atiradores.pdf"; // Caminho completo para o PDF
 
-			PdfWriter.getInstance(document, new FileOutputStream("Atiradores.pdf"));
+        // Gera o PDF
+        try {
+
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
 
 			document.open();
 
@@ -127,7 +141,7 @@ public class GerarPdf {
 
 		// abre o pdf no leitor padrão
 		try {
-			Desktop.getDesktop().open(new File("Atiradores.pdf"));
+			Desktop.getDesktop().open(new File(pdfPath));
 		} catch (Exception e2) {
 			System.out.println(e2);
 		}
@@ -136,8 +150,24 @@ public class GerarPdf {
 
 	public static void GerarPdfEscala() {
 		Document document = new Document(PageSize.A4.rotate());
-		try {
-			PdfWriter.getInstance(document, new FileOutputStream("EscalaSRV.pdf"));
+		
+		// Obtém o diretório de documentos do usuário
+        String userHome = System.getProperty("user.home");
+        String documentosPath = userHome + File.separator + "Documents"; // Caminho para a pasta Documentos
+        String tgPdfPath = documentosPath + File.separator + "TG - PDF"; // Caminho para a pasta TG - PDFs
+        
+        // Verifica se a pasta "TG - PDF" existe, se não, cria ela
+        File tgPdfDir = new File(tgPdfPath);
+        if (!tgPdfDir.exists()) {
+            tgPdfDir.mkdirs(); // Cria a pasta se ela não existir
+        }
+        
+        String pdfPath = tgPdfPath + File.separator + "EscalaSRV.pdf"; // Caminho completo para o PDF
+
+        // Gera o PDF
+        try {
+
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
 
 			document.open();
 
@@ -298,7 +328,7 @@ public class GerarPdf {
 
 		// abre o pdf no leitor padrão
 		try {
-			Desktop.getDesktop().open(new File("EscalaSRV.pdf"));
+			Desktop.getDesktop().open(new File(pdfPath));
 		} catch (Exception e2) {
 			System.out.println(e2);
 		}

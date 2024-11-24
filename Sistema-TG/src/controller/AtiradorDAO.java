@@ -272,6 +272,29 @@ public class AtiradorDAO {
 		return qtd;
 	}
 	
+	public static int getQtdAtiradores() {
+		BD.selecionarDatabase();
+		
+		int qtd = 0;
+		
+		String sql = "select count(*) from Atirador where cargo = \"Atirador\";";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		
+		try {
+			ps = Conexao.getConexao().prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			qtd = rs.getInt("count(*)");
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao pegar quantidade de atiradores: " + e.getMessage());
+		}
+		
+		
+		return qtd;
+	}
+	
 	public static int getQtdAtiradoresGeral() {
 		BD.selecionarDatabase();
 		
@@ -350,4 +373,17 @@ public class AtiradorDAO {
 		return IDs;
 	}
 	
+	public static boolean verificarExistenciaAtiradores(){
+		BD.selecionarDatabase();
+		
+		ResultSet rs = getAtiradoresGeral();
+		boolean atiradores = false;
+		try {
+			atiradores = rs.next();
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se existem Atiradores cadastrados: " + e.getMessage());
+		}
+		
+		return atiradores;
+	}
 }
