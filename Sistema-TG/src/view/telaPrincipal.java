@@ -42,6 +42,7 @@ public class telaPrincipal extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Erro ao Abrir o Programa!", "Erro", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
