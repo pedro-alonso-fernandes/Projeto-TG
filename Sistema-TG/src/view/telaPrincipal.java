@@ -52,6 +52,7 @@ public class telaPrincipal extends JFrame {
 	 */
 	public telaPrincipal() {
 		
+		BD.criarBanco();
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(telaPrincipal.class.getResource("/model/images/soldado (1).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
