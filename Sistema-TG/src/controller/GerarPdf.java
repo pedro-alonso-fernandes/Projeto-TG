@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -118,6 +120,7 @@ public class GerarPdf {
 				}
 
 			} catch (Exception e3) {
+				JOptionPane.showMessageDialog(null, "Erro ao Gerar PDF: " + e3.getMessage(), "Erro" ,JOptionPane.ERROR_MESSAGE);
 				System.out.println(e3);
 			}
 			document.add(tabela);
@@ -134,7 +137,7 @@ public class GerarPdf {
 			
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Erro ao Gerar PDF: " + e.getMessage(), "Erro" ,JOptionPane.ERROR_MESSAGE);
 		} finally {
 			document.close();
 		}
@@ -143,6 +146,7 @@ public class GerarPdf {
 		try {
 			Desktop.getDesktop().open(new File(pdfPath));
 		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null, "Erro ao Gerar PDF: " + e2.getMessage(), "Erro" ,JOptionPane.ERROR_MESSAGE);
 			System.out.println(e2);
 		}
 
@@ -321,6 +325,7 @@ public class GerarPdf {
 			
 		
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao Gerar PDF: " + e.getMessage(), "Erro" ,JOptionPane.ERROR_MESSAGE);
 			System.out.println(e);
 		} finally {
 			document.close();
@@ -330,6 +335,7 @@ public class GerarPdf {
 		try {
 			Desktop.getDesktop().open(new File(pdfPath));
 		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null, "Erro ao Gerar PDF: " + e2.getMessage(), "Erro" ,JOptionPane.ERROR_MESSAGE);
 			System.out.println(e2);
 		}
 	}
