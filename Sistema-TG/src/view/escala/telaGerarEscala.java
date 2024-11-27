@@ -90,7 +90,7 @@ public class telaGerarEscala extends JFrame {
 		contentPane.add(lblTelaTitulo);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 76, 557, 326);
+		scrollPane.setBounds(10, 77, 557, 326);
 		contentPane.add(scrollPane);
 
 		JLabel lblCodigo = new JLabel("");
